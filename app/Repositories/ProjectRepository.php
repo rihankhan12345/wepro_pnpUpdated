@@ -5,11 +5,39 @@ use App\Models\Project;
 use App\Models\Developer;
 use App\Models\User;
 use App\Models\Task;
+use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
 
 
 class ProjectRepository implements ProjectInterface
 {
+
+
+    public function multipleFile($id, $file,$data,$type){
+        $media = [];
+        foreach ($file as $key => $file) {
+            $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
+            $file->storeAs('public/task_file', $fileName);
+            $media[] = [
+                'text_cases' => $data['text_cases'],
+                'url' => $fileName,
+                'imageable_type' => $type,
+                'imageable_id' => $id,
+            ];
+        }
+        $data= Image::insert($media);
+    }
+
+    public function image($id,$data){
+        if ($data['task_file']){
+                $this->multipleFile($id ,$data['task_file'], $data,'App\Models\Project');
+                return redirect()->back();
+            }
+            else{
+                return redirect->back()->withError("Images Not Inserted ");
+            }
+    }
+
     public function getlist()
     {
         $user = Auth::user();
@@ -44,7 +72,7 @@ class ProjectRepository implements ProjectInterface
 
     public function save($req)
     {
-       try {
+
         $data = Project::create([
             'title' => $req['title'],
             'description' => $req['description'],
@@ -54,19 +82,16 @@ class ProjectRepository implements ProjectInterface
 
         $project_id = $data->id;
         $project = Project::find($project_id);
-                $project = $project->developer()->create([  'project_id' => $project_id,
-                'developer_id' => implode(',', $req['developer']),
-                ]);
+        $project = $project->developer()->create([  'project_id' => $project_id,
+        'developer_id' => implode(',', $req['developer']),
+        ]);
+
         return [
             'success' => true,
             'message' => "Project Created Successfully ."
         ];
-       } catch (\Throwable $th) {
-        return [
-            'success' => false ,
-            'message' => $th->getMessage(),
-        ];
-       }
+
+
     }
 
     public function edit($id)
@@ -98,7 +123,6 @@ class ProjectRepository implements ProjectInterface
         $data->title = $item['title'];
         $data->description = $item['description'];
         $data->start_date = $item['start_date'];
-        // $data->end_date = $item['end_date'];
         $data->project_manager = $item['project_manager'];
         $data->save();
         $developer = implode(',', $item['developer']);

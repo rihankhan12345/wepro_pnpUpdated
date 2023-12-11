@@ -54,7 +54,7 @@ export default function Create({ developer, Id ,auth }) {
         {
             auth.user.user_role == "admin" ?
            post(route("admin.project.task.save", { id: Id }),{
-            onSuccess: ( )=> {
+            onSuccess: ()=> {
                 handleClose();
                 setData({});
             }

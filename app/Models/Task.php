@@ -30,4 +30,10 @@ class Task extends Model
     {
         return $this->belongsToMany(Developer::class);
     }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
 }

@@ -6,15 +6,31 @@ use App\Models\Project;
 use App\Models\Developer;
 use App\Models\User;
 use App\Models\Task;
+use App\Models\Image;
+use Carbon;
 
 class TaskRepository implements TaskInterface
 {
 
+    public function multipleFile($id, $file, $type ,$data){
+        $media = [];
+        foreach ($files as $key => $file) {
+            $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
+            // $fileType = $file->getClientOriginalExtension();
+            $file->storeAs('/public/task_file', $fileName);
+            $media[] = [
+                'text_cases' => $data->text_cases,
+                'url' => $fileName,
+                'imageable_type' => $type,
+                'imageable_id' => $id,
+            ];
+        }
+        Image::insert($media);
+    }
 
     public function getlist($id)
     {
         $data = Task::where('project_id',$id)->get();
-
         $task_id = Task::where('project_id',$id)->pluck('id');
         $dev_id = Developer::whereIn('assignable_id',$task_id)->where('assignable_type','App\Models\Task')->pluck('developer_id');
         $developer = explode(',',$dev_id);
@@ -49,6 +65,11 @@ class TaskRepository implements TaskInterface
             $taskCreate = $task->developer()->create([  'project_id' => $id,
             'developer_id' => implode(',', $items['developer']),
             ]);
+
+
+            if ($request->hasFile('task_file')){
+                $this->multipleFileUpload($request->file('task_file'), $task->id, 'App\Models\Task');
+            }
             return true;
 
     }
@@ -109,12 +130,16 @@ class TaskRepository implements TaskInterface
 
         $item = $data['status'];
         $task = Task::where('id', $id)->first();
+        if ($task) {
+            $data = $task->update(['status' => $item]);
+            if($task->status == 'started'){
+                $work_time = Carbon\Carbon::now();
+                dd($work_time);
+            }
+            dd($task->status);
+            return true;
+        }
 
-    if ($task) {
-        $task->update(['status' => $item]);
-        return true;
-    }
-
-    return false;
+        return false;
     }
 }

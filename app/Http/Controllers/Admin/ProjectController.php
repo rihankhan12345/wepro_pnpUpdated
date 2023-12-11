@@ -9,6 +9,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Developer;
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\Image;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -24,6 +25,29 @@ class ProjectController extends Controller
     public function __construct(ProjectInterface $projectRepository){
         $this->projectRepository = $projectRepository;
     }
+
+    // public function multipleFile($id, $file,$data,$type ){
+    //     $media = [];
+    //     foreach ($file as $key => $file) {
+    //         $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
+    //         // $fileType = $file->getClientOriginalExtension();
+    //         $file->storeAs('/public/task_file', $fileName);
+    //         $media[] = [
+    //             'text_cases' => $data['text_cases'],
+    //             'url' => $fileName,
+    //             'imageable_type' => $type,
+    //             'imageable_id' => $id,
+    //         ];
+    //     }
+    //      $data = Image::insert($media);
+    //      dd($data);
+    //      return $data;
+    // }
+
+    // if ($request->hasFile('task_file')){
+    //     $this->multipleFile($request->id ,$request->file('task_file'), $request->all(),'App\Models\Task');
+    // }
+    // else {}
 
     public function list()
     {
@@ -43,12 +67,13 @@ class ProjectController extends Controller
     }
 
 
-    public function save(ProjectRequest $request)
+    public function save(Request $request)
     {
+
       $this->projectRepository->save($request->all());
       return Redirect::route('admin.project.list');
-    }
 
+    }
 
     public function details($id)
     {
@@ -93,5 +118,9 @@ class ProjectController extends Controller
 
     public function project(){
         return Inertia::render('Admin/Project/ProjectTasks');
+    }
+
+    public function image(Request $request,$id){
+        return $this->projectRepository->image($id, $request->all());
     }
 }

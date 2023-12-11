@@ -42,7 +42,6 @@ class TaskController extends Controller
 
     public function save (Request $request,$id ){
             $this->taskRepository->save($id,$request->all());
-            // return Redirect::route('admin.project.detail',$id);
             return redirect()->back();
         }
 
@@ -55,18 +54,12 @@ class TaskController extends Controller
         $developer = $items[1];
         $user = $items[2];
         return Inertia::render('Admin/Task/Edit',['data'=>$data ,'devId'=>$developer, 'developer'=>$user]);
-        // Redirect::back();
     }
 
     public function update(Request $request,$id){
 
-
         $proj_id = $this->taskRepository->update($id ,$request->all());
-        // return Redirect::route('admin.project.detail',$proj_id);
         return redirect()->back();
-
-
-
     }
 
     public function details($id){
@@ -79,7 +72,6 @@ class TaskController extends Controller
 
     public function status(Request $request, $id){
         $this->taskRepository->status($id,$request->only('status'));
-        // return Redirect::back();
         return redirect()->back();
 
     }

@@ -184,7 +184,7 @@ export default function Detail({ data, developer, auth ,devId }) {
                         )}
 
                         {
-                        state.status == "complete" && <StatusPopup auth={auth}/>
+                        state.status == "complete" && <StatusPopup auth={auth} Id={data.id}/>
                         }
                     </Grid>
                 </Grid>

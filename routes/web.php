@@ -85,6 +85,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         Route::post('/update/{id}','update')->name('update');
         Route::get('project','project')->name('task-project');
         Route::post('/delete/{id}','delete')->name('delete');
+        Route::post('/file/{id}','image')->name('file');
 
 
         Route::prefix('task')->name('task.')->controller(TaskController::class)->group( function () {

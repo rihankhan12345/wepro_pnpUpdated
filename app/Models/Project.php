@@ -27,5 +27,10 @@ class Project extends Model
     {
         return $this->morphMany(Developer::class, 'assignable');
     }
-     
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
 }
