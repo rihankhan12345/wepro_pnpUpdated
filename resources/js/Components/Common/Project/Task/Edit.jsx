@@ -68,10 +68,20 @@ export default function Edit({ data, developer, devId ,auth }) {
         e.preventDefault();
         {
             auth.user.user_role == "admin" ?
-            router.post(route("admin.project.task.update", { id: data.id }), item)
+            router.post(route("admin.project.task.update", { id: data.id }), item ,{
+                onSuccess: ( )=> {
+                    handleClose();
+                    setItem({});
+                }
+            })
 
             :
-            router.post(route("projectManager.project.task.update", { id: data.id }), item);
+            router.post(route("projectManager.project.task.update", { id: data.id }), item ,{
+                onSuccess: ( )=> {
+                    handleClose();
+                    setItem({});
+                }
+            });
         }
         setOpen(false);
     };

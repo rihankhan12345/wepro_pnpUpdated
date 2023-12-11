@@ -50,14 +50,20 @@ export default function Create({ auth }) {
         e.preventDefault();
             {
             auth.user.user_role === "admin" ?
-            post(route("admin.user.save"))
+            post(route("admin.user.save"), {
+                onSuccess: ( )=> {
+                    handleClose();
+                    setData({});
+                }
+            })
             :
-            post(route('hrManager.user.save'))
+            post(route('hrManager.user.save'),{
+                onSuccess: ( )=> {
+                    handleClose();
+                    setData({});
+                }
+            })
         }
-        // post(route("admin.user.save"))
-
-        setOpen(false);
-        setData({});
 
     };
 

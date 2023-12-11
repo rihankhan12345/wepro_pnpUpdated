@@ -65,7 +65,12 @@ export default function Create({ auth, developer, manager }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.project.save"));
+        post(route("admin.project.save"),{
+            onSuccess: ( )=> {
+                handleClose();
+                setData({});
+            }
+        });
         setOpen(false);
     };
     return (

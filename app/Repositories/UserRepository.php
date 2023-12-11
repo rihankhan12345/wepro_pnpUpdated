@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Salary;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class UserRepository implements UserInterface
@@ -36,12 +38,28 @@ class UserRepository implements UserInterface
         return $task;
     }
 
-    public function update($id ,$data)
+    public function update($id, $data)
     {
-        $user = User::findOrFail($id)->first();
-        $data = $user->update($data);
-        return true;
+        $validator = Validator::make($data, [
+            'email' => 'required|email|unique:users,email,' . $id,
+            'name' => 'required|string|max:255',
+            'user_role' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+        try {
+            $user = User::findOrFail($id); // Remove the ->first() here
+            $user->update($data);
+            return true;
+        } catch (\Exception $e) {
+            // Handle the exception, log it, or return an error response
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
+
 
     public function detail($id)
     {

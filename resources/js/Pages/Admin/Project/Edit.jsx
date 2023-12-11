@@ -17,7 +17,6 @@ import InputError from "@/Components/InputError";
 export default function Edit({ data, auth, developer, manager, devId }) {
     const [selectedDevelopers, setSelectedDevelopers] = useState([]);
     const { post, processing, errors, reset } = useForm();
-    console.log(developer, "developer");
 
     const [item, setItem] = useState({
         title: data.title,
@@ -36,10 +35,6 @@ export default function Edit({ data, auth, developer, manager, devId }) {
             };
         });
     };
-
-    // const handleSelect = (event) => {
-    //     setItem({ ...item, developer: event.target.value });
-    // };
 
     const handleDeveloper = (id) => {
         setItem((prev) => ({
