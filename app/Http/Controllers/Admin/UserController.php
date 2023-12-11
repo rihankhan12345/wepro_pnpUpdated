@@ -60,7 +60,7 @@ class UserController extends Controller
 
     public function detail($id)
     {
-        // $items = $this->userRepository->detail($id);
+        $items = $this->userRepository->detail($id);
         $items = $this->userRepository->detail($id);
         $data = $items[0];
         $salary = $items[1];
