@@ -22,6 +22,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
 import Create from "@/Components/Common/User/Create";
 import Edit from "@/Components/Common/User/Edit";
+import '../style.scss'
 
 export default function List({data, auth }) {
 
@@ -43,14 +44,12 @@ export default function List({data, auth }) {
       };
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-        >
-            <div className="py-3">
+        <AuthenticatedLayout user={auth.user} >
+            <div className="py-12 users-container" >
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-2 py-3">
                         <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} mb={2}>
-                            <div><PeopleIcon/> Users</div>
+                            <div className="users"><PeopleIcon/> Users</div>
                             {/* <Link href={route('admin.user.create')}>
                                 <Button className="capitalize" variant="contained" color="primary" size={"small"} startIcon={<AddIcon/>}>
                                     Create
@@ -63,9 +62,7 @@ export default function List({data, auth }) {
                                 justifyContent: "end",
                             }}
                         >
-
                             <Create auth={auth}/>
-
                         </div>
                         </Box>
                         <TableContainer

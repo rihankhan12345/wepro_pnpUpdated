@@ -10,7 +10,10 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import AddIcon from "@mui/icons-material/Add";
-import { Head, Link, useForm } from "@inertiajs/react";
+import {  useForm } from "@inertiajs/react";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import CloseIcon from '@mui/icons-material/Close';
+
 import {
     Button,
     FormControl,
@@ -69,28 +72,13 @@ export default function Create({ auth }) {
 
     return (
         <div>
-        <Button
-            variant="contained"
-            onClick={handleOpen}
-            startIcon={<AddIcon />}
-        >
-            Create
-        </Button>
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-                backdrop: {
-                    timeout: 500,
-                },
-            }}
-        >
+
+        <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />} >  Create</Button>
+        <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" open={open} onClose={handleClose} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{  backdrop: {  timeout: 500,}, }}>
             <Fade in={open}>
                 <Box sx={style} style={{ width: "800px" }}>
+                <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
+                    <div style={{alignItems: "center",display: "flex",justifyContent: "center",paddingBottom:"10px"}}>
                     <form onSubmit={submit}>
                         <div
                             style={{
@@ -317,26 +305,18 @@ export default function Create({ auth }) {
                                         className="mt-2"
                                     />
                                 </div>
-                                <div className="flex items-center justify-center m-4">
-                                    <PrimaryButton
-                                        className="ms-4"
-                                        disabled={processing}
-                                        style={{
-                                            height: "40px",
-                                            backgroundColor: "#1976d2",
-                                        }}
-                                    >
-                                        Next
+                                <div className="flex items-center justify-center mt-10">
+                                    <Button onClick={handleClose} variant="contained" color="error" style={{ height: "33px", marginLeft:"10px",}}><CloseIcon/> Close</Button>
+                                    <PrimaryButton className="ms-4" disabled={processing} style={{ height: "40px", backgroundColor: "#1976d2", }}>
+                                       Next <NavigateNextIcon sx={{ height:"15px" }}/>
                                     </PrimaryButton>
-                                    <Button onClick={handleClose} variant="contained" color="success"
-                                    style={{
-                                        height: "33px", marginLeft:"10px"
-                                    }}
-                                    >Close</Button>
                                 </div>
                             </>
                         )}
                     </form>
+                    </div>
+                </div>
+
                 </Box>
                 </Fade>
             </Modal>

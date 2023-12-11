@@ -8,8 +8,8 @@ export default function UserDetail({ data ,auth }) {
     const { setData, get, processing, errors, setError } = useForm();
 
     return (
-        <Box sx={{ backgroundColor: "#f7f7f7" }} className="pb-5">
-            <Grid container sx={{}}>
+        <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
+            <Grid container >
                 <Grid
                     item
                     xs={12}
@@ -18,14 +18,16 @@ export default function UserDetail({ data ,auth }) {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        height: "35px",
+                        height: "50px",
+                        borderTopLeftRadius:"15px",
+                        borderTopRightRadius:"15px",
                     }}
                 >
                     <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>
                         Basic Information
                     </Typography>
                     <Button
-                        sx={{ display: "flex", justifyContent: "end" }}
+                        sx={{ display: "flex", justifyContent: "center",borderRadius:'10px',height:"40px",marginRight:"10px", }}
                         onClick={() => handleUpdate(data.id)}
                     >
                         <Edit auth={auth} user={data}/>

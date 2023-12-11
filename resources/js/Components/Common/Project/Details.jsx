@@ -12,7 +12,6 @@ import {
 
 export default function Details({ user, data, auth }) {
     const { setData, get, processing, errors, setError } = useForm();
-    console.log(auth,'authhhhh');
 
     const handleUpdate = (id) => {
         get(route("admin.project.edit", { id }));
@@ -20,7 +19,7 @@ export default function Details({ user, data, auth }) {
 
     return (
         <>
-            <Box sx={{ backgroundColor: "#f7f7f7" }} className="pb-5">
+            <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:"10px" }} className="pb-5">
                 <Grid container>
                     <Grid
                         item
@@ -30,6 +29,9 @@ export default function Details({ user, data, auth }) {
                             alignItems: "center",
                             display: "flex",
                             justifyContent: "space-between",
+                            height:"50px",
+                            borderTopLeftRadius:'10px',
+                            borderTopRightRadius:"10px"
                         }}
                     >
                         <Typography
@@ -104,7 +106,7 @@ export default function Details({ user, data, auth }) {
             <br/>
 
 
-            <Box sx={{ backgroundColor: "#f7f7f7" }} className="pb-5">
+            <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:"10px" }} className="pb-5">
                 <Grid container>
                     <Grid
                         item
@@ -114,7 +116,9 @@ export default function Details({ user, data, auth }) {
                             alignItems: "center",
                             display: "flex",
                             justifyContent: "space-between",
-                            height: "35px",
+                            height: "50px",
+                            borderTopLeftRadius:'10px',
+                            borderTopRightRadius:"10px"
                         }}
                     >
                         <Typography

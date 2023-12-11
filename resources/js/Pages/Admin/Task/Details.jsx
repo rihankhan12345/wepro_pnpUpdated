@@ -76,30 +76,29 @@ export default function Details({data ,developer}){
                 isEdit ?
                 <Box component={'form'} onSubmit = {statusSubmit}>
                    <Select
-                                        value={state.status}
-                                        name="status"
-                                        style={{
-                                            height: "42px",
-                                        }}
-                                        size="20px"
-                                        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1  "
-                                        onChange={handleChange}
-                                        required
-                                    >
-                                        <MenuItem value={"new"}>New</MenuItem>
-                                        <MenuItem value={"started"}>
-                                            Started
-                                        </MenuItem>
-                                        <MenuItem value={"complete"}>
-                                            Complete
-                                        </MenuItem>
-                                        <MenuItem value={"pause"}>
-                                            Pause
-                                        </MenuItem>
-                                    </Select>
-                                    <IconButton color="primary" aria-label="save">
-                                         <CheckIcon color="primary" sx={{fontSize:"30px" , fontWeight:"bold"}} onClick={statusSubmit}/>
-                                 </IconButton>
+                        value={state.status}
+                        name="status"
+                        style={{
+                            height: "42px",
+                        }}
+                        size="20px"
+                        className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1  "
+                        onChange={handleChange}
+                        required>
+                    <MenuItem value={"new"}>New</MenuItem>
+                    <MenuItem value={"started"}>
+                        Started
+                    </MenuItem>
+                    <MenuItem value={"complete"}>
+                        Complete
+                    </MenuItem>
+                    <MenuItem value={"pause"}>
+                        Pause
+                    </MenuItem>
+                </Select>
+                <IconButton color="primary" aria-label="save">
+                        <CheckIcon color="primary" sx={{fontSize:"30px" , fontWeight:"bold"}} onClick={statusSubmit}/>
+                </IconButton>
 
                 </Box> :
                  <div style={{ display:'flex' , alignItems:"center"}}>

@@ -8,7 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import WarningOutlinedIcon from "@mui/icons-material/WarningOutlined";
 import { useForm } from "@inertiajs/react";
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 
 export default function Popover({ id }) {
     const [open, setOpen] = React.useState(false);
@@ -36,40 +36,23 @@ export default function Popover({ id }) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
-                    <WarningOutlinedIcon
-                        color="red"
-                        style={{
-                            height: "100px",
-                            width: "50px",
-                            color: "red",
-                            marginLeft: "10px",
-                        }}
-                    />
+                <Box style={{  display:"flex", justifyContent:'center', alignItems:"center", flexDirection:"column" }}>
+                    <WarningOutlinedIcon color='error' sx={{fontSize:'7.5rem !important',}}/>
+                    <Typography variant="h4" >Are You Sure?</Typography>
+                </Box>
 
-                    {"Alert Message For Delete Item?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Are you sure to want to Delete This Item !!
+                <Box sx={{ padding:"10px 40px" }}>
+                    <DialogContentText id="alert-dialog-description" sx={{ textAlign:"center" }}>
+                         Do you really want to delete this user?
                     </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => handleDelete(id)}
-                    >
-                        Delete
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleClose}
-                        autoFocus
-                    >
-                        Cancle
-                    </Button>
+                    <DialogContentText id="alert-dialog-description" sx={{ textAlign:"center" }}>
+                             This  cannot be recover.
+                    </DialogContentText>
+                </Box>
+
+            <DialogActions sx={{ display:'flex',justifyContent:'center',gap:"20px",m:"15px 0px" }}>
+                    <Button variant="contained" color="primary" onClick={handleClose} autoFocus >Cancle </Button>
+                    <Button  variant="contained"  color="error"  onClick={() => handleDelete(id)}> Delete</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

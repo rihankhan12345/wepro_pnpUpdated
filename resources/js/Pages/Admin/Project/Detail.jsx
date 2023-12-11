@@ -23,34 +23,40 @@ export default function Detail({ data, auth, user, task }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Box
-                sx={{
-                    flexGrow: 10,
-                    margin: "3%",
-                    background: "white",
-                    boxShadow: "2px 2px 2px 2px #e3e1da",
-                    padding: "40px",
-                }}
-            >
-                <TabContext value={value}>
-                    <TabList onChange={handleChange} className="px-3">
-                        <Tab label="Details" value="1" style={{ fontWeight:"bold"}}/>
-                        <Tab label="Task" value="2" style={{ fontWeight:"bold"}}/>
-                        <Tab label="History" value="3" style={{ fontWeight:"bold"}}/>
-                    </TabList>
-                    <TabPanel value="1">
-                        <Details data={data} user={user} auth={auth} />
-                    </TabPanel>
+         <div className="py-12">
+            <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <Box
+                                sx={{
+                                    flexGrow: 10,
+                                    margin: "3%",
+                                    background: "white",
+                                    boxShadow: "2px 2px 2px 2px #e3e1da",
+                                }}
+                            >
+                                <TabContext value={value}>
+                                    <TabList onChange={handleChange} className="px-3">
+                                        <Tab label="Details" value="1" style={{ fontWeight:"bold"}}/>
+                                        <Tab label="Task" value="2" style={{ fontWeight:"bold"}}/>
+                                        <Tab label="History" value="3" style={{ fontWeight:"bold"}}/>
+                                    </TabList>
 
-                    <TabPanel value="2">
-                        <View data={task} Id={id} developer={user} auth={auth} />
-                    </TabPanel>
+                                    <TabPanel value="1">
+                                        <Details data={data} user={user} auth={auth} />
+                                    </TabPanel>
 
-                    <TabPanel value="3">
-                        <History data={data} auth={auth}/>
-                    </TabPanel>
-                </TabContext>
-            </Box>
+                                    <TabPanel value="2">
+                                        <View data={task} Id={id} developer={user} auth={auth} />
+                                    </TabPanel>
+
+                                    <TabPanel value="3">
+                                        <History data={data} auth={auth}/>
+                                    </TabPanel>
+                                </TabContext>
+                            </Box>
+                        </div>
+            </div>
+         </div>
         </AuthenticatedLayout>
     );
 }

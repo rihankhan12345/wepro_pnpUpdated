@@ -9,7 +9,7 @@ export default function Details({salary ,data}){
     // };
     return (
              <Box
-               sx={{ backgroundColor: '#f7f7f7', }} className="pb-5" >
+               sx={{ backgroundColor: '#f7f7f7',borderRadius:"10px" }} className="pb-5" >
                 <Grid container >
                     <Grid
                         item
@@ -19,6 +19,9 @@ export default function Details({salary ,data}){
                             display: "flex",
                             justifyContent: "space-between",
                             alignItems: "center",
+                            height:"50px",
+                            borderTopLeftRadius:"10px",
+                            borderTopRightRadius:"10px"
                         }}
                     >
                         <Typography
@@ -26,13 +29,6 @@ export default function Details({salary ,data}){
                         >
                             Salary Information
                         </Typography>
-
-                        {/* <Button
-                            sx={{ display: "flex", justifyContent: "end" }}
-                            onClick={() => handleUpdate(data.id)}
-                        >
-                            <EditIcon />
-                        </Button> */}
                     </Grid>
                 </Grid>
                 <br />

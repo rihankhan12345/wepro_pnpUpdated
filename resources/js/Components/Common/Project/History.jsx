@@ -6,7 +6,7 @@ export default function History({data})
 {
     return (
         <Box
-        sx={{ backgroundColor: '#f7f7f7', }} className="pb-5" >
+        sx={{ backgroundColor: '#f7f7f7',borderRadius:"10px" }} className="pb-5" >
          <Grid container >
              <Grid
                  item
@@ -16,7 +16,9 @@ export default function History({data})
                      display: "flex",
                      justifyContent: "space-between",
                      alignItems: "center",
-                     height:"35px"
+                     height:"50px",
+                     borderTopLeftRadius:'10px',
+                    borderTopRightRadius:"10px"
                  }}
              >
                  <Typography

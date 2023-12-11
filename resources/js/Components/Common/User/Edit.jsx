@@ -88,144 +88,60 @@ export default function Edit({ auth, user }) {
                 style={{ width: "" }}
             >
                 <Fade in={open}>
-                    <Box sx={style} style={{ width: "800px" }}>
-                    <form onSubmit={handleSubmit}>
-                        <div
-                            style={{
-                                alignItems: "center",
-                                display: "flex",
-                                justifyContent: "center",
-                                paddingBottom: "30px",
-                            }}
-                        >
-                            <Typography
-                                variant="h5"
-                                style={{ fontWeight: "bold" }}
-                            >
-                                Edit User
-                            </Typography>
+                    <Box sx={style} style={{ width: "800px" }} >
+                        <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
+                          <div style={{alignItems: "center",display: "flex",justifyContent: "center",paddingBottom:"10px"}}>
+                            <Typography variant="h5" style={{ fontWeight: "bold" }}> Edit User </Typography>
+                          </div>
+
+                            <form onSubmit={handleSubmit}>
+                                <div>
+                                    <InputLabel htmlFor="name" value="Name" />
+                                    <TextInput id="name" name="name" value={value.name} className="mt-1 block w-full" autoComplete="name" isFocused={true} onChange={(e) => handleChange(e)} required  />
+                                    <InputError message={errors.name} className="mt-2" />
+                                </div>
+
+                                <div className="mt-4">
+                                    <InputLabel htmlFor="email" value="Email" />
+                                    <TextInput id="email" type="email" name="email" value={value.email} className="mt-1 block w-full" autoComplete="username" onChange={(e) => handleChange(e)} required />
+                                    <InputError message={errors.email} className="mt-2" />
+                                </div>
+                                <div className="mt-4">
+                                    <InputLabel htmlFor="contact_no" value="Phone No" />
+                                    <TextInput id="contact_no" type="text" name="contact_no" value={value.contact_no} className="mt-1 block w-full" autoComplete="contact_no" onChange={(e) => handleChange(e)} required/>
+                                    <InputError message={errors.contact_no} className="mt-2" />
+                                </div>
+
+                                <div className="mt-4">
+                                    <FormControl component="fieldset">
+                                        <InputLabel
+                                            htmlFor="user_role"
+                                            value="Select User Role"
+                                        />
+                                        <RadioGroup
+                                            value={value.user_role}
+                                            onChange={handleChange}
+                                            name="user_role"
+                                            row
+                                        >
+                                            {
+                                            auth.user.user_role == "admin"  && <FormControlLabel value="admin" control={<Radio />} label="Admin" aria-setsize={"small"}/>
+                                            }
+                                            <FormControlLabel value="hr manager" control={<Radio />} label="HR Manager" aria-setsize={"small"} />
+                                            <FormControlLabel value="project manager" control={<Radio />} label="Project Manager" aria-setsize={"small"} />
+                                            <FormControlLabel value="senior developer" control={<Radio />} label="Senior Developer" aria-setsize={"small"} />
+                                            <FormControlLabel value="junior developer" control={<Radio />} label="Junior Developer" aria-setsize={"small"} />
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <InputError message={errors.user_role} className="mt-2" />
+                                </div>
+
+                                <div className="flex items-center justify-center mt-4">
+                                    <Button onClick={handleClose} variant="contained" color="error" style={{ height: "33px", marginLeft:"10px" }}> Close</Button>
+                                    <PrimaryButton className="ms-4" style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center", display: "flex", justifyContent: "center",textTransform:"none"  }} > Update User </PrimaryButton>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <InputLabel htmlFor="name" value="Name" />
-
-                            <TextInput
-                                id="name"
-                                name="name"
-                                value={value.name}
-                                className="mt-1 block w-full"
-                                autoComplete="name"
-                                isFocused={true}
-                                onChange={(e) => handleChange(e)}
-                                required
-                            />
-                            <InputError message={errors.name} className="mt-2" />
-
-                        </div>
-
-                        <div className="mt-4">
-                            <InputLabel htmlFor="email" value="Email" />
-
-                            <TextInput
-                                id="email"
-                                type="email"
-                                name="email"
-                                value={value.email}
-                                className="mt-1 block w-full"
-                                autoComplete="username"
-                                onChange={(e) => handleChange(e)}
-                                required
-                            />
-
-                            <InputError message={errors.email} className="mt-2" />
-                        </div>
-                        <div className="mt-4">
-                            <InputLabel htmlFor="contact_no" value="Phone No" />
-
-                            <TextInput
-                                id="contact_no"
-                                type="text"
-                                name="contact_no"
-                                value={value.contact_no}
-                                className="mt-1 block w-full"
-                                autoComplete="contact_no"
-                                onChange={(e) => handleChange(e)}
-                                required
-                            />
-                            <InputError message={errors.contact_no} className="mt-2" />
-
-                        </div>
-
-                        <div className="mt-4">
-                            <FormControl component="fieldset">
-                                <InputLabel
-                                    htmlFor="user_role"
-                                    value="Select User Role"
-                                />
-                                <RadioGroup
-                                    value={value.user_role}
-                                    onChange={handleChange}
-                                    name="user_role"
-                                    row
-                                >
-                                    {
-                                      auth.user.user_role == "admin"  &&
-                                        <FormControlLabel
-                                        value="admin"
-                                        control={<Radio />}
-                                        label="Admin"
-                                        aria-setsize={"small"}
-                                    />
-                                    }
-                                    <FormControlLabel
-                                        value="hr manager"
-                                        control={<Radio />}
-                                        label="HR Manager"
-                                        aria-setsize={"small"}
-                                    />
-                                    <FormControlLabel
-                                        value="project manager"
-                                        control={<Radio />}
-                                        label="Project Manager"
-                                        aria-setsize={"small"}
-                                    />
-                                    <FormControlLabel
-                                        value="senior developer"
-                                        control={<Radio />}
-                                        label="Senior Developer"
-                                        aria-setsize={"small"}
-                                    />
-                                    <FormControlLabel
-                                        value="junior developer"
-                                        control={<Radio />}
-                                        label="Junior Developer"
-                                        aria-setsize={"small"}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-
-                            <InputError message={errors.user_role} className="mt-2" />
-                        </div>
-
-                        <div className="flex items-center justify-center mt-4">
-                            <PrimaryButton
-                                className="ms-4"
-                                style={{
-                                    height: "40px",
-                                    backgroundColor: "#1976d2",
-                                    width: "150px",
-                                    alignItems: "center",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                Update User
-                            </PrimaryButton>
-                            <Button onClick={handleClose} variant="contained" color="success"
-                                    style={{
-                                        height: "33px", marginLeft:"10px"
-                                    }}> Close</Button>
-                        </div>
-                    </form>
                     </Box>
                 </Fade>
             </Modal>
