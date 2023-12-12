@@ -24,6 +24,8 @@ const style = {
 };
 
 export default function Edit({ data, developer, devId ,auth }) {
+
+    console.log(devId,'devevev');
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

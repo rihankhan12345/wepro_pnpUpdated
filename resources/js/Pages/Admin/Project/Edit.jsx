@@ -6,15 +6,14 @@ import TextInput from "@/Components/TextInput";
 import { Head, router, useForm } from "@inertiajs/react";
 import {
     Button,
-    Chip,
     Grid,
-    MenuItem,
-    Select,
     Typography,
 } from "@mui/material";
 import InputError from "@/Components/InputError";
 
 export default function Edit({ data, auth, developer, manager, devId }) {
+
+    console.log(devId,'devevloper');
     const [selectedDevelopers, setSelectedDevelopers] = useState([]);
     const { post, processing, errors, reset } = useForm();
 
@@ -89,7 +88,6 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 value={item.title}
                                 className="mt-1 block w-full"
                                 autoComplete="name"
-                                // isFocused={true}
                                 onChange={(e) => handleChange(e)}
                                 required
                             />
@@ -174,20 +172,6 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                         <div className="mt-4">
                             <InputLabel htmlFor="developer" value="Assign To" />
 
-                            {/* <Select
-                                multiple
-                                value={item.developer}
-                                onChange={handleSelect}
-                                style={{ height: "43px" }}
-                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                            >
-                                <MenuItem>Select Developer</MenuItem>
-                                {developer.map((dev) => (
-                                    <MenuItem key={dev.name} value={dev.id} >
-                                        {dev.name} ({dev.user_role=="senior developer"? "Senior" : "Junior"})
-                                    </MenuItem>
-                                ))}
-                            </Select> */}
                             <Grid item xs={12}>
                                 {developer.map((dev, index) => (
                                     <Button

@@ -36,4 +36,9 @@ class DeveloperProjectController extends Controller
        return Inertia::render('Developer/Project/Detail', ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status]);
     }
 
+    public function image(Request $request,$id)
+    {
+        return $this->projectRepository->image($id, $request->all());
+    }
+
 }

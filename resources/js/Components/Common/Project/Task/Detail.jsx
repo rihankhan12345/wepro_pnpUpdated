@@ -11,6 +11,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import StartTimerPopUp from "../components/StartTimerPopup";
 
 export default function Detail({ data, developer, auth ,devId ,updated }) {
+    console.log(developer ,data ,devId,'devevevv');
     const { item, setItem, get, post, processing, errors, reset } = useForm();
     const [isStart, setIsStart] = useState(false);
     const [state, setState] = useState({
@@ -44,8 +45,7 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
             router.post(route("developer.project.task.status", { id: data.id }),state)
             : auth.user.user_role == "junior developer" ?
             router.post(route("developer.project.task.status", { id: data.id }),state)
-            :
-            <Alert> Route Not Define</Alert>
+            :<Alert> Route Not Define</Alert>
         }
         setIsStart(true);
         setIsEdit(false);
@@ -172,7 +172,7 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
 
                 <Box>
                     {developer.map((item, j) => (
-
+                        console.log(item.id, devId ,'devevloper'),
                            ( devId == item.id   &&
                             <Chip
                             label={ item.name }

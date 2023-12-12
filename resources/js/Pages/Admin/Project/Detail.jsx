@@ -1,3 +1,4 @@
+import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import * as React from "react";
@@ -10,6 +11,7 @@ import History from "../../../Components/Common/Project/History";
 import Details from "@/Components/Common/Project/Details";
 
 export default function Detail({ data, auth, user, task }) {
+    console.log(task,'taskkk');
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);

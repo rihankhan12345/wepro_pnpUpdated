@@ -157,6 +157,7 @@ Route::prefix('developer')->name('developer.')->middleware(['auth', 'role:develo
         Route::prefix('project')->name('project.')->controller(DeveloperProjectController::class)->group( function () {
             Route::get('list','list')->name('list');
             Route::get('/detail/{id}','detail')->name('detail');
+            Route::post('/file/{id}','image')->name('file');
 
             Route::prefix('task')->name('task.')->controller(DeveloperTaskController::class)->group( function () {
                 Route::get('list','list')->name('list');

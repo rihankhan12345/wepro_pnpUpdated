@@ -19,6 +19,7 @@ import Detail from "./Detail";
 import Create from "./Create";
 import Edit from "./Edit";
 export default function List({ auth, developer, Id, data ,updated}) {
+
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);

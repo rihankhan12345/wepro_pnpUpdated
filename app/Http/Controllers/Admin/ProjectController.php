@@ -26,29 +26,6 @@ class ProjectController extends Controller
         $this->projectRepository = $projectRepository;
     }
 
-    // public function multipleFile($id, $file,$data,$type ){
-    //     $media = [];
-    //     foreach ($file as $key => $file) {
-    //         $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
-    //         // $fileType = $file->getClientOriginalExtension();
-    //         $file->storeAs('/public/task_file', $fileName);
-    //         $media[] = [
-    //             'text_cases' => $data['text_cases'],
-    //             'url' => $fileName,
-    //             'imageable_type' => $type,
-    //             'imageable_id' => $id,
-    //         ];
-    //     }
-    //      $data = Image::insert($media);
-    //      dd($data);
-    //      return $data;
-    // }
-
-    // if ($request->hasFile('task_file')){
-    //     $this->multipleFile($request->id ,$request->file('task_file'), $request->all(),'App\Models\Task');
-    // }
-    // else {}
-
     public function list()
     {
         $items = $this->projectRepository->getlist();
@@ -106,7 +83,6 @@ class ProjectController extends Controller
 
         $this->projectRepository->update($id, $request->all());
         return Redirect::route('admin.project.list');
-        // return  redirect()->back();
     }
 
     public function delete($id)

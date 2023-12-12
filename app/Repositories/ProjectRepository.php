@@ -93,7 +93,6 @@ class ProjectRepository implements ProjectInterface
             'message' => "Project Created Successfully ."
         ];
 
-
     }
 
     public function edit($id)
@@ -140,7 +139,7 @@ class ProjectRepository implements ProjectInterface
             'success' => false,
             'message' => $th->getMessage(),
             ];
-    }
+     }
     }
 
     public function detail($id)
