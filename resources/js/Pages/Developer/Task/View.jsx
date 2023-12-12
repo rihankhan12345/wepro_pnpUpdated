@@ -1,4 +1,3 @@
-
 import {Alert,} from "@mui/material";
 import { useState } from "react";
 import { useForm } from "@inertiajs/react";
@@ -65,7 +64,7 @@ export default function View({  auth,data, Id, developer}) {
                         </div>
                     </>
                 ) : (
-                  <List auth={auth} data={data} Id={Id} developer={developer}/>
+                  <List auth={auth} data={data} Id={Id} developer={developer} status={status}/>
                 )}
                 </>
     );

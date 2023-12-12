@@ -97,7 +97,6 @@ export default function StatusPopup({ auth ,Id}) {
             right: 8,
             top: 0,
             color:"black"
-            // color: (theme) => theme.palette.black[500],
           }}
         >
           <CloseIcon />

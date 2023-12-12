@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Developer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Repositories\TaskRepository;
+use App\Interfaces\TaskInterface;
 
 class DeveloperTaskController extends Controller
 {
@@ -14,7 +16,7 @@ class DeveloperTaskController extends Controller
     }
 
     public function list ($id){
-
+        dd($id);
         $items = $this->taskRepository->getlist($id);
         $data = $items[0];
         $id = $items[1];

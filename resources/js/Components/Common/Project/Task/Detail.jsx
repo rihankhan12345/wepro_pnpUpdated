@@ -10,7 +10,7 @@ import StatusPopup from "./StatusPopup";
 import SaveIcon from '@mui/icons-material/Save';
 import StartTimerPopUp from "../components/StartTimerPopup";
 
-export default function Detail({ data, developer, auth ,devId }) {
+export default function Detail({ data, developer, auth ,devId ,updated }) {
     const { item, setItem, get, post, processing, errors, reset } = useForm();
     const [state, setState] = useState({
         status: data.status,
@@ -38,7 +38,7 @@ export default function Detail({ data, developer, auth ,devId }) {
             router.post(route("projectManager.project.task.status", { id: data.id }),state)
             : auth.user.user_role == "senior developer" ?
             router.post(route("developer.project.task.status", { id: data.id }),state)
-            : auth.user.user_role == "senior developer" ?
+            : auth.user.user_role == "junior developer" ?
             router.post(route("developer.project.task.status", { id: data.id }),state)
             :
             <Alert> Route Not Define</Alert>

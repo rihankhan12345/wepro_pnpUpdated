@@ -11,6 +11,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Developer\DeveloperDashboardController;
 use App\Http\Controllers\Developer\DeveloperProjectController;
+use App\Http\Controllers\Developer\DeveloperTaskController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Inertia\Inertia;
 use App\Http\Controllers\ProjectManager\DashboardController;
@@ -159,7 +160,7 @@ Route::prefix('developer')->name('developer.')->middleware(['auth', 'role:develo
 
             Route::prefix('task')->name('task.')->controller(DeveloperTaskController::class)->group( function () {
                 Route::get('list','list')->name('list');
-                Route::post('/status/{id}','detail')->name('status');
+                Route::post('/status/{id}','status')->name('status');
             });
         });
 });

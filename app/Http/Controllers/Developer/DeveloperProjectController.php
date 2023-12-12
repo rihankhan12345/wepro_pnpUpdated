@@ -24,7 +24,7 @@ class DeveloperProjectController extends Controller
         $developer = $items[1];
         $manager = $items[2];
         return Inertia::render('Developer/Project/View',
-        ['data' => $data , 'developer'=>$developer , 'manager'=>$manager]);
+        ['data' => $data , 'developer'=>$developer , 'manager'=>$manager ]);
     }
     public function detail($id)
     {
@@ -32,8 +32,8 @@ class DeveloperProjectController extends Controller
        $data = $allData[0];
        $user = $allData[1];
        $task = $allData[2];
-
-       return Inertia::render('Developer/Project/Detail', ['data' => $data, 'user' => $user,'task'=>$task ]);
+       $status = $allData[3];
+       return Inertia::render('Developer/Project/Detail', ['data' => $data, 'user' => $user,'task'=>$task ,'status'=>$status]);
     }
 
 }

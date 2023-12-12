@@ -65,4 +65,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-git password = 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
+git password = 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

@@ -7,12 +7,14 @@ use App\Models\Developer;
 use App\Models\User;
 use App\Models\Task;
 use App\Models\Image;
-use Carbon;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 
 class TaskRepository implements TaskInterface
 {
 
-    public function multipleFile($id, $file, $type ,$data){
+      public function multipleFile($id, $file, $type ,$data){
         $media = [];
         foreach ($files as $key => $file) {
             $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
@@ -118,22 +120,51 @@ class TaskRepository implements TaskInterface
     {
 
         $data = Task::findOrfail($id);
-
         $developer = Developer::where(['assignable_id'=> $data->id ,'assignable_type'=>'App\Models\Task'])->pluck('developer_id');
         $dev = explode(',', $developer[0]);
         $user = User::whereIn('id', $dev)->get();
         return [$data , $user];
     }
 
-    public function status($id,$data)
+    public function status($id, $data)
     {
-        dd($id);
         $item = $data['status'];
         $task = Task::where('id', $id)->first();
+
         if ($task) {
-            $data = $task->update(['status' => $item]);
-            return true;
+            $user = Auth::user();
+            $user_id = $user->id;
+            $task_id = Developer::where('developer_id', $user_id)->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
+            $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
+            if ($item === 'started' && count($status) <= 0) {
+                $task->status = $item;
+                $task->started_at = Carbon::now();
+                $task->save();
+            } elseif (($item === 'started' || $item === 'pause' || $item === 'completed') && count($status) <= 1) {
+                $startedAt = $status[0]->started_at;
+                $totalTime = now()->diffInMinutes($startedAt);
+
+                if ($totalTime > 59) {
+                    $totalTime = $totalTime / 60;
+                }
+                $task->status = $item;
+                $task->started_at = Carbon::now();
+                $task->save();
+
+                $hour = $status[0];
+                $hour->hour_worked = $totalTime;
+                $hour->save();
+                return redirect()->back();
+            }
+            else {
+                return redirect()->back()->withError('status not updated');
+            }
         }
-        return false;
+        else
+        {
+            return redirect()->back()->withError('Task not found for updated status');
+        }
+
     }
+
 }
