@@ -6,7 +6,6 @@ import React from 'react'; // Add this import
 
 import {
     Box,
-    Button,
     Container,
     InputLabel,
     TextField,
@@ -16,9 +15,10 @@ import { data } from "autoprefixer";
 import _debounce from 'lodash/debounce';
 
 
-export default function Create({ auth }) {
+export default function Create({ auth ,user }) {
+    console.log(user,'datattt');
     const { data, setData, post, processing, errors } = useForm({
-      basic_salary: 0,
+      basic_salary: user,
       house_rent: 0,
       leave_allowance: 0,
       medical_conveyance: 0,
@@ -73,7 +73,7 @@ export default function Create({ auth }) {
 
       const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.user.salary.save", params.user));
+        post(route("admin.user.salary.save", data.id));
       };
 
     return (

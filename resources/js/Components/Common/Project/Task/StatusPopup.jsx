@@ -6,11 +6,14 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { router, useForm } from "@inertiajs/react";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from '@mui/icons-material/Close';
+
 import {
     Alert,
     Box,
     Button,
     Grid,
+    IconButton,
     Input,
     TextareaAutosize,
     Typography,
@@ -82,10 +85,23 @@ export default function StatusPopup({ auth ,Id}) {
                     padding={"3px 24px !important"}
                     fontSize={"16px !important"}
                     fontWeight={"600 !important"}
+
                 >
-                    {" "}
                     Status Completed
                 </DialogTitle>
+                <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 0,
+            color:"black"
+            // color: (theme) => theme.palette.black[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         <Box>
@@ -121,28 +137,6 @@ export default function StatusPopup({ auth ,Id}) {
                                         spacing={2}
                                         padding={"30px 20px"}
                                     >
-                                        {/* {selectedFiles && (
-                                            <Grid container spacing={2}>
-
-                                                {selectedFiles.map((file, index) => (
-                                                    <Grid item xs={12} md={4} sm={6}>
-                                                        <a
-                                                            href={URL.createObjectURL(file)}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                        >
-                                                            <img
-                                                                src={URL.createObjectURL(
-                                                                    file
-                                                                )}
-                                                                alt={`selected-${index}`}
-                                                            />
-                                                        </a>
-                                                    </Grid>
-
-                                                ))}
-                                            </Grid>
-                                        )} */}
                                         {data.task_file.map((file, index) => (
                                             <Grid
                                                 item
@@ -161,7 +155,6 @@ export default function StatusPopup({ auth ,Id}) {
                                                             file
                                                         )}
                                                         target="_blank"
-                                                        rel="noopener noreferrer"
                                                     >
                                                         <img
                                                             src={URL.createObjectURL(
