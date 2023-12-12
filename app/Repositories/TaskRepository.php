@@ -127,16 +127,11 @@ class TaskRepository implements TaskInterface
 
     public function status($id,$data)
     {
-
+        dd($id);
         $item = $data['status'];
         $task = Task::where('id', $id)->first();
         if ($task) {
             $data = $task->update(['status' => $item]);
-            if($task->status == 'started'){
-                $work_time = Carbon\Carbon::now();
-                dd($work_time);
-            }
-            dd($task->status);
             return true;
         }
         return false;
