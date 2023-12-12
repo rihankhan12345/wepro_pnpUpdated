@@ -19,8 +19,7 @@ import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Create from "@/Pages/Admin/Project/Create";
 
-export default function List({ data, auth, developer, manager }) {
-
+export default function List({ data, auth, developer, manager ,updated}) {
     const { setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);

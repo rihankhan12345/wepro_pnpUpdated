@@ -16,12 +16,12 @@ class DeveloperTaskController extends Controller
     }
 
     public function list ($id){
-        dd($id);
         $items = $this->taskRepository->getlist($id);
         $data = $items[0];
         $id = $items[1];
         $developers = $items[2];
-        return Inertia::render('Developer/Task/View',['data'=>$data,'Id'=>$id ,'developer'=>$developers]);
+        $status = $items[3];
+        return Inertia::render('Developer/Task/View',['data'=>$data,'Id'=>$id ,'developer'=>$developers ,$status]);
     }
 
     public function status(Request $request, $id){

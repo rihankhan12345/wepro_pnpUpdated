@@ -32,6 +32,8 @@ class TaskRepository implements TaskInterface
 
     public function getlist($id)
     {
+        $user = Auth::user();
+        $role = $user->user_role;
         $data = Task::where('project_id',$id)->get();
         $task_id = Task::where('project_id',$id)->pluck('id');
         $dev_id = Developer::whereIn('assignable_id',$task_id)->where('assignable_type','App\Models\Task')->pluck('developer_id');
@@ -40,7 +42,15 @@ class TaskRepository implements TaskInterface
         $dev = array_map('intval', $developer);
         $developers = User::whereIn('id',$dev)->select('id','name','email','contact_no','user_role')->get();
 
+        if($role === 'junior developer' || $role === 'senior developer'){
+            $user_id = $user->id;
+            $task_id = Developer::where('developer_id', $user_id)->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
+            $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
+            return [$data,$id ,$developers ,$status];
+
+        }
         return [$data,$id ,$developers];
+
     }
 
     public function create($id)

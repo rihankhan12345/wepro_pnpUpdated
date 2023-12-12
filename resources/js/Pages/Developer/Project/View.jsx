@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 
 
-export default function View({ data, auth, developer, manager  }) {
+export default function View({ data, auth, developer, manager ,updated }) {
 
     return (
         <AuthenticatedLayout user={auth.user}>
@@ -23,10 +23,7 @@ export default function View({ data, auth, developer, manager  }) {
                                             MarginTop: "9px",
                                         },
                                     }}
-                                    // action={<Create
-                                    //     developer={developer}
-                                    //     manager={manager}
-                                    // />}
+
                                 >
                                     Project Not Found ! Create A New Project
                                 </Alert>
@@ -34,7 +31,7 @@ export default function View({ data, auth, developer, manager  }) {
                         ) : (
                             <>
 
-                                <List data={data} developer={developer} manager={manager} auth={auth}/>
+                                <List data={data} developer={developer} manager={manager} auth={auth} updated={updated}/>
                             </>
                         )}
                     </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "@inertiajs/react";
 import List from "@/Components/Common/Project/Task/List";
 
-export default function View({  auth,data, Id, developer}) {
+export default function View({  auth,data, Id, developer ,updated}) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
@@ -64,7 +64,7 @@ export default function View({  auth,data, Id, developer}) {
                         </div>
                     </>
                 ) : (
-                  <List auth={auth} data={data} Id={Id} developer={developer} status={status}/>
+                  <List auth={auth} data={data} Id={Id} developer={developer} updated={updated}/>
                 )}
                 </>
     );

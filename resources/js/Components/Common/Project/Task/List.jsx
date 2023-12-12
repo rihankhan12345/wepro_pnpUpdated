@@ -18,7 +18,7 @@ import DateTimeFormat from "@/Util/DateTimeFormat";
 import Detail from "./Detail";
 import Create from "./Create";
 import Edit from "./Edit";
-export default function List({ auth, developer, Id, data ,status}) {
+export default function List({ auth, developer, Id, data ,updated}) {
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -158,7 +158,7 @@ export default function List({ auth, developer, Id, data ,status}) {
                                                         developer={developer}
                                                         auth={auth}
                                                         devId={item.developer_id}
-                                                        updated={status}
+                                                        updated={updated}
                                                           />
                                                 </Collapse>
                                             </TableCell>

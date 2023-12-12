@@ -33,7 +33,7 @@ class DeveloperProjectController extends Controller
        $user = $allData[1];
        $task = $allData[2];
        $status = $allData[3];
-       return Inertia::render('Developer/Project/Detail', ['data' => $data, 'user' => $user,'task'=>$task ,'status'=>$status]);
+       return Inertia::render('Developer/Project/Detail', ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status]);
     }
 
 }

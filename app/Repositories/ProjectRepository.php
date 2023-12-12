@@ -66,6 +66,7 @@ class ProjectRepository implements ProjectInterface
             $developer = User::whereIn('user_role',['senior developer','junior developer'])->get();
             $manager = User::where('user_role','project manager')->get();
 
+
             return [$project , $developer , $manager ];
         }
 
