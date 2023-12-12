@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 
-export default function StartTimerPopUp() {
+export default function StartTimerPopUp({Auth,Id,statusSubmit}) {
     const [open, setOpen] = useState(true);
     const [pause_time, setPause_time] = useState('');
 
@@ -21,7 +21,7 @@ export default function StartTimerPopUp() {
         setOpen(false);
     }
     const currentTime = new Date().toLocaleTimeString();
-    const handleStartTimer = () =>{
+    const handlePauseTimer = () =>{
         setPause_time(currentTime);
         setOpen(false);
         statusSubmit();
@@ -30,18 +30,15 @@ export default function StartTimerPopUp() {
     return (
         <React.Fragment>
             <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" maxWidth={"md"} aria-describedby="alert-dialog-slide-description">
-                <DialogTitle className="bg-[#0AA283] text-center text-white" padding={"3px 24px !important"} fontSize={"16px !important"} fontWeight={"600 !important"}> Start Timer</DialogTitle>
-                    <Typography variant="h4" sx={{ display:'flex',alignItems:"center",justifyContent:"center",pt:"15px" }} >Are You Sure?</Typography>
-
-                    <Box sx={{ padding:"10px 40px" }}>
-                        <DialogContentText id="alert-dialog-description" sx={{ textAlign:"center" }}>
-                            Do you really want to update task?
-                        </DialogContentText>
-                    </Box>
+                <DialogTitle className="bg-[#0AA283] text-center text-white" padding={"3px 24px !important"} fontSize={"16px !important"} fontWeight={"600 !important"}> Update log details.</DialogTitle>
+                    <Typography variant="h6" sx={{ display:'flex',alignItems:"center",justifyContent:"center",pt:"15px" }} >Timer has stopped</Typography>
+                    <Typography>Notes</Typography>
 
                 <DialogActions sx={{ display:'flex',justifyContent:'center',alignItems:"center" }}>
                     <CloseIcon onClick={handleClose} sx={{ cursor:"pointer" }}/>
-                   <Typography sx={{ cursor:"pointer" }} onClick={handleStartTimer} >Pause <PauseIcon /></Typography>
+                   <Typography sx={{ cursor:"pointer" }} onClick={handlePauseTimer} >pause
+                         <PauseIcon />
+                    </Typography>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

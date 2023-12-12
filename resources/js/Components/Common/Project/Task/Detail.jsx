@@ -9,11 +9,13 @@ import Edit from "./Edit";
 import StatusPopup from "./StatusPopup";
 import SaveIcon from '@mui/icons-material/Save';
 import StartTimerPopUp from "../components/StartTimerPopup";
+import PauseorUpdateTime from '../components/PauseOrUpdateTime'
+
 
 export default function Detail({ data, developer, auth ,devId ,updated }) {
     console.log(developer ,data ,devId,'devevevv');
     const { item, setItem, get, post, processing, errors, reset } = useForm();
-    const [isStart, setIsStart] = useState(false);
+    const [openStart, setopenStart] = useState(false);
     const [state, setState] = useState({
         status: data.status,
     });
@@ -28,6 +30,7 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
         setIsEdit(true);
     };
     const handleChange = (e) => {
+        setopenStart(true);
         setState({ status: e.target.value });
     };
 
@@ -35,11 +38,11 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
         {
             auth.user.user_role == "admin"?
             router.post(route("admin.project.task.status", { id: data.id }),state,{onSuccess:()=>{
-                setIsStart(true);
+                // setIsStart(true);
             }})
             :  auth.user.user_role == "project manager" ?
             router.post(route("projectManager.project.task.status", { id: data.id }),state,{onSuccess:()=>{
-                setIsStart(true);
+                // setIsStart(true);
             }})
             : auth.user.user_role == "senior developer" ?
             router.post(route("developer.project.task.status", { id: data.id }),state)
@@ -47,11 +50,10 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
             router.post(route("developer.project.task.status", { id: data.id }),state)
             :<Alert> Route Not Define</Alert>
         }
-        setIsStart(true);
         setIsEdit(false);
     };
 
-    console.log(isStart,"state")
+    console.log(openStart,state.status,updated.length,"updated")
     return (
         <>
             <Box
@@ -110,13 +112,13 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
                         {isEdit ? (
                             <Box component={"form"} onSubmit={statusSubmit}>
                                 <Select value={state.status} name="status" style={{ height: "42px", }} size="small" className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1  " onChange={handleChange} required>
-                                    <MenuItem value={"new"}>New</MenuItem>
+                                    {/* <MenuItem value={"new"}>New</MenuItem> */}
                                     <MenuItem value={"started"}> Started</MenuItem>
                                     <MenuItem value={"complete"}>Complete</MenuItem>
                                     <MenuItem value={"pause"}>Pause</MenuItem>
                                 </Select>
                                 <IconButton color="primary" aria-label="save">
-                                    <SaveIcon color="primary" sx={{fontSize: "30px",fontWeight: "bold", }}onClick={statusSubmit}/>
+                                    <SaveIcon color="primary" sx={{fontSize: "30px",fontWeight: "bold", }} onClick={statusSubmit}/>
                                 </IconButton>
                             </Box>
                         ) : (
@@ -134,7 +136,8 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
                         {
                         state.status == "complete" && <StatusPopup auth={auth} Id={data.id}/>
                         }
-                        {state.status ==="started" &&  <StartTimerPopUp auth={auth} Id={data.id} statusSubmit={statusSubmit}/>}
+                        {openStart ==="true" && updated.length >0 && <PauseorUpdateTime auth={auth} Id={data.id} statusSubmit={statusSubmit}/>}
+                         {state.status === "started" && updated.length === 0 && <StartTimerPopUp auth={auth} Id={data.id} statusSubmit={statusSubmit} />}
                     </Grid>
                 </Grid>
                 <br />
