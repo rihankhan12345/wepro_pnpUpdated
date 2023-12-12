@@ -16,7 +16,6 @@ import _debounce from 'lodash/debounce';
 
 
 export default function Create({ auth ,user }) {
-    console.log(user,'datattt');
     const { data, setData, post, processing, errors } = useForm({
       basic_salary: user,
       house_rent: 0,
@@ -34,7 +33,6 @@ export default function Create({ auth ,user }) {
     const queryParams = queryString.substring(1).split("&");
 
     const params = {};
-    console.log(params,'ppppp');
 
     queryParams.forEach((param) => {
         const [key, value] = param.split("=");

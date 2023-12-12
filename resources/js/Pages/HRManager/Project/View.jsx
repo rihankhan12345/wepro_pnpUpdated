@@ -7,7 +7,6 @@ import {
 
 
 export default function View({ data, auth, developer, manager }) {
-console.log(auth,'ddddddddddd');
 
     return (
         <AuthenticatedLayout user={auth.user}>

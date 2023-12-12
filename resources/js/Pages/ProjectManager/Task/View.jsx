@@ -1,31 +1,13 @@
 
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {
     Alert,
-     Chip,
-    Collapse,
-    IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
 } from "@mui/material";
 import { useState } from "react";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useForm } from "@inertiajs/react";
-import StatusStyle from "@/Constant/StatusStyle";
-// import Details from "./Details";
-// import Edit from "./Edit";
-import DateTimeFormat from "@/Util/DateTimeFormat";
 import Create from "@/Components/Common/Project/Task/Create";
 import List from "@/Components/Common/Project/Task/List";
 
 export default function View({  auth,data, Id, developer}) {
-console.log(auth,'authhh');
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);

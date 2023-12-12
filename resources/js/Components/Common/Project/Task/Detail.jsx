@@ -1,30 +1,20 @@
 import FormatDate from "@/Util/FormatDate";
 import { router, useForm } from "@inertiajs/react";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-    Alert,
-    Box,
-    Chip,
-    Grid,
-    IconButton,
-    MenuItem,
-    Select,
-    Typography,
-} from "@mui/material";
+import { Alert, Box, Chip, Grid, IconButton, MenuItem, Select, Typography,} from "@mui/material";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import StatusStyle from "@/Constant/StatusStyle";
 import { useState } from "react";
 import Edit from "./Edit";
 import StatusPopup from "./StatusPopup";
 import SaveIcon from '@mui/icons-material/Save';
+import StartTimerPopUp from "../components/StartTimerPopup";
 
 export default function Detail({ data, developer, auth ,devId }) {
-    console.log(devId ,'deveve');
     const { item, setItem, get, post, processing, errors, reset } = useForm();
     const [state, setState] = useState({
         status: data.status,
     });
-
     const [isEdit, setIsEdit] = useState(false);
     const handleUpdate = (id) => {
         get(route("admin.project.task.edit", { id }));
@@ -40,7 +30,6 @@ export default function Detail({ data, developer, auth ,devId }) {
         setState({ status: e.target.value });
     };
 
-    console.log(state.status,'statttt');
     const statusSubmit = () => {
         {
             auth.user.user_role == "admin"?
@@ -77,6 +66,9 @@ export default function Detail({ data, developer, auth ,devId }) {
                             display: "flex",
                             justifyContent: "space-between",
                             alignItems: "center",
+                            height:"50px",
+                            borderTopLeftRadius:"10px",
+                            borderTopRightRadius:"10px"
                         }}
                     >
                         <Typography
@@ -100,114 +92,55 @@ export default function Detail({ data, developer, auth ,devId }) {
                 <br />
                 <Grid container>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Task Name{" "}
-                        </Typography>
-                        <Typography className="capitalize">
-                            {data.task_name}
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}>Task Name{" "}</Typography>
+                        <Typography className="capitalize">{data.task_name}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Priority
-                        </Typography>
-                        <Typography>{data.priority}</Typography>
+                        <Typography sx={{ fontWeight: "bold" }}> Level</Typography>
+                        <Typography>{data.level}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Status
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}> Status</Typography>
                         {isEdit ? (
                             <Box component={"form"} onSubmit={statusSubmit}>
-                                <Select
-                                    value={state.status}
-                                    name="status"
-                                    style={{
-                                        height: "42px",
-                                    }}
-                                    size="small"
-                                    className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1  "
-                                    onChange={handleChange}
-                                    required
-                                >
+                                <Select value={state.status} name="status" style={{ height: "42px", }} size="small" className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1  " onChange={handleChange} required>
                                     <MenuItem value={"new"}>New</MenuItem>
-                                    <MenuItem value={"started"}>
-                                        Started
-                                    </MenuItem>
-                                    <MenuItem value={"complete"}>
-                                        Complete
-                                    </MenuItem>
+                                    <MenuItem value={"started"}> Started</MenuItem>
+                                    <MenuItem value={"complete"}>Complete</MenuItem>
                                     <MenuItem value={"pause"}>Pause</MenuItem>
                                 </Select>
                                 <IconButton color="primary" aria-label="save">
-                                    <SaveIcon
-                                        color="primary"
-                                        sx={{
-                                            fontSize: "30px",
-                                            fontWeight: "bold",
-                                        }}
-                                        onClick={statusSubmit}
-                                    />
+                                    <SaveIcon color="primary" sx={{fontSize: "30px",fontWeight: "bold", }}onClick={statusSubmit}/>
                                 </IconButton>
                             </Box>
                         ) : (
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}
-                            >
+                            <div style={{display: "flex",alignItems: "center", }}>
                                 <Typography className="capitalize">
-                                    <Chip
-                                        label={state.status}
-                                        style={{
-                                            background:
-                                                StatusStyle.ChipColor[
-                                                    state.status
-                                                ].color,
-                                            color: "white",
-                                        }}
-                                    />
+                                    <Chip label={state.status} style={{background:StatusStyle.ChipColor[ state.status ].color, color: "white",  }} />
                                 </Typography>
                                 {auth.user.user_role !== "hr manager" && (
-                                    <IconButton
-                                        color="primary"
-                                        aria-label="edit"
-                                    >
-                                        <EditIcon
-                                            color="primary"
-                                            onClick={handleStatus}
-                                        />
+                                    <IconButton color="primary" aria-label="edit">
+                                        <EditIcon color="primary" onClick={handleStatus}/>
                                     </IconButton>
                                 )}
                             </div>
                         )}
-
                         {
                         state.status == "complete" && <StatusPopup auth={auth} Id={data.id}/>
                         }
+                        {state.status ==="started" &&  <StartTimerPopUp auth={auth} Id={data.id} />}
                     </Grid>
                 </Grid>
                 <br />
                 <Grid container>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Level
-                        </Typography>
-                        <Typography>{data.level}</Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Start Date
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}>  Start Date</Typography>
                         <Typography className="capitalize">
                             <FormatDate date={data.start_date} />
                         </Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Created At
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}> Created At</Typography>
                         <Typography className="capitalize">
                             <DateTimeFormat date={data.created_at} />
                         </Typography>
@@ -216,42 +149,16 @@ export default function Detail({ data, developer, auth ,devId }) {
                 <br />
                 <Grid container>
                     <Grid item xs={12}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Description
-                        </Typography>
-                        <Typography className="capitalize">
-                            {data.description}
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}> Description</Typography>
+                        <Typography className="capitalize">{data.description} </Typography>
                     </Grid>
                 </Grid>
             </Box>
 
-            <Box
-                sx={{
-                    flexGrow: 10,
-                    margin: "2%",
-                    background: "#f9f9f9",
-                    boxShadow: "2px 2px 2px 2px #e3e1da",
-                    padding: "40px",
-                }}
-            >
+            <Box sx={{flexGrow: 10,margin: "2%",background: "#f9f9f9",boxShadow: "2px 2px 2px 2px #e3e1da",padding: "40px", }}>
                 <Grid container>
-                    <Grid
-                        item
-                        xs={12}
-                        style={{
-                            background: "rgb(236 236 236)",
-                            alignItems: "center",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            height: "35px",
-                        }}
-                    >
-                        <Typography
-                            sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                        >
-                            Developers
-                        </Typography>
+                    <Grid item xs={12}style={{  background: "rgb(236 236 236)",  alignItems: "center", display: "flex", justifyContent: "space-between", height: "50px", borderTopLeftRadius:"10px",borderTopRightRadius:"10px"}}>
+                        <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}> Developers</Typography>
                     </Grid>
                 </Grid>
 

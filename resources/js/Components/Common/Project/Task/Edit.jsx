@@ -64,7 +64,6 @@ export default function Edit({ data, developer, devId ,auth }) {
     };
 
     const handleSubmit = (e) => {
-        console.log("handle submit");
         e.preventDefault();
         {
             auth.user.user_role == "admin" ?

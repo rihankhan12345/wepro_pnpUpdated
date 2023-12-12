@@ -25,7 +25,6 @@ const style = {
 
 
 export default function Edit({ auth, user }) {
-    console.log(auth,'authhhh');
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);

@@ -1,20 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import {
-    Alert,
-    Box,
-    Button,
-    IconButton,
-    Link,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography,
-} from "@mui/material";
+import { Alert,} from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@inertiajs/react";
@@ -27,7 +12,6 @@ import List from "@/Components/Common/Project/List";
 
 export default function View({ data, auth, developer, manager }) {
 
-    console.log(manager,'managerrr');
     const { setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);

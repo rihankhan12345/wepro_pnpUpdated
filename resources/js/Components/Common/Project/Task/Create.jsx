@@ -311,7 +311,6 @@ export default function Create({ developer, Id ,auth }) {
                                 >
                                     {developer.map(
                                         (dev, index) => (
-                                            console.log(dev, "devvvvvv"),
                                             (
                                                 <MenuItem
                                                     key={index}

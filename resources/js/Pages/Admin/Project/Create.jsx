@@ -52,7 +52,6 @@ export default function Create({ auth, developer, manager }) {
         }));
     };
 
-    console.log(data.developer, "mnagerrr");
 
     const handleDeveloperSelect = (e) => {
         const selectedDeveloper = e.target.value;

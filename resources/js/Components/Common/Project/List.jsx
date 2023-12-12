@@ -1,11 +1,6 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {
-    Alert,
     Box,
-    Button,
     IconButton,
-    Link,
-    Paper,
     Table,
     TableBody,
     TableCell,
@@ -29,7 +24,6 @@ export default function List({ data, auth, developer, manager }) {
     const { setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-      console.log(auth,'authhhh');
     const handleView = (id) => {
        if(auth.user.user_role==="admin"){
         get(route("admin.project.detail", { id }));

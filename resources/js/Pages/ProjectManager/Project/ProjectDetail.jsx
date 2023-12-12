@@ -1,4 +1,3 @@
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import * as React from "react";
@@ -7,11 +6,9 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Details from "@/Components/Common/Project/Details";
-import List from "@/Components/Common/Project/Task/List";
 import View from "../Task/View";
 
 export default function ProjectDetail({ data, auth, user, task }) {
-    console.log(auth,'authhh');
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);

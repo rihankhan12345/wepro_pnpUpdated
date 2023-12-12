@@ -26,7 +26,6 @@ export default function Register() {
 
         post(route("register"));
     };
-    console.log(data,'vvvvvv')
 
     return (
         <GuestLayout>
@@ -66,7 +65,7 @@ export default function Register() {
 
                     <InputError message={errors.email} className="mt-2" />
                 </div>
- 
+
 
                 <div className="mt-4">
                     <InputLabel htmlFor="password" value="Password" />

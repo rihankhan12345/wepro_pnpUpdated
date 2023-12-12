@@ -43,61 +43,27 @@ export default function List({ auth, developer, Id, data }) {
         setPage(0);
     };
 
-    console.log(auth,'authhhhh');
     return (
         <>
-            <div
-                style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "end",
-                }}
-            >
-                {
-                auth.user.user_role == "admin"
-                && (
-                    <Create developer={developer} Id={Id} auth={auth} />
-                )}
+            <div style={{ display: "flex", justifyContent: "end",}} >
+                {auth.user.user_role == "admin" && ( <Create developer={developer} Id={Id} auth={auth} /> )}
             </div>
 
-            <TableContainer
-                sx={{
-                    padding: "10px",
-                    border: "2px solid whitesmoke",
-                    background: "rgba(0,0,0,0.02)",
-                }}
-            >
+            <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                ID
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                Name
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                Start Date
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                Priority
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                Status
-                            </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>
-                                Action
-                            </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}> Name </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>Start Date </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>Priority</TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}> Status </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>Action </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                            )
-                            .map((item, j) => {
-                                console.log(item.status, "iiii");
+                        {data.slice( page * rowsPerPage,page * rowsPerPage + rowsPerPage)
+                          .map((item, j) => {
                                 return (
                                     <>
                                         <TableRow key={j + 1}>

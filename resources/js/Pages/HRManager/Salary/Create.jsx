@@ -34,7 +34,6 @@ export default function Create({ auth }) {
     const queryParams = queryString.substring(1).split("&");
 
     const params = {};
-    console.log(params,'ppppp');
 
     queryParams.forEach((param) => {
         const [key, value] = param.split("=");

@@ -155,7 +155,6 @@ export default function CreateModal({developer , Id}) {
                                 className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                             >
                                 {developer.map((dev,index) => (
-                                    console.log(dev,'devvvvvv'),
 
                                     <MenuItem key={index} value={dev.id} label={dev.name} >
                                         {dev.name} ({dev.user_role=="senior_developer"? "Senior" : "Junior"})
