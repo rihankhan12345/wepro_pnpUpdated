@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from '@mui/icons-material/Close';
-
+import PauseIcon from '@mui/icons-material/Pause';
 import {
     Box,
     DialogContentText,
@@ -12,21 +12,21 @@ import {
 import { useState } from "react";
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 
-export default function StartTimerPopUp({auth,Id,statusSubmit}) {
+export default function StartTimerPopUp() {
     const [open, setOpen] = useState(true);
-    const [start_time, setStart_time] = useState('');
+    const [pause_time, setPause_time] = useState('');
 
     const handleClose = () =>{
-        setStart_time('');
+        setPause_time('');
         setOpen(false);
     }
     const currentTime = new Date().toLocaleTimeString();
     const handleStartTimer = () =>{
-        setStart_time(currentTime);
+        setPause_time(currentTime);
         setOpen(false);
         statusSubmit();
     }
-    console.log(start_time,"currentTime")
+    console.log(pause_time,"currentTime")
     return (
         <React.Fragment>
             <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" maxWidth={"md"} aria-describedby="alert-dialog-slide-description">
@@ -35,13 +35,13 @@ export default function StartTimerPopUp({auth,Id,statusSubmit}) {
 
                     <Box sx={{ padding:"10px 40px" }}>
                         <DialogContentText id="alert-dialog-description" sx={{ textAlign:"center" }}>
-                            Do you really want to start this task?
+                            Do you really want to update task?
                         </DialogContentText>
                     </Box>
 
                 <DialogActions sx={{ display:'flex',justifyContent:'center',alignItems:"center" }}>
                     <CloseIcon onClick={handleClose} sx={{ cursor:"pointer" }}/>
-                   <Typography sx={{ cursor:"pointer" }} onClick={handleStartTimer} >Start <AlarmOnIcon /></Typography>
+                   <Typography sx={{ cursor:"pointer" }} onClick={handleStartTimer} >Pause <PauseIcon /></Typography>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

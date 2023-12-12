@@ -12,6 +12,7 @@ import StartTimerPopUp from "../components/StartTimerPopup";
 
 export default function Detail({ data, developer, auth ,devId ,updated }) {
     const { item, setItem, get, post, processing, errors, reset } = useForm();
+    const [isStart, setIsStart] = useState(false);
     const [state, setState] = useState({
         status: data.status,
     });
@@ -19,7 +20,6 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
     const handleUpdate = (id) => {
         get(route("admin.project.task.edit", { id }));
     };
-
     const dev_id = data.developer_id.split(",");
     const dev = dev_id.map((item) => Number(item));
 
@@ -33,9 +33,13 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
     const statusSubmit = () => {
         {
             auth.user.user_role == "admin"?
-            router.post(route("admin.project.task.status", { id: data.id }),state)
+            router.post(route("admin.project.task.status", { id: data.id }),state,{onSuccess:()=>{
+                setIsStart(true);
+            }})
             :  auth.user.user_role == "project manager" ?
-            router.post(route("projectManager.project.task.status", { id: data.id }),state)
+            router.post(route("projectManager.project.task.status", { id: data.id }),state,{onSuccess:()=>{
+                setIsStart(true);
+            }})
             : auth.user.user_role == "senior developer" ?
             router.post(route("developer.project.task.status", { id: data.id }),state)
             : auth.user.user_role == "junior developer" ?
@@ -43,9 +47,11 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
             :
             <Alert> Route Not Define</Alert>
         }
+        setIsStart(true);
         setIsEdit(false);
     };
 
+    console.log(isStart,"state")
     return (
         <>
             <Box
@@ -128,7 +134,7 @@ export default function Detail({ data, developer, auth ,devId ,updated }) {
                         {
                         state.status == "complete" && <StatusPopup auth={auth} Id={data.id}/>
                         }
-                        {state.status ==="started" &&  <StartTimerPopUp auth={auth} Id={data.id} />}
+                        {state.status ==="started" &&  <StartTimerPopUp auth={auth} Id={data.id} statusSubmit={statusSubmit}/>}
                     </Grid>
                 </Grid>
                 <br />
