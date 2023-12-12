@@ -147,7 +147,6 @@ class TaskRepository implements TaskInterface
             $task_id = Developer::where('developer_id', $user_id)->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
             if ($item === 'started' && count($status) <= 0) {
-                dd('start');
                 $task->status = $item;
                 $task->started_at = Carbon::now();
                 $task->save();
@@ -170,7 +169,7 @@ class TaskRepository implements TaskInterface
                 return redirect()->back();
             }
             else {
-                dd('error');
+                // dd('error');
                 return redirect()->back()->withError('first Start the Task then  update');
             }
         }
