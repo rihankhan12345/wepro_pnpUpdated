@@ -66,7 +66,8 @@ class UserController extends Controller
         $items = $this->userRepository->detail($id);
         $data = $items[0];
         $salary = $items[1];
-        return Inertia::render('Admin/User/Detail',['data'=>$data ,'salary'=>$salary]);
+        $leave = $items[2];
+        return Inertia::render('Admin/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave]);
     }
 
 

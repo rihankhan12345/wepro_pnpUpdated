@@ -1,68 +1,91 @@
-import { Box, Grid, Typography } from "@mui/material";
+import FormatDate from "@/Util/FormatDate";
+import { useForm } from "@inertiajs/react";
+import EditIcon from "@mui/icons-material/Edit";
+import {
+    Box,
+    Button,
+    Grid,
+    Typography,
+    IconButton,
+    Chip,
+} from "@mui/material";
 
-
-export default function Details({salary ,data}){
+export default function Details({ data, auth }) {
+    const { setData, get, processing, errors, setError } = useForm();
 
     return (
-             <Box
-               sx={{ backgroundColor: '#f7f7f7',borderRadius:"10px" }} className="pb-5" >
-                <Grid container >
+        <>
+            <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:"10px" }} className="pb-5">
+                <Grid container>
                     <Grid
                         item
                         xs={12}
                         style={{
                             background: "rgb(236 236 236)",
+                            alignItems: "center",
                             display: "flex",
                             justifyContent: "space-between",
-                            alignItems: "center",
                             height:"50px",
-                            borderTopLeftRadius:"10px",
+                            borderTopLeftRadius:'10px',
                             borderTopRightRadius:"10px"
                         }}
                     >
                         <Typography
                             sx={{ fontWeight: "bold", marginLeft: "10px" }}
                         >
-                            Salary Information
+                            Leave Information
+                        </Typography>
+
+
+
+                    </Grid>
+                </Grid>
+                <br />
+
+                <Grid container className="px-3">
+                    <Grid item xs={4}>
+                        <Typography sx={{ fontWeight: "bold" }}>
+                            Description
+                        </Typography>
+                        <Typography className="capitalize">
+                            {data.description}
+                        </Typography>
+                    </Grid>
+
+                    <Grid item xs={4}>
+                        <Typography sx={{ fontWeight: "bold" }}>
+                            Requested Date
+                        </Typography>
+                        <Typography>
+                            <FormatDate date={data.requested_date} />
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Typography sx={{ fontWeight: "bold" }}>
+                           Status
+                        </Typography>
+                        <Typography className="capitalize">
+                            <Chip color="primary" label={data.status} />
                         </Typography>
                     </Grid>
                 </Grid>
                 <br />
+
                 <Grid container className="px-3">
-                    <Grid item xs={4}>
+                    <Grid item xs={12}>
                         <Typography sx={{ fontWeight: "bold" }}>
-                            User Name{" "}
+                            Description
                         </Typography>
                         <Typography className="capitalize">
-                            {data.name}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                           Basic Salary
-                        </Typography>
-                        <Typography>{salary[0]?.basic_salary}</Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Gross Salary
-                        </Typography>
-                        <Typography className="capitalize">
-                            {salary[0]?.gross_salary}
+                            {data.description}
                         </Typography>
                     </Grid>
                 </Grid>
-                <br />
-                <Grid container className="px-3">
-                    <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                           Net Salary
-                        </Typography>
-                        <Typography className="capitalize">
-                            {salary[0]?.net_salary}
-                        </Typography>
-                    </Grid>
-                </Grid>
-                </Box>
+            </Box>
+            <br/>
+
+
+
+        </>
     );
 }

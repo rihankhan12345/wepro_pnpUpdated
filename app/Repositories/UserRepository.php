@@ -9,7 +9,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
-
+use App\Models\Leave;
 
 
 class UserRepository implements UserInterface
@@ -57,11 +57,10 @@ class UserRepository implements UserInterface
         }
 
         try {
-            $user = User::findOrFail($id); // Remove the ->first() here
+            $user = User::findOrFail($id);
             $user->update($data);
             return true;
         } catch (\Exception $e) {
-            // Handle the exception, log it, or return an error response
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -71,7 +70,8 @@ class UserRepository implements UserInterface
     {
         $salary = Salary::where('user_id' ,$id)->get();
         $data = User::where('id',$id)->first();
-        return [$data ,$salary];
+        $leave = Leave::where('user_id',$id)->get();
+        return [$data ,$salary ,$leave];
 
     }
 

@@ -10,6 +10,8 @@ use App\Repositories\TaskRepository;
 use App\Interfaces\SalaryInterface;
 use App\Repositories\SalaryRepository;
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\LeaveInterface;
+use App\Repositories\LeaveRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProjectInterface::class,ProjectRepository::class);
         $this->app->bind(TaskInterface::class,TaskRepository::class);
         $this->app->bind(SalaryInterface::class,SalaryRepository::class);
-
+        $this->app->bind(LeaveInterface::class,LeaveRepository::class);
 
     }
 

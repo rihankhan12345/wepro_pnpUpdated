@@ -14,6 +14,9 @@ const Menu =  {
                 "admin.user.edit",
                 "admin.user.detail",
                 "admin.user.history",
+                "admin.user.leave.list",
+                "admin.user.leave.create",
+                "admin.user.leave.detail",
             ],
         },
         {

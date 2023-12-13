@@ -12,6 +12,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import { Alert, Grid, MenuItem, Select } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
     position: "absolute",
@@ -366,6 +367,11 @@ export default function Create({ developer, Id ,auth }) {
 
 
                             <div className="flex items-center justify-center m-8">
+                            <Button onClick={handleClose} variant="contained" color="error"
+                                    style={{
+                                        height: "33px", marginLeft:"10px"
+                                    }}
+                                    startIcon={<CloseIcon/>}>Cancle</Button>
                                 <PrimaryButton
                                     className="ms-4"
                                     variant="contained"
@@ -377,11 +383,7 @@ export default function Create({ developer, Id ,auth }) {
                                 >
                                     Create Task
                                 </PrimaryButton>
-                                <Button onClick={handleClose} variant="contained" color="success"
-                                    style={{
-                                        height: "33px", marginLeft:"10px"
-                                    }}
-                                    >Cancle</Button>
+
                             </div>
                         </form>
                     </Box>

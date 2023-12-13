@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SalaryController;
+use App\Http\Controllers\Admin\LeaveController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
 
+
+
     Route::prefix('profile')->group( function() {
             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
             Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -75,6 +78,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
             Route::get('/create' ,'create')->name('create');
             Route::post('/save/{id}','save')->name('save');
         });
+
+        Route::prefix('leave')->name('leave.')->controller(LeaveController::class)->group( function () {
+            Route::post('/save/{id}','save')->name('save');
+            Route::post('/update/{id}','update')->name('update');
+            Route::get('/detail/{id}','details')->name('detail');
+        });
+
     });
 
     Route::prefix('project')->name('project.')->controller(ProjectController::class)->group(function () {
@@ -101,6 +111,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
 
         });
     });
+
 });
 
 Route::prefix('project-manager')->name('projectManager.')->middleware(['auth', 'role:project manager'])->group(function () {

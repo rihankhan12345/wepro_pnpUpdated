@@ -31,7 +31,7 @@ export default function List({ data, auth, developer, manager}) {
         get(route('projectManager.project.detail', { id }));
        }
        else if(auth.user.user_role === "hr manager"){
-        get(route('.project.detail', { id }));
+        get(route('hrManager.project.detail', { id }));
        }
        else if(auth.user.user_role === "junior developer" || auth.user.user_role === "senior developer")
        {
