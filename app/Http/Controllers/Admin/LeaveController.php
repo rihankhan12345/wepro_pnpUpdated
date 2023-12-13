@@ -29,11 +29,7 @@ class LeaveController extends Controller
         $this->leaveRepository->save($request->all(),$id);
         return redirect()->back();
     }
-    // public function details($id)
-    // {
-    //     $data= $this->leaveRepository->detail($id);
-    //     return redirect()->back()->with;
-    // }
+
     public function update(Request $request,$id)
     {
         $this->leaveRepository->update($request->all(),$id);

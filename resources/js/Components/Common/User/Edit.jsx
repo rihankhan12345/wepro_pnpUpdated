@@ -7,6 +7,7 @@ import InputError from "@/Components/InputError";
 import {  router, useForm } from "@inertiajs/react";
 import EditIcon from "@mui/icons-material/Edit";
 import * as React from "react";
+import CloseIcon from '@mui/icons-material/Close';
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -136,8 +137,11 @@ export default function Edit({ auth, user }) {
                                 </div>
 
                                 <div className="flex items-center justify-center mt-4">
-                                    <Button onClick={handleClose} variant="contained" color="error" style={{ height: "33px", marginLeft:"10px" }}> Close</Button>
-                                    <PrimaryButton className="ms-4" style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center", display: "flex", justifyContent: "center",textTransform:"none"  }} > Update User </PrimaryButton>
+                                    <Button onClick={handleClose} variant="contained" color="error"
+                                    style={{ height: "33px", marginLeft:"10px" }} startIcon={<CloseIcon/>}> Cancle</Button>
+                                    <PrimaryButton className="ms-4"
+                                    style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center",
+                                    display: "flex", justifyContent: "center",textTransform:"none"  }} > Update User </PrimaryButton>
                                 </div>
                             </form>
                         </div>

@@ -8,11 +8,7 @@ use App\Models\Leave;
 class LeaveRepository implements LeaveInterface
 {
 
-    public function getlist()
-    {
-        $data = Leave::all();
-       return $data;
-    }
+
 
     public function save($data,$id)
     {
@@ -27,12 +23,6 @@ class LeaveRepository implements LeaveInterface
 
        ]);
         return true;
-    }
-
-    public function detail($id)
-    {
-        $leave = Leave::where('id',$id)->get();
-        return $leave;
     }
 
     public function update($data,$id)

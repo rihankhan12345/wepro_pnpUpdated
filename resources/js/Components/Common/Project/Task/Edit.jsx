@@ -11,6 +11,7 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
+import CloseIcon from '@mui/icons-material/Close';
 
 const style = {
     position: "absolute",
@@ -298,6 +299,12 @@ export default function Edit({ data, developer, devId ,auth }) {
                                 />
                             </div>
                             <div className="flex items-center justify-center m-8">
+                            <Button onClick={handleClose} variant="contained" color="error"
+                                    style={{
+                                        height: "33px", marginLeft:"10px"
+                                    }}
+                                    startIcon={<CloseIcon/>}
+                                    >Cancle</Button>
                                 <PrimaryButton
                                     className="ms-4"
                                     variant="contained"
@@ -309,11 +316,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                                 >
                                     Update Task
                                 </PrimaryButton>
-                                <Button onClick={handleClose} variant="contained" color="success"
-                                    style={{
-                                        height: "33px", marginLeft:"10px"
-                                    }}
-                                    >Cancle</Button>
+
                             </div>
                         </form>
                     </Box>
