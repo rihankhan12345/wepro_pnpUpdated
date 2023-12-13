@@ -58,7 +58,7 @@ export default function Edit({ data, developer, devId ,auth }) {
     const handleDeveloper = (id) => {
         setItem((prev) => ({
             ...prev,
-            developer: prev.developer.includes(id)
+            developer: prev?.developer?.includes(id)
                 ? prev.developer.filter((value) => value !== id)
                 : [...prev.developer, id],
         }));
@@ -83,7 +83,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                 }
             });
         }
-        setOpen(false);
+        handleClose();
     };
 
     return (

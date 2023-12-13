@@ -302,21 +302,26 @@ export default function Detail({ data, developer, auth, devId, updated }) {
 
                 <Box>
                     {developer.map(
-                        (item, j) => (
-                            console.log(item.id, devId, "devevloper"),
-                            devId == item.id && (
-                                <Chip
-                                    label={item.name}
-                                    className="capitalize"
-                                    sx={{ margin: "10px" }}
-                                    color={
-                                        item.user_role == "senior developer"
-                                            ? "primary"
-                                            : "success"
-                                    }
-                                />
-                            )
-                        )
+                        (item, j) => {
+                            return (
+                                dev.map((id_dev)=>{
+                                    return (
+                                        id_dev == item.id &&
+                                    <Chip
+                                        label={item.name}
+                                        className="capitalize"
+                                        sx={{ margin: "10px" }}
+                                        color={
+                                            item.user_role == "senior developer"
+                                                ? "primary"
+                                                : "success"
+                                        }
+                                    />);
+                                })
+
+                            );
+
+                        }
                     )}
                 </Box>
             </Box>

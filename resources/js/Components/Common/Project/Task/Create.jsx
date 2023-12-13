@@ -44,7 +44,7 @@ export default function Create({ developer, Id ,auth }) {
     const handleDeveloper = (id) => {
         setData((prev) => ({
             ...prev,
-            developer: prev.developer.includes(id)
+            developer: prev?.developer?.includes(id)
                 ? prev.developer.filter((value) => value !== id)
                 : [...prev.developer, id],
         }));
@@ -67,11 +67,9 @@ export default function Create({ developer, Id ,auth }) {
                 setData({});
             }
         })
-
         }
 
-        setOpen(false);
-
+       handleClose();
     };
 
     return (
@@ -339,7 +337,7 @@ export default function Create({ developer, Id ,auth }) {
                                             <Button
                                                 key={index}
                                                 variant={
-                                                    data.developer.includes(dev.id)
+                                                    data?.developer?.includes(dev.id)
                                                         ? "contained"
                                                         : "outlined"
                                                 }
