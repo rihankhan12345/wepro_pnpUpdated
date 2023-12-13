@@ -215,28 +215,8 @@ export default function Create({ auth }) {
 
                         <div className="mt-4">
                             <InputLabel htmlFor="profile" value="Profile Photo" />
-                            <input type="file"  className="mt-1 block w-full" id="profile" name="profile" accept="image/png, image/jpeg"   onChange={(e)=>{ setData('profile',e.target.files)}}/>
-
-                            {/* <input
-                                type="file"
-                                id="profile"
-                                name="profile"
-                                accept="image/*"
-                                onChange={(e)=>{
-                                    setData('profile',e.target.files)
-                                }}
-                                className="mt-1 block w-full"
-                            /> */}
+                            <input type="file" value={data.profile} className="mt-1 block w-full" id="profile" name="profile" accept="image/png, image/jpeg"   onChange={(e)=>{ setData('profile',e.target.profile)}}/>
                         </div>
-                        {profilePhoto && (
-                            <div className="mt-4">
-                                <img
-                                    src={''}
-                                    alt="Selected Profile Photo"
-                                    style={{ maxWidth: "100%", maxHeight: "150px" }}
-                                />
-                            </div>
-                        )}
 
                         <div className="mt-4">
                             <FormControl component="fieldset">
