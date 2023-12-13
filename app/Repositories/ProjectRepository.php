@@ -7,12 +7,12 @@ use App\Models\User;
 use App\Models\Task;
 use App\Models\Image;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 
 class ProjectRepository implements ProjectInterface
 {
-
-
     public function multipleFile($id, $file,$data,$type){
         $media = [];
         foreach ($file as $key => $file) {

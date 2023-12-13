@@ -7,6 +7,8 @@ use App\Models\Salary;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 
 
@@ -18,7 +20,10 @@ class UserRepository implements UserInterface
          return $data;
     }
 
-    public function save($data){
+    public function save($data ,$profileImage){
+
+        $profileImagePath = $profileImage->storeAs('profile', 'profile_' . $user->id . '.' . $profileImage->getClientOriginalExtension(), 'public');
+
         $user=User::create([
                     'name' => $data->name,
                     'email' => $data->email,
@@ -26,6 +31,7 @@ class UserRepository implements UserInterface
                     'password' => Hash::make($data->password),
                     'contact_no' => $data->contact_no,
                     'salary' => $data->salary,
+                    'profile' =>$profileImagePath,
                 ]);
         return $user;
     }

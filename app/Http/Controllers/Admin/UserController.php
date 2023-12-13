@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use App\Repositories\UserRepository;
 use App\Interfaces\UserInterface;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
+
 
 class UserController extends Controller
 {
@@ -34,7 +37,9 @@ class UserController extends Controller
     }
 
     public function save(UserRequest $request){
-        $data = $this->userRepository->save($request);
+
+        $profileImage = $request->file('profile');
+        $data = $this->userRepository->save($request , $profileImage);
         $id = $data->id;
         if($data->user_role === 'admin'){
             return Redirect::back();
