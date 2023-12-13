@@ -5,6 +5,7 @@ import List from "@/Components/Common/Project/Task/List";
 
 export default function View({  auth,data, Id, developer ,updated}) {
 
+    console.log(updated,'updated');
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);

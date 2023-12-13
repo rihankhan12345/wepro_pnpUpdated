@@ -58,8 +58,9 @@ class ProjectController extends Controller
        $data = $allData[0];
        $user = $allData[1];
        $task = $allData[2];
-
-       return Inertia::render('Admin/Project/Detail', ['data' => $data, 'user' => $user,'task'=>$task ]);
+       $status = $allData[3];
+       return Inertia::render('Admin/Project/Detail',
+        ['data' => $data, 'user' => $user,'task'=>$task ,'updated'=>$status]);
     }
 
 

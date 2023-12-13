@@ -30,7 +30,6 @@ class UserRepository implements UserInterface
                     'user_role'=>str_replace('_', ' ', $data->user_role),
                     'password' => Hash::make($data->password),
                     'contact_no' => $data->contact_no,
-                    'salary' => $data->salary,
                     'profile' =>$profileImagePath,
                 ]);
         return $user;

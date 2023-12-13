@@ -250,9 +250,7 @@ export default function Create({ auth, developer, manager }) {
                                             <Button
                                                 key={index}
                                                 variant={
-                                                    data.developer.includes(
-                                                        dev.id
-                                                    )
+                                                    data?.developer?.includes(dev.id)
                                                         ? "contained"
                                                         : "outlined"
                                                 }

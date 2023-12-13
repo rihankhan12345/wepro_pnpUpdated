@@ -25,8 +25,6 @@ export default function List({ auth, developer, Id, data ,updated}) {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const { item, setItem, get, post, processing, errors, reset } = useForm();
 
-
-
     const toggleRow = (id) => {
         if (expandedRows.includes(id)) {
             setExpandedRows(expandedRows.filter((rowId) => rowId !== id));

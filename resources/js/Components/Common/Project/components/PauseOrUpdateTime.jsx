@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 
-export default function StartTimerPopUp({Auth,Id,statusSubmit}) {
+export default function PauseOrUpdateTime({Auth,Id,statusSubmit}) {
     const [open, setOpen] = useState(true);
     const [pause_time, setPause_time] = useState('');
 

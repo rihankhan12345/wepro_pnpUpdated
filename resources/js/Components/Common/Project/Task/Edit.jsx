@@ -49,7 +49,6 @@ export default function Edit({ data, developer, devId ,auth }) {
         priority: data.priority,
         developer:  dev,
         level: data.level,
-        status: data.status,
     });
 
     const handleChange = (e) => {
@@ -71,15 +70,15 @@ export default function Edit({ data, developer, devId ,auth }) {
             auth.user.user_role == "admin" ?
             router.post(route("admin.project.task.update", { id: data.id }), item ,{
                 onSuccess: ( )=> {
-                    handleClose();
                     setItem({});
+                    setOpen(false);
                 }
             })
 
             :
             router.post(route("projectManager.project.task.update", { id: data.id }), item ,{
                 onSuccess: ( )=> {
-                    handleClose();
+                    setOpen(false);
                     setItem({});
                 }
             });
@@ -178,67 +177,6 @@ export default function Edit({ data, developer, devId ,auth }) {
                                 />
                             </div>
 
-                            <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="start_date"
-                                    value="Start Date"
-                                    style={{
-                                        fontSize: "15px",
-                                        fontWeight: "bold",
-                                    }}
-                                />
-
-                                <TextInput
-                                    id="start_date"
-                                    type="datetime-local"
-                                    name="start_date"
-                                    value={item.start_date}
-                                    className="mt-1 block w-full"
-                                    autoComplete="start_date"
-                                    onChange={handleChange}
-                                    required
-                                />
-
-                                <InputError
-                                    message={errors.start_date}
-                                    className="mt-2"
-                                />
-                            </div>
-
-                            <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="status"
-                                    value="Status"
-                                    style={{
-                                        fontSize: "15px",
-                                        fontWeight: "bold",
-                                    }}
-                                />
-                                <Select
-                                    value={item.status}
-                                    name="status"
-                                    style={{
-                                        height: "42px",
-                                    }}
-                                    className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full "
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <MenuItem>Choose Status</MenuItem>
-                                    <MenuItem value={"new"}>New</MenuItem>
-                                    <MenuItem value={"started"}>
-                                        Started
-                                    </MenuItem>
-                                    <MenuItem value={"complete"}>
-                                        Complete
-                                    </MenuItem>
-                                    <MenuItem value={"pause"}>Pause</MenuItem>
-                                </Select>
-                                <InputError
-                                    message={errors.status}
-                                    className="mt-2"
-                                />
-                            </div>
 
                             <div
                                 style={{
@@ -336,7 +274,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                                         <Button
                                             key={index}
                                             variant={
-                                                item.developer.includes(dev.id)
+                                                item?.developer?.includes(dev.id)
                                                     ? "contained"
                                                     : "outlined"
                                             }

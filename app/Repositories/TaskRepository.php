@@ -78,10 +78,9 @@ class TaskRepository implements TaskInterface
             'developer_id' => implode(',', $items['developer']),
             ]);
 
-
-            if ($request->hasFile('task_file')){
-                $this->multipleFileUpload($request->file('task_file'), $task->id, 'App\Models\Task');
-            }
+            // if ($request->hasFile('task_file')){
+            //     $this->multipleFileUpload($request->file('task_file'), $task->id, 'App\Models\Task');
+            // }
             return true;
 
     }
@@ -112,7 +111,6 @@ class TaskRepository implements TaskInterface
         $task->task_name =$data['task_name'];
         $task->description =$data['description'];
         $task->priority =$data['priority'];
-        $task->status =$data['status'];
         $task->level = $data['level'];
 
         $task->save();
@@ -146,6 +144,7 @@ class TaskRepository implements TaskInterface
             $user_id = $user->id;
             $task_id = Developer::where('developer_id', $user_id)->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
+            // dd($status);
             if ($item === 'started' && count($status) <= 0) {
                 $task->status = $item;
                 $task->started_at = Carbon::now();
@@ -169,7 +168,6 @@ class TaskRepository implements TaskInterface
                 return redirect()->back();
             }
             else {
-                // dd('error');
                 return redirect()->back()->withError('first Start the Task then  update');
             }
         }

@@ -38,6 +38,7 @@ export default function Create({ auth }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [profilePhoto, setProfilePhoto] = React.useState(null);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
         name: "",
@@ -46,6 +47,7 @@ export default function Create({ auth }) {
         password_confirmation: "",
         user_role: "",
         salary: "",
+        profile:"",
     });
 
 
@@ -69,6 +71,7 @@ export default function Create({ auth }) {
         }
 
     };
+   console.log(data,'data');
 
     return (
         <div>
@@ -211,6 +214,31 @@ export default function Create({ auth }) {
                         </div>
 
                         <div className="mt-4">
+                            <InputLabel htmlFor="profile" value="Profile Photo" />
+                            <input type="file"  className="mt-1 block w-full" id="profile" name="profile" accept="image/png, image/jpeg"   onChange={(e)=>{ setData('profile',e.target.files)}}/>
+
+                            {/* <input
+                                type="file"
+                                id="profile"
+                                name="profile"
+                                accept="image/*"
+                                onChange={(e)=>{
+                                    setData('profile',e.target.files)
+                                }}
+                                className="mt-1 block w-full"
+                            /> */}
+                        </div>
+                        {profilePhoto && (
+                            <div className="mt-4">
+                                <img
+                                    src={''}
+                                    alt="Selected Profile Photo"
+                                    style={{ maxWidth: "100%", maxHeight: "150px" }}
+                                />
+                            </div>
+                        )}
+
+                        <div className="mt-4">
                             <FormControl component="fieldset">
                                 <InputLabel
                                     htmlFor="user_role"
@@ -281,30 +309,7 @@ export default function Create({ auth }) {
                             </div>
                         ) : (
                             <>
-                                <div className="mt-4">
-                                    <InputLabel
-                                        htmlFor="salary"
-                                        value="Salary"
-                                    />
 
-                                    <TextInput
-                                        id="salary"
-                                        type="number"
-                                        name="salary"
-                                        value={data.salary}
-                                        className="mt-1 block w-full"
-                                        autoComplete="consalarytact_no"
-                                        onChange={(e) =>
-                                            setData("salary", e.target.value)
-                                        }
-                                        required
-                                    />
-
-                                    <InputError
-                                        message={errors.salary}
-                                        className="mt-2"
-                                    />
-                                </div>
                                 <div className="flex items-center justify-center mt-10">
                                     <Button onClick={handleClose} variant="contained" color="error" style={{ height: "33px", marginLeft:"10px",}}><CloseIcon/> Close</Button>
                                     <PrimaryButton className="ms-4" disabled={processing} style={{ height: "40px", backgroundColor: "#1976d2", }}>

@@ -59,7 +59,7 @@ class TaskController extends Controller
     public function update(Request $request,$id){
 
         $proj_id = $this->taskRepository->update($id ,$request->all());
-        return redirect()->back();
+        return redirect()->route('admin.project.detail',$id);
     }
 
     public function details($id){

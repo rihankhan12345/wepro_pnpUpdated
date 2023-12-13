@@ -10,7 +10,7 @@ import View from "../Task/View";
 import History from "../../../Components/Common/Project/History";
 import Details from "@/Components/Common/Project/Details";
 
-export default function Detail({ data, auth, user, task }) {
+export default function Detail({ data, auth, user, task ,updated }) {
     console.log(task,'taskkk');
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
@@ -42,11 +42,11 @@ export default function Detail({ data, auth, user, task }) {
                                     </TabList>
 
                                     <TabPanel value="1">
-                                        <Details data={data} user={user} auth={auth} />
+                                        <Details data={data} user={user} auth={auth} updated={updated}/>
                                     </TabPanel>
 
                                     <TabPanel value="2">
-                                        <View data={task} Id={id} developer={user} auth={auth} />
+                                        <View data={task} Id={id} developer={user} auth={auth} updated={updated}/>
                                     </TabPanel>
 
                                     <TabPanel value="3">

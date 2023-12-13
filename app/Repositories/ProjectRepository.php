@@ -147,7 +147,7 @@ class ProjectRepository implements ProjectInterface
         $user = Auth::user();
         $role = $user->user_role;
 
-        if($role === "admin" || $role === " hr manager"){
+        if($role === "admin" || $role === " hr manager" || $role === "junior developer" || $role === "senior developer"){
             $data = Project::findOrFail($id);
             $dev_id = Developer::where(['assignable_id'=>$data->id , 'assignable_type'=> 'App\Models\Project'])->pluck('developer_id');
             $developer = explode(',',$dev_id);
@@ -155,10 +155,15 @@ class ProjectRepository implements ProjectInterface
             $dev = array_map('intval', $developer);
             $user = User::whereIn('id', $dev)->get();
             $task = Task::where(['project_id'=>$id])->get();
-           return [
-
-            $data , $user , $task
-           ];
+            $auth = Auth::user();
+            $user_id = $auth->id;
+            $task_id = Developer::where('assignable_type', 'App\Models\Task')
+                ->where(['developer_id'=> $user_id , 'project_id'=>$id])
+                ->pluck('assignable_id');
+            $status = Task::whereIn('id', $task_id)->where('status', 'started')->where('project_id',$id)->get();
+            return [
+                $data , $user , $task ,$status
+               ];
         }
         else if($role == "project manager")
         {
@@ -173,27 +178,27 @@ class ProjectRepository implements ProjectInterface
             $data , $user , $task
            ];
         }
-        else if($role === "junior developer" || $role === "senior developer" ){
+        // else if($role === "junior developer" || $role === "senior developer" ){
 
-            $data = Project::findOrFail($id);
-            $dev_id = Developer::where(['assignable_id'=>$data->id , 'assignable_type'=> 'App\Models\Project'])->pluck('developer_id');
-            $developer = explode(',',$dev_id);
-            $developer = str_replace(array('[', ']', '"'),'',$developer);
-            $dev = array_map('intval', $developer);
-            $user = User::whereIn('id', $dev)->get();
-            $task = Task::where(['project_id'=>$id])->get();
+        //     $data = Project::findOrFail($id);
+        //     $dev_id = Developer::where(['assignable_id'=>$data->id , 'assignable_type'=> 'App\Models\Project'])->pluck('developer_id');
+        //     $developer = explode(',',$dev_id);
+        //     $developer = str_replace(array('[', ']', '"'),'',$developer);
+        //     $dev = array_map('intval', $developer);
+        //     $user = User::whereIn('id', $dev)->get();
+        //     $task = Task::where(['project_id'=>$id])->get();
 
-            $auth = Auth::user();
-            $user_id = $auth->id;
-            $task_id = Developer::where('assignable_type', 'App\Models\Task')
-                ->where(['developer_id'=> $user_id , 'project_id'=>$id])
-                ->pluck('assignable_id');
-            $status = Task::whereIn('id', $task_id)->where('status', 'started')->where('project_id',$id)->get();
+        //     $auth = Auth::user();
+        //     $user_id = $auth->id;
+        //     $task_id = Developer::where('assignable_type', 'App\Models\Task')
+        //         ->where(['developer_id'=> $user_id , 'project_id'=>$id])
+        //         ->pluck('assignable_id');
+        //     $status = Task::whereIn('id', $task_id)->where('status', 'started')->where('project_id',$id)->get();
 
-            return [
-                $data , $user , $task ,$status
-               ];
-        }
+        //     return [
+        //         $data , $user , $task ,$status
+        //        ];
+        // }
     }
 
 }

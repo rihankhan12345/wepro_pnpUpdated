@@ -71,7 +71,7 @@ export default function Create({ auth ,user }) {
 
       const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.user.salary.save", data.id));
+        post(route("admin.user.salary.save", user.id));
       };
 
     return (

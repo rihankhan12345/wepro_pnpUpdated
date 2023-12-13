@@ -31,7 +31,7 @@ export default function View({ data, auth, developer, manager ,updated }) {
                         ) : (
                             <>
 
-                                <List data={data} developer={developer} manager={manager} auth={auth} updated={updated}/>
+                                <List data={data} developer={developer} manager={manager} auth={auth}/>
                             </>
                         )}
                     </div>
