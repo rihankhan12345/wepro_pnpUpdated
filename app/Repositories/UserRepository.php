@@ -22,8 +22,9 @@ class UserRepository implements UserInterface
 
     public function save($data ,$profileImage){
 
-        $profileImagePath = $profileImage->storeAs('profile', 'profile_' . $user->id . '.' . $profileImage->getClientOriginalExtension(), 'public');
+        $fileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
 
+        $profileImagePath = $profileImage->storeAs('profile', $fileName . $data['id'] . '.' . $profileImage->getClientOriginalExtension(), 'public');
         $user=User::create([
                     'name' => $data->name,
                     'email' => $data->email,

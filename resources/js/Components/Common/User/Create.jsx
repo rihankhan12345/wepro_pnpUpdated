@@ -38,7 +38,6 @@ export default function Create({ auth }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [profilePhoto, setProfilePhoto] = React.useState(null);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
         name: "",
@@ -47,7 +46,7 @@ export default function Create({ auth }) {
         password_confirmation: "",
         user_role: "",
         salary: "",
-        profile:"",
+        profile:null,
     });
 
 
@@ -215,7 +214,11 @@ export default function Create({ auth }) {
 
                         <div className="mt-4">
                             <InputLabel htmlFor="profile" value="Profile Photo" />
-                            <input type="file" value={data.profile} className="mt-1 block w-full" id="profile" name="profile" accept="image/png, image/jpeg"   onChange={(e)=>{ setData('profile',e.target.profile)}}/>
+
+                             <input type="file" className="mt-1 block w-full"
+                             id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
+                             onChange={(e)=>{ setData('profile', e.target.files[0]) }}/>
+
                         </div>
 
                         <div className="mt-4">

@@ -30,7 +30,7 @@ class UserRequest extends FormRequest
                 'user_role' => ['required','string'],
                 'contact_no'=>['required','min:10','max:12'],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
-                'profile' => ['nullable','image','mimes:jpg,png','max:1024'],
+                'profile' => ['nullable','mimes:jpg,png,jpeg,svg','max:1024'],
 
 
         ];

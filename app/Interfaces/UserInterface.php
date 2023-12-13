@@ -6,7 +6,7 @@ interface UserInterface
 {
 
     public function getlist();
-    public function save($data ,$profileImage);
+    public function save($data , $profileImage);
     public function detail($id);
     public function edit($id);
     public function update($id,$data);
