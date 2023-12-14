@@ -22,6 +22,7 @@ import {
     RadioGroup,
     Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 const style = {
     position: "absolute",
@@ -38,6 +39,7 @@ export default function Create({ auth }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [image,setImage] = useState(null);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
         name: "",
@@ -49,7 +51,12 @@ export default function Create({ auth }) {
         profile:null,
     });
 
-
+    const handleProfile =(event) =>{
+        console.log(event,"avanet");
+        if (event.target.files && event.target.files[0]) {
+            setImage(URL.createObjectURL(event.target.files[0]));
+          }
+    }
     const submit = (e) => {
         e.preventDefault();
             {
@@ -212,16 +219,7 @@ export default function Create({ auth }) {
                             />
                         </div>
 
-                        <div className="mt-4">
-                            <InputLabel htmlFor="profile" value="Profile Photo" />
-
-                             <input type="file" className="mt-1 block w-full"
-                             id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
-                             onChange={(e)=>{ setData('profile', e.target.files[0]) }}/>
-
-                        </div>
-
-                        <div className="mt-4">
+                       <div className="mt-4">
                             <FormControl component="fieldset">
                                 <InputLabel
                                     htmlFor="user_role"
@@ -275,6 +273,18 @@ export default function Create({ auth }) {
                                 message={errors.user_role}
                                 className="mt-2"
                             />
+                        </div>
+                        <div className="mt-4">
+                            <InputLabel htmlFor="profile" value="Profile Photo" />
+
+                             <input type="file" className="mt-1 block w-full filetype"
+                             id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
+                            onChange={(event)=>{setData('profile',event.target.files[0]);handleProfile(event)}}
+                             />
+                             {
+                                data.profile &&  <img alt="preview image" className="pt-4" src={image} width={'200px'} height={'200px'}/>
+                             }
+
                         </div>
 
                         {data.user_role === "admin" ? (

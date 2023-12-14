@@ -69,4 +69,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 for Public Diretory :
     php artisan storage:link
 
+For Migration ;
+ php artisan migrate
+
 git password = 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

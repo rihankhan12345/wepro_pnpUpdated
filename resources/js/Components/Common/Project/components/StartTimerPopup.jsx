@@ -6,19 +6,22 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import {
     Box,
+    Button,
     DialogContentText,
     Typography,
 } from "@mui/material";
 import { useState } from "react";
 import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 
-export default function StartTimerPopUp({auth,Id,statusSubmit}) {
+export default function StartTimerPopUp({auth,Id,statusSubmit , setIsEdit ,setState ,state}) {
     const [open, setOpen] = useState(true);
     const [start_time, setStart_time] = useState('');
 
     const handleClose = () =>{
         setStart_time('');
         setOpen(false);
+        setIsEdit(false);
+        setState(state);
     }
     const currentTime = new Date().toLocaleTimeString();
     const handleStartTimer = () =>{
@@ -40,8 +43,9 @@ export default function StartTimerPopUp({auth,Id,statusSubmit}) {
                     </Box>
 
                 <DialogActions sx={{ display:'flex',justifyContent:'center',alignItems:"center" }}>
-                    <CloseIcon onClick={handleClose} sx={{ cursor:"pointer" }}/>
-                   <Typography sx={{ cursor:"pointer" }} onClick={handleStartTimer} >Start <AlarmOnIcon /></Typography>
+                    <Button color="error" variant="contained" onClick={handleClose} sx={{ cursor:"pointer" }} startIcon={<CloseIcon/>}> Cancle</Button>
+                    <Button variant="contained" onClick={handleStartTimer} sx={{ cursor:"pointer" }} startIcon={<AlarmOnIcon/>}> Start</Button>
+                   {/* <Typography sx={{ cursor:"pointer" }} onClick={handleStartTimer} >Start <AlarmOnIcon /></Typography> */}
                 </DialogActions>
             </Dialog>
         </React.Fragment>

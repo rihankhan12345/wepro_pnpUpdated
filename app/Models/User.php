@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -17,6 +18,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    use SoftDeletes;
     protected $fillable = [
         'name',
         'email',
@@ -25,6 +27,8 @@ class User extends Authenticatable
         'contact_no',
         'profile',
     ];
+    protected $dates = ['deleted_at'];
+
 
     /**
      * The attributes that should be hidden for serialization.

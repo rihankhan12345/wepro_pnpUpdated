@@ -44,10 +44,9 @@ class TaskRepository implements TaskInterface
 
         if($role === 'junior developer' || $role === 'senior developer'){
             $user_id = $user->id;
-            $task_id = Developer::where('developer_id', $user_id)->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
+            $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type', 'App\Models\Task')->pluck('assignable_id');
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
             return [$data,$id ,$developers ,$status];
-
         }
         return [$data,$id ,$developers];
 

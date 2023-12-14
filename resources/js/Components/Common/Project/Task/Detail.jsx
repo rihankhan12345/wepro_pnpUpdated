@@ -27,6 +27,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
     const [state, setState] = useState({
         status: data.status,
     });
+    console.log(updated,'updatedd');
     const [isEdit, setIsEdit] = useState(false);
     const handleUpdate = (id) => {
         get(route("admin.project.task.edit", { id }));
@@ -223,10 +224,14 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                 auth={auth}
                                 Id={data.id}
                                 statusSubmit={statusSubmit}
+                                setState = {setState}
+                                setIsEdit = {setIsEdit}
+                                state={{ status:data.status }}
                             />
                         )}
 
                         {isEdit && state.status === 'started' && updated .length > 0 && (
+                            data.id === updated[0].id ? <Alert>This task is Already start </Alert> :
                             <PauseorUpdateTime
                                 auth={auth}
                                 pauseStatus={pauseStatus}
