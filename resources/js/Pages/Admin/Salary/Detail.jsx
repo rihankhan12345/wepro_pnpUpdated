@@ -1,7 +1,8 @@
-import { Box, Grid, Typography } from "@mui/material";
+import Edit from "@/Components/Common/Project/Salary/Edit";
+import { Box, Button, Grid, Typography } from "@mui/material";
 
 
-export default function Details({salary ,data}){
+export default function Details({auth,salary ,data}){
 
     return (
              <Box
@@ -25,6 +26,9 @@ export default function Details({salary ,data}){
                         >
                             Salary Information
                         </Typography>
+                     <Button sx={{ display: "flex", justifyContent: "center",borderRadius:'10px',height:"40px",marginRight:"10px", }}>
+                        <Edit salary={salary} auth={auth}/>
+                     </Button>
                     </Grid>
                 </Grid>
                 <br />

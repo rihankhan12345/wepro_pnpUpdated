@@ -9,7 +9,7 @@ interface SalaryInterface
     public function save($data ,$id);
     public function detail($id);
     public function edit();
-    public function update();
+    public function update($data,$id);
 
 }
 

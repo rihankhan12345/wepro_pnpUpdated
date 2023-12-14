@@ -26,7 +26,6 @@ const style = {
 
 export default function Edit({ data, developer, devId ,auth }) {
 
-    console.log(devId,'devevev');
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -77,6 +76,7 @@ export default function Edit({ data, developer, devId ,auth }) {
             })
 
             :
+            // auth.user.user_role == "project manager" &&
             router.post(route("projectManager.project.task.update", { id: data.id }), item ,{
                 onSuccess: ( )=> {
                     setOpen(false);

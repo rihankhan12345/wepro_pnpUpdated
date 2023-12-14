@@ -1,37 +1,35 @@
 import { Box, Button, Grid, Typography, Paper } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@inertiajs/react";
+import Edit from "@/Components/Common/Project/Salary/Edit";
 
-export default function DetailSalary({salary ,data}){
+export default function DetailSalary({auth,salary ,data}){
     const { setData, get, processing, errors, setError } = useForm();
 
     return (
-             <Box
-               sx={{ backgroundColor: '#f7f7f7', }} className="pb-5" >
-                <Grid container >
-                    <Grid
-                        item
-                        xs={12}
-                        style={{
-                            background: "rgb(236 236 236)",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                            height:"35px"
-                        }}
-                    >
+        <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
+        <Grid container >
+            <Grid
+                item
+                xs={12}
+                style={{
+                    background: "rgb(236 236 236)",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    height: "50px",
+                    borderTopLeftRadius:"15px",
+                    borderTopRightRadius:"15px",
+                }}
+            >
                         <Typography
-                            sx={{ fontWeight: "bold", marginLeft: "10px",   }}
+                            sx={{ fontWeight: "bold", marginLeft: "10px",}}
                         >
                             Salary Information
                         </Typography>
 
-                        {/* <Button
-                            sx={{ display: "flex", justifyContent: "end" }}
-                            onClick={() => handleUpdate(data.id)}
-                        >
-                            <EditIcon />
-                        </Button> */}
+                        <Button sx={{ display: "flex", justifyContent: "end" }}>
+                            <Edit auth={auth} salary={salary} />
+                        </Button>
                     </Grid>
                 </Grid>
                 <br />

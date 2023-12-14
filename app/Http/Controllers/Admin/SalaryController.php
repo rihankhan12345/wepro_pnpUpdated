@@ -29,4 +29,9 @@ class SalaryController extends Controller
         $data = $this->salaryRepository->save($request->all() ,$id);
         return Redirect::route('admin.user.list');
     }
+    public function update(SalaryRequest $request ,$id)
+    {
+        $this->salaryRepository->update($request->all(),$id);
+        return back();
+    }
 }

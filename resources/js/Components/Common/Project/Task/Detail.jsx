@@ -17,8 +17,8 @@ import { useState } from "react";
 import Edit from "./Edit";
 import StatusPopup from "./StatusPopup";
 import SaveIcon from "@mui/icons-material/Save";
-import StartTimerPopUp from "../components/StartTimerPopup";
-import PauseorUpdateTime from "../components/PauseOrUpdateTime";
+import StartTimerPopUp from "../Components/StartTimerPopup";
+import PauseorUpdateTime from "../Components/PauseOrUpdateTime";
 
 export default function Detail({ data, developer, auth, devId, updated }) {
 

@@ -77,6 +77,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         Route::prefix('salary')->name('salary.')->controller(SalaryController::class)->group( function () {
             Route::get('/create' ,'create')->name('create');
             Route::post('/save/{id}','save')->name('save');
+            Route::post('/update/{id}','update')->name('update');
         });
 
         Route::prefix('leave')->name('leave.')->controller(LeaveController::class)->group( function () {
@@ -148,6 +149,7 @@ Route::prefix('hr-manager')->name('hrManager.')->middleware(['auth', 'role:hr ma
         Route::prefix('salary')->name('salary.')->controller(HrSalaryController::class)->group( function () {
             Route::get('create','create')->name('create');
             Route::post('/save/{id}','save')->name('save');
+            Route::post('/update/{id}','update')->name('update');
         });
     });
     Route::prefix('project')->name('project.')->controller(HrProjectController::class)->group( function () {

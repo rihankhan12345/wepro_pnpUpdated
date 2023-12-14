@@ -48,7 +48,7 @@ export default function Detail({ data, auth, salary }) {
                     </TabPanel>
                     <TabPanel value="2">
 
-                        <DetailSalary salary={salary} data={data}/>
+                        <DetailSalary salary={salary} data={data} auth={auth}/>
                     </TabPanel>
 
                     <TabPanel value="3">

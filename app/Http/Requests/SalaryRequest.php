@@ -27,7 +27,7 @@ class SalaryRequest extends FormRequest
             'house_rent' => ['required','max:6',],
             'leave_allowance' => ['required','max:6',],
             'statutory_bonus' => ['required','max:6',],
-            'tax_deducted' => ['required','max:2',],
+            'tax_deducted' => ['required','regex:/^\d{1,2}(\.\d{1,2})?$/'],
             'provided_fund' => ['required','max:6',],
             'gross_salary'=>['required','max:6'],
             'net_salary'=>['required','min:0','max:6','not_in:0'],
