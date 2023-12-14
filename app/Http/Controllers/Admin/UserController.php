@@ -45,7 +45,7 @@ class UserController extends Controller
             return Redirect::back();
         }
         else{
-            return Inertia::render('Admin/Salary/Create' ,['user'=>$data]);
+            return redirect::route('admin.user.salary.create',['user'=>$data]);
         }
     }
 

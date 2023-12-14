@@ -1,7 +1,7 @@
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import React from 'react'; // Add this import
 
 import {
@@ -15,9 +15,9 @@ import { data } from "autoprefixer";
 import _debounce from 'lodash/debounce';
 
 
-export default function Create({ auth ,user }) {
+export default function Create({ auth }) {
     const { data, setData, post, processing, errors } = useForm({
-      basic_salary: user,
+      basic_salary: 0,
       house_rent: 0,
       leave_allowance: 0,
       medical_conveyance: 0,
@@ -29,9 +29,7 @@ export default function Create({ auth ,user }) {
     });
 
     const queryString = window.location.search;
-
     const queryParams = queryString.substring(1).split("&");
-
     const params = {};
 
     queryParams.forEach((param) => {
@@ -39,6 +37,7 @@ export default function Create({ auth ,user }) {
         params[key] = decodeURIComponent(value);
     });
 
+    console.log(params,'params');
 
     React.useEffect(() => {
         const grossSalary =
@@ -61,7 +60,7 @@ export default function Create({ auth ,user }) {
       React.useEffect(() => {
         const taxDeducted =
           (Number(data.gross_salary) * Number(data.tax_deducted)) / 100;
-        const netSalary = Number(data.gross_salary) - taxDeducted;
+        const netSalary = Math.ceil(Number(data.gross_salary) - taxDeducted);
         setData("net_salary", isNaN(netSalary) ? 0 : netSalary);
       }, [data.gross_salary, data.tax_deducted]);
 
@@ -71,7 +70,7 @@ export default function Create({ auth ,user }) {
 
       const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.user.salary.save", user.id));
+        post(route("admin.user.salary.save", params.user));
       };
 
     return (

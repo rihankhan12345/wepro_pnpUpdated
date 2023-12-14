@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { router, useForm } from "@inertiajs/react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from '@mui/icons-material/Close';
-
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 import {
     Alert,
     Box,
@@ -20,9 +20,9 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-export default function StatusPopup({ auth ,Id}) {
+export default function StatusPopup({ auth ,Id,statusSubmit ,setIsEdit ,setState ,state}) {
     const [open, setOpen] = useState(true);
-    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [item,setItem] = useState({ status : 'complete'});
 
     const { data, setData, post, processing, errors, setError } = useForm({
         task_file:[],
@@ -31,6 +31,8 @@ export default function StatusPopup({ auth ,Id}) {
 
     const handleClose = () => {
         setOpen(false);
+        setIsEdit(false);
+        setState(state);
     };
 
     const handleFileChange = (e) => {
@@ -46,15 +48,16 @@ export default function StatusPopup({ auth ,Id}) {
 
     const handleData = (e) => {
         e.preventDefault();
-                {
-            auth.user.user_role === "senior developer" ||
-            auth.user.user_role === "junior developer" ? (
-              post(route("developer.project.file",{id:Id}),data ,{
-                    onSuccess:()=>{
-                        setData({});
-                        setOpen(false);
-                    }
-                } )
+        statusSubmit();
+            {
+                 auth.user.user_role === "senior developer" ||
+                 auth.user.user_role === "junior developer" ? (
+                   post(route("developer.project.file",{id:Id}),data ,{
+                         onSuccess:()=>{
+                             setData({});
+                             setOpen(false);
+                         }
+                     } )
             ) : auth.user.user_role === "admin" ?
               post(route("admin.project.file",{id:Id}),data ,{
                 onSuccess:()=>{
@@ -187,7 +190,8 @@ export default function StatusPopup({ auth ,Id}) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleData} variant="contained">upload</Button>
+                    <Button onClick={handleClose} variant="contained" color="error" startIcon={<CloseIcon/>}>Cancle</Button>
+                    <Button onClick={handleData} variant="contained" startIcon={<FileUploadIcon/>}>Upload</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

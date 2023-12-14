@@ -3,14 +3,13 @@ import { useForm } from "@inertiajs/react";
 import EditIcon from "@mui/icons-material/Edit";
 import {
     Box,
-    Button,
     Grid,
     Typography,
     IconButton,
     Chip,
 } from "@mui/material";
 
-export default function Details({ user, data, auth }) {
+export default function Details({ user, data, auth ,updated}) {
     const { setData, get, processing, errors, setError } = useForm();
 
     const handleUpdate = (id) => {
@@ -81,17 +80,7 @@ export default function Details({ user, data, auth }) {
                     </Grid>
                 </Grid>
                 <br />
-                {/* <Grid container className="px-3">
-                    <Grid item xs={12}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Prject Manager
-                        </Typography>
-                        <Typography className="capitalize">
-                            <Chip color="primary" label={data.project_manager} />
-                        </Typography>
-                    </Grid>
-                </Grid>
-                <br /> */}
+
                 <Grid container className="px-3">
                     <Grid item xs={12}>
                         <Typography sx={{ fontWeight: "bold" }}>

@@ -22,13 +22,15 @@ class SalaryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'medical_conveyance'=>['required'],
-            'basic_salary' => ['required'],
-            'house_rent' => ['required'],
-            'leave_allowance' => ['required'],
-            'statutory_bonus' => ['required'],
-            'tax_deducted' => ['required'],
-            'provided_fund' => ['required'],
+            'medical_conveyance'=>['required','max:6'],
+            'basic_salary' => ['required','max:6',],
+            'house_rent' => ['required','max:6',],
+            'leave_allowance' => ['required','max:6',],
+            'statutory_bonus' => ['required','max:6',],
+            'tax_deducted' => ['required','max:2',],
+            'provided_fund' => ['required','max:6',],
+            'gross_salary'=>['required','max:6'],
+            'net_salary'=>['required','min:0','max:6','not_in:0'],
         ];
     }
 }

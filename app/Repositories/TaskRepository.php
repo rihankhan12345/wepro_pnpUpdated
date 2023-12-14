@@ -141,10 +141,9 @@ class TaskRepository implements TaskInterface
         if ($task) {
             $user = Auth::user();
             $user_id = $user->id;
-            $task_id = Developer::where('developer_id', $user_id)->where('assignable_type', 'App\Models\Task')->get();
-            dd($task_id,'task id');
+            $task_id = Developer::where('developer_id', 'like', '%' . $user_id . '%')->where('assignable_type','App\Models\Task')->pluck('assignable_id')->toArray();
             $status = Task::whereIn('id', $task_id)->where('status', 'started')->get();
-            if ($item === 'started' && count($status) <= 0) {
+            if ($task && count($status) <= 0) {
                 $task->status = $item;
                 $task->started_at = Carbon::now();
                 $task->save();

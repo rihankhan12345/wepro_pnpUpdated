@@ -22,8 +22,6 @@ import PauseorUpdateTime from "../components/PauseOrUpdateTime";
 
 export default function Detail({ data, developer, auth, devId, updated }) {
 
-    console.log(updated ,'updated');
-
     const { item, setItem, get, post, processing, errors, reset } = useForm();
     const [openStart, setopenStart] = useState(false);
     const [state, setState] = useState({
@@ -44,40 +42,44 @@ export default function Detail({ data, developer, auth, devId, updated }) {
         setState({ status: e.target.value });
     };
 
+    const pauseStatus = (item) => {
+        {
+            auth.user.user_role == "admin" ? (
+                router.post(route("admin.project.task.status", { id: updated[0].id }),item ,
+                { onSuccess: ()=>{ onSubmit()}})
+            ) : auth.user.user_role == "project manager" ? (
+                router.post(route("projectManager.project.task.status", { id: updated[0].id }),item,
+                { onSuccess: ()=>{ onSubmit()}})
+            ) : auth.user.user_role == "senior developer" ? (
+                router.post(route("developer.project.task.status", { id: updated[0].id }),item,
+                { onSuccess: ()=>{ onSubmit()}})
+            ) : auth.user.user_role == "junior developer" ? (
+                router.post(route("developer.project.task.status", { id: updated[0].id }),item,
+                { onSuccess: ()=>{ onSubmit()}})
+            ) : (<Alert> Route Not Define</Alert>);
+        }
+    }
+
     const statusSubmit = () => {
         {
             auth.user.user_role == "admin" ? (
                 router.post(
-                    route("admin.project.task.status", { id: data.id }),
-                    state,
+                    route("admin.project.task.status", { id: data.id }),state,
                     {
-                        onSuccess: () => {
-                            // setIsStart(true);
-                        },
+                        onSuccess: () => {},
                     }
                 )
             ) : auth.user.user_role == "project manager" ? (
                 router.post(
-                    route("projectManager.project.task.status", {
-                        id: data.id,
-                    }),
-                    state,
+                    route("projectManager.project.task.status", {id: data.id,}),state,
                     {
-                        onSuccess: () => {
-                            // setIsStart(true);
-                        },
+                        onSuccess: () => {},
                     }
                 )
             ) : auth.user.user_role == "senior developer" ? (
-                router.post(
-                    route("developer.project.task.status", { id: data.id }),
-                    state
-                )
+                router.post(route("developer.project.task.status", { id: data.id }),state)
             ) : auth.user.user_role == "junior developer" ? (
-                router.post(
-                    route("developer.project.task.status", { id: data.id }),
-                    state
-                )
+                router.post(route("developer.project.task.status", { id: data.id }), state)
             ) : (
                 <Alert> Route Not Define</Alert>
             );
@@ -163,13 +165,10 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                     onChange={handleChange}
                                     required
                                 >
-                                    <MenuItem value={"started"}>
-                                        Started
-                                    </MenuItem>
-                                    <MenuItem value={"complete"}>
-                                        Complete
-                                    </MenuItem>
-                                    <MenuItem value={"pause"}>Pause</MenuItem>
+                                    <MenuItem value={"new"} disabled={(data.status=='started' || data.status == 'complete' || data.status == 'pause')?true:false}>New</MenuItem>
+                                    <MenuItem value={"started"} disabled={ data.status == 'complete'?true:false}>Started</MenuItem>
+                                    <MenuItem value={"pause"} disabled={ data.status == 'complete'?true:false}>Pause</MenuItem>
+                                    <MenuItem value={"complete"}>Complete</MenuItem>
                                 </Select>
                                 <IconButton color="primary" aria-label="save">
                                     <SaveIcon
@@ -214,54 +213,52 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                 )}
                             </div>
                         )}
-                        {state.status == "complete" && (
-                            <StatusPopup auth={auth} Id={data.id} />
-                        )}
-                        { state.status === 'started' && updated .length > 0 && (
-                            <PauseorUpdateTime
-                                auth={auth}
-                                Id={data.id}
-                                statusSubmit={statusSubmit}
-                            />
-                        )}
-                        {state.status === "started" && updated.length === 0 && (
+                        { isEdit && data.status == 'complete' ? (<Alert> already Complete </Alert>)
+                           : ( isEdit && state.status == "complete" && (
+                             <StatusPopup auth={auth} Id={data.id} statusSubmit={statusSubmit}  setState = {setState}setIsEdit = {setIsEdit}state={{ status:data.status }}/>
+                        ))}
+
+                        { isEdit && state.status === "started" && updated.length === 0 && (
                             <StartTimerPopUp
                                 auth={auth}
                                 Id={data.id}
                                 statusSubmit={statusSubmit}
                             />
                         )}
+
+                        {isEdit && state.status === 'started' && updated .length > 0 && (
+                            <PauseorUpdateTime
+                                auth={auth}
+                                pauseStatus={pauseStatus}
+                                updated= {updated}
+                                setState = {setState}
+                                setIsEdit = {setIsEdit}
+                                state={{ status:data.status }}
+                            />
+                        )}
+
                     </Grid>
                 </Grid>
                 <br />
                 <Grid container>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            {" "}
-                            Start Date
-                        </Typography>
-                        <Typography className="capitalize">
-                            <FormatDate date={data.start_date} />
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}>Assign Date</Typography>
+                        <Typography className="capitalize"><FormatDate date={data.start_date} /></Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Created At
-                        </Typography>
-                        <Typography className="capitalize">
-                            <DateTimeFormat date={data.created_at} />
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}>Created At</Typography>
+                        <Typography className="capitalize"><DateTimeFormat date={data.created_at} /> </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Typography sx={{ fontWeight: "bold" }}>Start Date</Typography>
+                        <Typography className="capitalize"><FormatDate date={data.started_at} /></Typography>
                     </Grid>
                 </Grid>
                 <br />
                 <Grid container>
                     <Grid item xs={12}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Description
-                        </Typography>
-                        <Typography className="capitalize">
-                            {data.description}
-                        </Typography>
+                        <Typography sx={{ fontWeight: "bold" }}>Description</Typography>
+                        <Typography className="capitalize">{data.description} </Typography>
                     </Grid>
                 </Grid>
             </Box>
