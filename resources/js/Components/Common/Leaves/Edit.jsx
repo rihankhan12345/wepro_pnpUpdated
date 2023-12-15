@@ -18,6 +18,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
+import { useEffect } from "react";
 
 const style = {
     position: "absolute",
@@ -45,19 +46,30 @@ export default function Edit({item,auth}){
             reason: item.reason,
         });
 
+        useEffect(()=>{
+            setData({
+                description: item.description,
+                requested_date: item.requested_date,
+                from_date: item.from_date,
+                to_date: item.to_date,
+                status: item.status,
+                reason: item.reason,
+            })
+        },[item]);
+
         const submit = (e) => {
             e.preventDefault();
             {
                 auth.user.user_role === "admin"
                     ? post(route("admin.user.leave.update",{id:item.id}), {
                           onSuccess: () => {
-                              handleClose();
+                              setOpen(false);
                               setData({});
                           },
                       })
                     : post(route("hrManager.user.leave.update",{id:item.id}), {
                           onSuccess: () => {
-                              handleClose();
+                              setOpen(false);
                               setData({});
                           },
                       });
@@ -95,7 +107,6 @@ export default function Edit({item,auth}){
                                                 alignItems: "center",
                                                 display: "flex",
                                                 justifyContent: "center",
-                                                paddingBottom: "30px",
                                             }}
                                         >
                                             <Typography

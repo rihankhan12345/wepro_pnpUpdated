@@ -30,7 +30,7 @@ class SalaryRequest extends FormRequest
             'tax_deducted' => ['required','regex:/^\d{1,2}(\.\d{1,2})?$/'],
             'provided_fund' => ['required','max:6',],
             'gross_salary'=>['required','max:6'],
-            'net_salary'=>['required','min:0','max:6','not_in:0'],
+            'net_salary'=>['required','min:0','not_in:0','regex:/^\d{1,6}(\.\d{1,3})?$/'],
         ];
     }
 }

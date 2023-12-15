@@ -25,10 +25,15 @@ class UserController extends Controller
     {
         $this->userRepository = $userRepository;
     }
+    public function toArray($request)
+    {
+        return parent::toArray($request);
+    }
+
     public function list()
     {
         $data = $this->userRepository->getlist();
-        return Inertia::render('Admin/User/List',['data'=>$data]);
+        return Inertia::render('Admin/User/List',compact('data'));
     }
 
     public function create()

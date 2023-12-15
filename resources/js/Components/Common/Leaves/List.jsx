@@ -44,8 +44,8 @@ export default function List({ data, auth}) {
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "end",}} >
-                {auth.user.user_role == "admin" && ( <Create Id={data[0].user_id} auth={auth} /> )}
+            <div style={{ display: "flex", justifyContent: "end", paddingBottom:"10px"}} >
+                {auth.user.user_role == "admin" || auth.user.user_role == "hr manager" && ( <Create Id={data[0].user_id} auth={auth} /> )}
             </div>
 
             <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
@@ -108,7 +108,7 @@ export default function List({ data, auth}) {
                                                     </VisibilityIcon>
                                                 </IconButton>
                                                 &emsp;
-                                                { auth.user.user_role == "admin" && (
+                                                { auth.user.user_role == "admin" || auth.user.user_role == "hr manager" && (
                                                     <IconButton aria-label="edit">
                                                         <Edit
                                                             item={item}

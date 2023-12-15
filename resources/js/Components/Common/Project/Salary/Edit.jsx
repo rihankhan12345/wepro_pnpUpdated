@@ -11,7 +11,9 @@ import Fade from "@mui/material/Fade";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import CloseIcon from '@mui/icons-material/Close';
+import '@/Pages/Admin/Salary/Style.scss';
 import { useState } from "react";
+import { useEffect } from "react";
 const style = {
     position: "absolute",
     top: "50%",
@@ -30,15 +32,15 @@ export default function Edit({auth,salary}) {
     const handleClose = () => setOpen(false);
 
     const { data, setData, post, processing, errors } = useForm({
-        basic_salary: salary[0].basic_salary,
-        house_rent: salary[0].house_rent,
-        leave_allowance: salary[0].leave_travel_allowance,
-        medical_conveyance: salary[0].medical_and_Conveyance,
-        statutory_bonus: salary[0].statutory_bonus,
-        tax_deducted: salary[0].tax_deducted_at_source,
-        provided_fund: salary[0].provided_fund,
-        gross_salary: salary[0].gross_salary,
-        net_salary: salary[0].net_salary,
+        basic_salary: salary[0]?.basic_salary,
+        house_rent: salary[0]?.house_rent,
+        leave_allowance: salary[0]?.leave_travel_allowance,
+        medical_conveyance: salary[0]?.medical_and_Conveyance,
+        statutory_bonus: salary[0]?.statutory_bonus,
+        tax_deducted: salary[0]?.tax_deducted_at_source,
+        provided_fund: salary[0]?.provided_fund,
+        gross_salary: salary[0]?.gross_salary,
+        net_salary: salary[0]?.net_salary,
       });
 
       React.useEffect(() => {
@@ -70,15 +72,19 @@ export default function Edit({auth,salary}) {
           setData(e.target.name, e.target.value);
         };
 
-        function validatePhone(e,number) {
-            const inputValue = e.target.value;
-            if (inputValue.length > number) {
-                const requiredValue = inputValue.slice(0, number);
-                handleChange(e.target.name,requiredValue);
-            } else {
-                handleChange(e.target.name,inputValue);
-            }
-        }
+        useEffect(()=>{
+            setData({
+                basic_salary: salary[0]?.basic_salary,
+                house_rent: salary[0]?.house_rent,
+                leave_allowance: salary[0]?.leave_travel_allowance,
+                medical_conveyance: salary[0]?.medical_and_Conveyance,
+                statutory_bonus: salary[0]?.statutory_bonus,
+                tax_deducted: salary[0]?.tax_deducted_at_source,
+                provided_fund: salary[0]?.provided_fund,
+                gross_salary: salary[0]?.gross_salary,
+                net_salary: salary[0]?.net_salary,
+            })
+        },[salary]);
 
         const handleSubmit = (e) => {
           e.preventDefault();
@@ -118,13 +124,16 @@ export default function Edit({auth,salary}) {
             >
                 <Fade in={open}>
                     <Box sx={style} style={{ width: "800px" }}>
+                    <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
+
                         <Typography variant="h5" align="center" className="pt-3 pb-5" sx={{ fontWeight: "bold" }}>
                             Salary Compensation
                          </Typography>
+
                         <Box
                             component="form"
                             sx={{ display: "flex", flexDirection: "column" }}
-                            onSubmit={handleSubmit}
+                            onSubmit={handleSubmit} className="salary"
                         >
                             <div className="pb-5">
                                 <InputLabel sx={{ fontWeight: "500" }}>
@@ -329,6 +338,7 @@ export default function Edit({auth,salary}) {
                                 </PrimaryButton>
                             </div>
                         </Box>
+                    </div>
                     </Box>
                 </Fade>
             </Modal>

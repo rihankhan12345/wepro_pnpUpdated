@@ -25,7 +25,7 @@ export default function View({ data, auth, developer, manager ,updated }) {
                                     }}
 
                                 >
-                                    Project Not Found ! Create A New Project
+                                    You Are Not Assign On Any Project !
                                 </Alert>
                             </>
                         ) : (

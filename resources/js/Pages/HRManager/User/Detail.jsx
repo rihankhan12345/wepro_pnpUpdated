@@ -9,8 +9,9 @@ import TabPanel from "@mui/lab/TabPanel";
 import UserDetail from "@/Components/Common/User/UserDetail";
 import DetailSalary from "../Salary/Detail";
 import History from "@/Components/Common/User/History";
+import View from "../Leave/View";
 
-export default function Detail({ data, auth, salary }) {
+export default function Detail({ data, auth, salary ,leave}) {
     const [value, setValue] = React.useState("1");
 
     const handleChange = (event, newValue) => {
@@ -38,6 +39,7 @@ export default function Detail({ data, auth, salary }) {
                                 [
                                     <Tab key="2" label="Salary" value="2" style={{ fontWeight:"bold"}}/>,
                                     <Tab key="3" label="History" value="3" style={{ fontWeight:"bold"}}/>,
+                                    <Tab key="4" label="Leave" value="4" style={{ fontWeight:"bold" }}/>,
                                 ]
                             ),
                         ]}
@@ -53,6 +55,9 @@ export default function Detail({ data, auth, salary }) {
 
                     <TabPanel value="3">
                         <History data={data} />
+                    </TabPanel>
+                    <TabPanel value="4">
+                        <View auth={auth} leave={leave} Id={data.id}/>
                     </TabPanel>
 
                 </TabContext>

@@ -12,6 +12,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import CloseIcon from '@mui/icons-material/Close';
+import { useEffect } from "react";
 
 const style = {
     position: "absolute",
@@ -64,6 +65,16 @@ export default function Edit({ data, developer, devId ,auth }) {
         }));
     };
 
+    useEffect(()=>{
+        setItem({
+            task_name: data.task_name,
+            description: data.description,
+            start_date: data.start_date,
+            priority: data.priority,
+            developer:  dev,
+            level: data.level,
+        });
+    },[data]);
     const handleSubmit = (e) => {
         e.preventDefault();
         {
@@ -108,6 +119,8 @@ export default function Edit({ data, developer, devId ,auth }) {
             >
                 <Fade in={open}>
                     <Box sx={style} style={{ width: "800px" }}>
+                    <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
+
                         <form onSubmit={handleSubmit}>
                             <div
                                 style={{
@@ -319,6 +332,7 @@ export default function Edit({ data, developer, devId ,auth }) {
 
                             </div>
                         </form>
+                    </div>
                     </Box>
                 </Fade>
             </Modal>

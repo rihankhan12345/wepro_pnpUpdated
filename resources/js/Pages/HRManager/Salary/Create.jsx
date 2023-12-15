@@ -2,18 +2,16 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
-import React from 'react'; // Add this import
-
+import React from 'react';
+import './style.scss'
 import {
     Box,
-    Button,
     Container,
     InputLabel,
     TextField,
     Typography,
 } from "@mui/material";
 import { data } from "autoprefixer";
-import _debounce from 'lodash/debounce';
 
 
 export default function Create({ auth }) {
@@ -30,17 +28,12 @@ export default function Create({ auth }) {
     });
 
     const queryString = window.location.search;
-
     const queryParams = queryString.substring(1).split("&");
-
     const params = {};
-
     queryParams.forEach((param) => {
         const [key, value] = param.split("=");
         params[key] = decodeURIComponent(value);
     });
-
-
     React.useEffect(() => {
         const grossSalary =
           Number(data.basic_salary) +
@@ -85,6 +78,7 @@ export default function Create({ auth }) {
             component="form"
             sx={{ display: "flex", flexDirection: "column" }}
             onSubmit={handleSubmit}
+             className="salary"
           >
                 <div className="pb-5">
                     <InputLabel sx={{ fontWeight:"500" }}>Basic Salary</InputLabel>
@@ -98,6 +92,7 @@ export default function Create({ auth }) {
                         autoComplete="basic_salary"
                         onChange={handleChange}
                         size="small"
+                        sx={{ }}
                     />
                      <InputError
                                 message={errors.basic_salary}

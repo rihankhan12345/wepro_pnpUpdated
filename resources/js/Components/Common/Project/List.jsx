@@ -18,6 +18,7 @@ import DateTimeFormat from "@/Util/DateTimeFormat";
 import { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import Create from "@/Pages/Admin/Project/Create";
+import Edit from "@/Pages/Admin/Project/Edit";
 
 export default function List({ data, auth, developer, manager}) {
     const { setData, get, processing, errors, setError } = useForm();
@@ -167,14 +168,10 @@ export default function List({ data, auth, developer, manager}) {
                                         >
                                             {
                                                 auth.user.user_role=="admin" &&
-                                                <EditIcon
-                                                color="info"
-                                                onClick={() =>
-                                                    handleUpdate(
-                                                        item.id
-                                                    )
-                                                }
-                                            />
+                                                <EditIcon color="info" onClick={() =>handleUpdate(item.id) }/>
+                                                // <Edit data={item} developer={developer}
+                                                // manager={manager} devId={1}/>
+
                                             }
 
                                         </IconButton>

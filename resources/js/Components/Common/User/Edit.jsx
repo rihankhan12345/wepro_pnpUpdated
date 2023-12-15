@@ -2,7 +2,7 @@ import { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { FormControl, FormControlLabel, Radio, RadioGroup, IconButton ,Typography, Button } from "@mui/material";
+import { FormControl, FormControlLabel, Radio, RadioGroup, IconButton ,Typography, Button, Alert } from "@mui/material";
 import InputError from "@/Components/InputError";
 import {  router, useForm } from "@inertiajs/react";
 import EditIcon from "@mui/icons-material/Edit";
@@ -12,6 +12,7 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
+import { useEffect } from "react";
 
 const style = {
     position: "absolute",
@@ -29,6 +30,7 @@ export default function Edit({ auth, user }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [effect,setEffect] = useState(true);
     const { data, setData, get, post, processing, errors, reset } = useForm();
 
     const [value, setValue] = useState({
@@ -38,6 +40,7 @@ export default function Edit({ auth, user }) {
         contact_no: user.contact_no,
     });
     const handleChange = (e) => {
+
         setValue((prev) => {
             return {
                 ...prev,
@@ -46,6 +49,14 @@ export default function Edit({ auth, user }) {
         });
     };
 
+  useEffect(()=>{
+    setValue({
+        name: user.name,
+        email: user.email,
+        user_role: user.user_role,
+        contact_no: user.contact_no,
+    });
+}, [user]);
     const handleSubmit = (e) => {
         e.preventDefault();
         {
@@ -70,8 +81,8 @@ export default function Edit({ auth, user }) {
 
     return (
        <>
-           <IconButton aria-label="edit" color="primary">
-                <EditIcon color="info" onClick={handleOpen} />
+           <IconButton aria-label="edit" color="primary" onClick={handleOpen} disabled={user.user_role=="admin" ? true :false} >
+                <EditIcon color={user.user_role !=="admin" ? 'info' : 'error'}/>
             </IconButton>
             <Modal
                 aria-labelledby="transition-modal-title"

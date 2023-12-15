@@ -97,7 +97,6 @@ export default function Create({ auth ,Id }) {
                                             alignItems: "center",
                                             display: "flex",
                                             justifyContent: "center",
-                                            paddingBottom: "30px",
                                         }}
                                     >
                                         <Typography

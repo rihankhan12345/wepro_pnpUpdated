@@ -96,6 +96,8 @@ export default function Create({ developer, Id ,auth }) {
             >
                 <Fade in={open}>
                     <Box sx={style} style={{ width: "800px" }}>
+                    <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
+
                         <form onSubmit={handleSubmit}>
                             <div
                                 style={{
@@ -384,6 +386,7 @@ export default function Create({ developer, Id ,auth }) {
 
                             </div>
                         </form>
+                    </div>
                     </Box>
                 </Fade>
             </Modal>

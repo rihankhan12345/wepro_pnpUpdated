@@ -7,9 +7,6 @@ use App\Models\Leave;
 
 class LeaveRepository implements LeaveInterface
 {
-
-
-
     public function save($data,$id)
     {
         $data= Leave::create([

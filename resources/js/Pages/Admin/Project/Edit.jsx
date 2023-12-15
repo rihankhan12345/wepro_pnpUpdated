@@ -10,6 +10,7 @@ import {
     Typography,
 } from "@mui/material";
 import InputError from "@/Components/InputError";
+import { useEffect } from "react";
 
 export default function Edit({ data, auth, developer, manager, devId }) {
 
@@ -34,7 +35,16 @@ export default function Edit({ data, auth, developer, manager, devId }) {
             };
         });
     };
-
+    useEffect(()=>{
+        setItem({
+            title: data.title,
+            description: data.description,
+            start_date: data.start_date,
+            end_date: data.end_date,
+            project_manager: data.project_manager,
+            developer: devId,
+        });
+    },[item]);
     const handleDeveloper = (id) => {
         setItem((prev) => ({
             ...prev,
@@ -74,7 +84,7 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                         >
                             <Typography
                                 variant="h5"
-                                style={{ fontWeight: "bold" }}
+                                style={{ fontWeight: "bold" ,paddingTop:'20px'}}
                             >
                                 Edit Project
                             </Typography>

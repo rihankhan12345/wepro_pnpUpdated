@@ -17,6 +17,7 @@ const Menu =  {
                 "admin.user.leave.list",
                 "admin.user.leave.create",
                 "admin.user.leave.detail",
+                "admin.user.salary.create",
             ],
         },
         {

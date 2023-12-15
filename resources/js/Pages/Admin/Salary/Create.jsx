@@ -2,8 +2,8 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { router, useForm } from "@inertiajs/react";
-import React from 'react'; // Add this import
-
+import React from 'react';
+import './Style.scss'
 import {
     Box,
     Container,
@@ -11,7 +11,6 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { data } from "autoprefixer";
 import _debounce from 'lodash/debounce';
 
 
@@ -76,14 +75,16 @@ export default function Create({ auth }) {
     return (
       <AuthenticatedLayout user={auth.user}>
         <Container maxWidth="lg" className="shadow-md bg-white py-5 m-5">
+        <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
+
           <Typography variant="h5" align="center" className="pt-3 pb-5" sx={{ fontWeight: "bold" }}>
             Salary Compensation
           </Typography>
           <Box
             component="form"
             sx={{ display: "flex", flexDirection: "column" }}
-            onSubmit={handleSubmit}
-          >
+            onSubmit={handleSubmit} className="salary">
+
                 <div className="pb-5">
                     <InputLabel sx={{ fontWeight:"500" }}>Basic Salary</InputLabel>
                     <TextField
@@ -219,48 +220,48 @@ export default function Create({ auth }) {
                 </div>
 
 
-          <div className="pb-5" style={{ display: "flex" }}>
-            <div style={{ width: "50%", paddingRight: "5px" }}>
-              <InputLabel sx={{ fontWeight: "500" }}>Gross Salary</InputLabel>
-              <TextField
-                required
-                fullWidth
-                id="gross_salary"
-                type="number"
-                value={data.gross_salary}
-                // onBlur={}
-                autoComplete="gross_salary"
-                size="small"
-              />
-              <InputError message={errors.gross_salary} className="mt-2" />
-            </div>
-            <div style={{ width: "50%" }}>
-              <InputLabel sx={{ fontWeight: "500" }}>Net Salary</InputLabel>
-              <TextField
-                required
-                fullWidth
-                id="net_salary"
-                type="number"
-                value={data.net_salary}
-                // onBlur={calculateNetSalary}
-                autoComplete="net_salary"
-                size="small"
-              />
-              <InputError message={errors.net_salary} className="mt-2" />
-            </div>
-          </div>
+                <div className="pb-5" style={{ display: "flex" }}>
+                <div style={{ width: "50%", paddingRight: "5px" }}>
+                    <InputLabel sx={{ fontWeight: "500" }}>Gross Salary</InputLabel>
+                    <TextField
+                     required
+                     fullWidth
+                        id="gross_salary"
+                      type="number"
+                     value={data.gross_salary}
+                        // onBlur={}
+                     autoComplete="gross_salary"
+                     size="small"
+                    />
+                     <InputError message={errors.gross_salary} className="mt-2" />
+                </div>
+                <div style={{ width: "50%" }}>
+                    <InputLabel sx={{ fontWeight: "500" }}>Net Salary</InputLabel>
+                    <TextField
+                      required
+                      fullWidth
+                      id="net_salary"
+                      type="number"
+                      value={data.net_salary}
+                      // onBlur={calculateNetSalary}
+                      autoComplete="net_salary"
+                      size="small"
+                    />
+                     <InputError message={errors.net_salary} className="mt-2" />
+                </div>
+                </div>
 
-          <div className="flex items-center justify-center m-8">
-            <PrimaryButton
-              className="ms-4"
-              variant="contained"
-              disabled={processing}
-              style={{ height: "40px" }}
-            >
-              Save
-            </PrimaryButton>
-          </div>
+                <div className="flex items-center justify-center m-8">
+                    <PrimaryButton
+                        className="ms-4"
+                        variant="contained"
+                        disabled={processing}>
+                   Create Salary
+                 </PrimaryButton>
+                </div>
+
         </Box>
+        </div>
       </Container>
     </AuthenticatedLayout>
   );

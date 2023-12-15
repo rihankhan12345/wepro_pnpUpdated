@@ -145,7 +145,7 @@ class ProjectRepository implements ProjectInterface
         $user = Auth::user();
         $role = $user->user_role;
 
-        if($role === "admin" || $role === " hr manager"){
+        if($role === "admin" || $role === "hr manager"){
             $data = Project::findOrFail($id);
             $dev_id = Developer::where(['assignable_id'=>$data->id , 'assignable_type'=> 'App\Models\Project'])->pluck('developer_id');
             $developer = explode(',',$dev_id);

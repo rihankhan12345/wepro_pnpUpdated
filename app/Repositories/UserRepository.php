@@ -16,7 +16,7 @@ class UserRepository implements UserInterface
 {
 
     public function getlist(){
-         $data = User::all();
+         $data = User::paginate(10);
          return $data;
     }
 

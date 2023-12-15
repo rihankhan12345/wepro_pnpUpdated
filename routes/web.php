@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SalaryController;
 use App\Http\Controllers\Admin\LeaveController;
+use App\Http\Controllers\HRManager\HrLeaveController;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -150,6 +151,12 @@ Route::prefix('hr-manager')->name('hrManager.')->middleware(['auth', 'role:hr ma
             Route::get('create','create')->name('create');
             Route::post('/save/{id}','save')->name('save');
             Route::post('/update/{id}','update')->name('update');
+        });
+
+        Route::prefix('leave')->name('leave.')->controller(HrLeaveController::class)->group( function () {
+            Route::post('/save/{id}','save')->name('save');
+            Route::post('/update/{id}','update')->name('update');
+            Route::get('/detail/{id}','details')->name('detail');
         });
     });
     Route::prefix('project')->name('project.')->controller(HrProjectController::class)->group( function () {

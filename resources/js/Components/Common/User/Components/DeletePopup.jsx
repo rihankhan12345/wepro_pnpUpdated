@@ -2,15 +2,14 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from "@mui/icons-material/Delete";
 import WarningOutlinedIcon from "@mui/icons-material/WarningOutlined";
 import { useForm } from "@inertiajs/react";
 import { Box, IconButton, Typography } from "@mui/material";
 
-export default function Popover({ id }) {
+export default function DeletePopup({auth, id ,user }) {
     const [open, setOpen] = React.useState(false);
     const { data, setData, post, processing, errors, setError } = useForm();
     const handleDelete = (id) => {
@@ -27,8 +26,8 @@ export default function Popover({ id }) {
 
     return (
         <React.Fragment>
-            <IconButton aria-label="delete">
-                <DeleteIcon color="error" onClick={handleClick} />
+            <IconButton aria-label="delete" onClick={handleClick} disabled={user.user_role=="admin" ? true :false}>
+                <DeleteIcon color="error" />
             </IconButton>
             <Dialog
                 open={open}
@@ -51,8 +50,8 @@ export default function Popover({ id }) {
                 </Box>
 
             <DialogActions sx={{ display:'flex',justifyContent:'center',gap:"20px",m:"15px 0px" }}>
-                    <Button variant="contained" color="primary" onClick={handleClose} autoFocus >Cancle </Button>
-                    <Button  variant="contained"  color="error"  onClick={() => handleDelete(id)}> Delete</Button>
+                    <Button variant="contained" color="primary" onClick={handleClose} autoFocus  startIcon={<CloseIcon/>}>Cancle </Button>
+                    <Button  variant="contained"  color="error"  onClick={() => handleDelete(id)} startIcon={<DeleteIcon/>}> Delete</Button>
                 </DialogActions>
             </Dialog>
         </React.Fragment>

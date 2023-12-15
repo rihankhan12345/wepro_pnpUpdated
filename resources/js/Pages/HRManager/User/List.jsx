@@ -1,11 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Link, useForm } from "@inertiajs/react";
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import Popover from "@/Components/Popover";
+import { Link, useForm, usePage } from "@inertiajs/react";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
     Box,
-    Button,
     Chip,
     IconButton,
     Table,
@@ -18,16 +15,19 @@ import {
 } from "@mui/material";
 import GlobalStyle from "@/Constant/GlobalStyle";
 import PeopleIcon from '@mui/icons-material/People';
-import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
 import Create from "@/Components/Common/User/Create";
 import Edit from "@/Components/Common/User/Edit";
+import DeletePopup from "@/Components/Common/User/Components/DeletePopup";
 
 export default function View({data, auth }) {
 
+    const {url} = usePage();
+    console.log(data,'data');
     const {  setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const { current_page, last_page, total } = data;
         const handleView =(id) =>{
             {
                 if(auth.user.user_role=="admin"){
@@ -43,13 +43,23 @@ export default function View({data, auth }) {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        // get(data.next_page_url) ;
+        if (data.next_page_url) {
+            get(`${data.next_page_url}&page=${newPage + 1}`);
+        }
+        else
+        {
+            get(data.prev_page_url);
+        }
       };
 
-      const handleChangeRowsPerPage = event => {
-        setRowsPerPage(event.target.value,10);
+      const handleChangeRowsPerPage = (event) => {
+        const newRowsPerPage = parseInt(event.target.value, 10);
+        console.log('New Rows Per Page:', newRowsPerPage);
+        setRowsPerPage(newRowsPerPage);
         setPage(0);
-      };
-
+        get(`${data.path}?page=1&per_page=${newRowsPerPage}`);
+    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -86,37 +96,24 @@ export default function View({data, auth }) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, j) => {
+                                    {data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, j) => {
                                         return (
                                             <TableRow key={j + 1}>
                                                 <TableCell>{item.id}</TableCell>
-                                                <TableCell className="capitalize">
-                                                    {item.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {item.email}
-                                                </TableCell>
+                                                <TableCell className="capitalize">{item.name}</TableCell>
+                                                <TableCell> {item.email}</TableCell>
                                                 <TableCell>
                                                     <Chip label={item.user_role.replace('_'," ")}
                                                     sx={{ textTransform:"capitalize",backgroundColor:GlobalStyle.ChipColor[item.user_role].color,color:"white" }}
                                                     />
                                                 </TableCell>
                                                 <TableCell>
-                                                <IconButton aria-label="detail">
-                                                   <VisibilityIcon sx={{color:"rgba(0, 0, 0, 0.54)"}} onClick={()=>handleView(item.id)}/>
+                                                <IconButton aria-label="detail" onClick={()=>handleView(item.id)}>
+                                                   <VisibilityIcon sx={{color:"rgba(0, 0, 0, 0.54)"}} />
                                                 </IconButton>
-
-                                                    {
-                                                        item.user_role !== "admin" &&
-                                                        <>
+                                                      <Edit auth={auth} user={item}/>
                                                         &emsp;
-                                                        <Edit auth={auth} user={item}/>
-                                                        &emsp;
-                                                        <Popover id={item.id}/>
-                                                        </>
-                                                    }
-
-
+                                                        <DeletePopup auth={auth} id={item.id} user={item}/>
                                                 </TableCell>
                                             </TableRow>
                                         );
@@ -127,9 +124,9 @@ export default function View({data, auth }) {
                         <TablePagination
                             rowsPerPageOptions={[10, 15, 20, 25, 50, 100]}
                             component="div"
-                            count={data.length}
+                            count={total}
                             rowsPerPage={rowsPerPage}
-                            page={page}
+                            page={current_page-1}
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />

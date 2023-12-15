@@ -24,12 +24,21 @@ class HrUserController extends Controller
     public function list()
     {
         $data = $this->userRepository->getlist();
-        return Inertia::render('HRManager/User/List',['data'=>$data]);
+        return Inertia::render('HRManager/User/List',compact('data'));
     }
 
     public function save(UserRequest $request){
-        $data = $this->userRepository->save($request);
+        $profileImage = $request->file('profile');
+        $data = $this->userRepository->save($request ,$profileImage);
         $id = $data->id;
+        // if($data->user_role === 'admin'){
+        //     return Redirect::back();
+        // }
+        // else{
+        //     return redirect::route('hrManager.user.salary.create',['user'=>$data]);
+        // }
+        // $data = $this->userRepository->save($request);
+        // $id = $data->id;
         return Redirect::route('hrManager.user.salary.create' ,['user'=>$id]);
 
     }
@@ -46,7 +55,8 @@ class HrUserController extends Controller
         $items = $this->userRepository->detail($id);
         $data = $items[0];
         $salary = $items[1];
-        return Inertia::render('HRManager/User/Detail',['data'=>$data ,'salary'=>$salary]);
+        $leave = $items[2];
+        return Inertia::render('HRManager/User/Detail',['data'=>$data ,'salary'=>$salary ,'leave'=>$leave]);
     }
 
 

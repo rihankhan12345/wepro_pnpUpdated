@@ -77,7 +77,6 @@ export default function Create({ auth }) {
         }
 
     };
-   console.log(data,'data');
 
     return (
         <div>
@@ -282,7 +281,7 @@ export default function Create({ auth }) {
                             onChange={(event)=>{setData('profile',event.target.files[0]);handleProfile(event)}}
                              />
                              {
-                                data.profile &&  <img alt="preview image" className="pt-4" src={image} width={'200px'} height={'200px'}/>
+                                data.profile &&  <img alt="preview image" className="pt-4" src={image} width={'200px'} height={'150px'}/>
                              }
 
                         </div>
