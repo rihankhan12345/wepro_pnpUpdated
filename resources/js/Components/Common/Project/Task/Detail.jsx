@@ -33,7 +33,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
         get(route("admin.project.task.edit", { id }));
     };
     const dev_id = data.developer_id.split(",");
-    const dev = dev_id.map((item) => Number(item));
+    const dev = dev_id.map((item,j) => Number(item));
 
     const handleStatus = () => {
         setIsEdit(true);
@@ -171,14 +171,13 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                     <MenuItem value={"pause"} disabled={ data.status == 'complete'?true:false}>Pause</MenuItem>
                                     <MenuItem value={"complete"}>Complete</MenuItem>
                                 </Select>
-                                <IconButton color="primary" aria-label="save">
+                                <IconButton color="primary" aria-label="save" onClick={statusSubmit}>
                                     <SaveIcon
                                         color="primary"
                                         sx={{
                                             fontSize: "30px",
                                             fontWeight: "bold",
                                         }}
-                                        onClick={statusSubmit}
                                     />
                                 </IconButton>
                             </Box>
@@ -205,10 +204,10 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                     <IconButton
                                         color="primary"
                                         aria-label="edit"
+                                        onClick={handleStatus}
                                     >
                                         <EditIcon
                                             color="primary"
-                                            onClick={handleStatus}
                                         />
                                     </IconButton>
                                 )}
@@ -306,11 +305,11 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                     {developer.map(
                         (item, j) => {
                             return (
-                                dev.map((id_dev)=>{
+                                dev.map((id_dev,i)=>{
                                     return (
                                         id_dev == item.id &&
                                     <Chip
-                                        label={item.name}
+                                        label={item.name} key={j || i}
                                         className="capitalize"
                                         sx={{ margin: "10px" }}
                                         color={

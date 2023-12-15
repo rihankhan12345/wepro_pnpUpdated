@@ -122,7 +122,7 @@ export default function View({data, auth }) {
                             </Table>
                         </TableContainer>
                         <TablePagination
-                            rowsPerPageOptions={[10, 15, 20, 25, 50, 100]}
+                            rowsPerPageOptions={[data.to]}
                             component="div"
                             count={total}
                             rowsPerPage={rowsPerPage}

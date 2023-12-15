@@ -104,6 +104,7 @@ const Menu =  {
             active: [
                 "developer.project.list",
                 "developer.project.detail",
+                "developer.project.task.detail"
             ],
         },
     ],
@@ -119,7 +120,8 @@ const Menu =  {
             route: "developer.project.list",
             active: [
                 "developer.project.list",
-
+                "developer.project.detail",
+                "developer.project.task.detail"
             ],
         },
     ],

@@ -22,7 +22,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     const { item, setItem, get, post, processing, errors, reset } = useForm();
 
     const toggleRow = (id) => {
@@ -38,7 +38,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(event.target.value, 10);
+        setRowsPerPage(event.target.value, 5);
         setPage(0);
     };
 
@@ -170,7 +170,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
             </TableContainer>
 
             <TablePagination
-                rowsPerPageOptions={[10, 15, 20, 25, 50, 100]}
+                rowsPerPageOptions={[5, 15, 25, 35, 50]}
                 component="div"
                 count={data.length}
                 rowsPerPage={rowsPerPage}

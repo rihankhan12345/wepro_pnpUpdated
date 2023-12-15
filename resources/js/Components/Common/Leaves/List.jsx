@@ -13,7 +13,6 @@ import {
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useForm } from "@inertiajs/react";
-import StatusStyle from "@/Constant/StatusStyle";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 import Detail from "./Detail";
 import Create from "./Create";
@@ -152,7 +151,7 @@ export default function List({ data, auth}) {
             </TableContainer>
 
             <TablePagination
-                rowsPerPageOptions={[10, 15, 20, 25, 50, 100]}
+                rowsPerPageOptions={[data.to]}
                 component="div"
                 count={data.length}
                 rowsPerPage={rowsPerPage}

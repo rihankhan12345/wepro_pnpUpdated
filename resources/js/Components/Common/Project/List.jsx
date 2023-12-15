@@ -21,9 +21,11 @@ import Create from "@/Pages/Admin/Project/Create";
 import Edit from "@/Pages/Admin/Project/Edit";
 
 export default function List({ data, auth, developer, manager}) {
+    console.log(data,'data');
     const { setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const { current_page, last_page, total } = data;
     const handleView = (id) => {
        if(auth.user.user_role==="admin"){
         get(route("admin.project.detail", { id }));
@@ -39,22 +41,27 @@ export default function List({ data, auth, developer, manager}) {
         get(route('developer.project.detail',{id}));
        }
     };
-
-    const handleCreate = () => {
-        get(route("admin.project.create"));
-    };
     const handleUpdate = (id) => {
         get(route("admin.project.edit", { id }));
     };
-
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        if (data.next_page_url) {
+            get(`${data.next_page_url}&page=${newPage + 1}`);
+        }
+        else
+        {
+            get(data.prev_page_url);
+        }
+      };
+
+      const handleChangeRowsPerPage = (event) => {
+        const newRowsPerPage = parseInt(event.target.value, 10);
+        setRowsPerPage(newRowsPerPage);
+        setPage(0);
+        get(`${data.path}?page=1&per_page=${newRowsPerPage}`);
     };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(event.target.value, 10);
-        setPage(0);
-    };
 
     return (
         <>
@@ -92,39 +99,23 @@ export default function List({ data, auth, developer, manager}) {
                             {" "}
                             ID{" "}
                         </TableCell>
-                        <TableCell
-                            sx={{ fontWeight: "bold" }}
-                        >
-                            {" "}
-                            Title{" "}
+                        <TableCell sx={{ fontWeight: "bold" }}>
+                            Title
                         </TableCell>
-                        <TableCell
-                            sx={{ fontWeight: "bold" }}
-                        >
-                            {" "}
+                        <TableCell sx={{ fontWeight: "bold" }}>
                             Start Date
                         </TableCell>
-                        <TableCell
-                            sx={{ fontWeight: "bold" }}
-                        >
-                            {" "}
+                        <TableCell sx={{ fontWeight: "bold" }}>
                             Created Date
                         </TableCell>
-                        <TableCell
-                            sx={{ fontWeight: "bold" }}
-                        >
+                        <TableCell sx={{ fontWeight: "bold" }}>
                             Action
                         </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data
-                        .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage +
-                                rowsPerPage
-                        )
-                        .map((item, j) => {
+                    {
+                     data.data.slice(page * rowsPerPage,page * rowsPerPage + rowsPerPage).map((item, j) => {
                             return (
                                 <TableRow key={j + 1}>
                                     <TableCell>
@@ -171,7 +162,6 @@ export default function List({ data, auth, developer, manager}) {
                                                 <EditIcon color="info" onClick={() =>handleUpdate(item.id) }/>
                                                 // <Edit data={item} developer={developer}
                                                 // manager={manager} devId={1}/>
-
                                             }
 
                                         </IconButton>
@@ -183,13 +173,11 @@ export default function List({ data, auth, developer, manager}) {
             </Table>
         </TableContainer>
         <TablePagination
-            rowsPerPageOptions={[
-                10, 15, 20, 25, 50, 100,
-            ]}
+            rowsPerPageOptions={[data.to]}
             component="div"
-            count={data.length}
+            count={total}
             rowsPerPage={rowsPerPage}
-            page={page}
+            page={current_page-1}
             onPageChange={handleChangePage}
             onRowsPerPageChange={
                 handleChangeRowsPerPage

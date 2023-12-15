@@ -179,14 +179,11 @@ export default function Details({data ,developer}){
                     {
                        dev.map((dev_id) =>  (
                         developer.map((item, j) =>(
-                           dev_id === item.id ?
+                           dev_id === item.id &&
                             (
                             <Chip label={item.name} className="capitalize" sx={{ margin:"10px"}}
                              color={item.user_role == "senior_developer" ? "primary" : "secondary"}/>
 
-                           ) :
-                           (
-                            <> </>
                            )
                         ))
                        ))

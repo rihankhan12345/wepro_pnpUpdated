@@ -44,7 +44,7 @@ export default function Edit({ data, auth, developer, manager, devId }) {
             project_manager: data.project_manager,
             developer: devId,
         });
-    },[item]);
+    },[data]);
     const handleDeveloper = (id) => {
         setItem((prev) => ({
             ...prev,
@@ -158,8 +158,8 @@ export default function Edit({ data, auth, developer, manager, devId }) {
 
                         <div className="mt-4">
                             <InputLabel
-                                htmlFor="start_date"
-                                value="Start Date"
+                                htmlFor="Assign Date"
+                                value="Assign Date"
                             />
 
                             <TextInput

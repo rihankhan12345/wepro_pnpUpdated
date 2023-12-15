@@ -22,7 +22,6 @@ import '../style.scss'
 import DeletePopup from "@/Components/Common/User/Components/DeletePopup";
 
 export default function List({data, auth }) {
-console.log(data,'data');
     const {url} = usePage();
     const {  setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
@@ -32,6 +31,7 @@ console.log(data,'data');
         get(route("admin.user.detail", {id}));
     }
 
+    console.log(data,'data');
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         if (data.next_page_url) {
@@ -44,8 +44,7 @@ console.log(data,'data');
       };
 
       const handleChangeRowsPerPage = (event) => {
-        const newRowsPerPage = parseInt(event.target.value, 10);
-        console.log('New Rows Per Page:', newRowsPerPage);
+        const newRowsPerPage = data.to;
         setRowsPerPage(newRowsPerPage);
         setPage(0);
         get(`${data.path}?page=1&per_page=${newRowsPerPage}`);
@@ -102,7 +101,7 @@ console.log(data,'data');
                             </Table>
                         </TableContainer>
                         <TablePagination
-                            rowsPerPageOptions={[10, 15, 20, 25, 50, 100]}
+                            rowsPerPageOptions={[data.to]}
                             component="div"
                             count={total}
                             rowsPerPage={rowsPerPage}

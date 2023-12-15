@@ -23,8 +23,7 @@ class DeveloperProjectController extends Controller
         $data = $items[0];
         $developer = $items[1];
         $manager = $items[2];
-        return Inertia::render('Developer/Project/View',
-        ['data' => $data , 'developer'=>$developer , 'manager'=>$manager ]);
+        return Inertia::render('Developer/Project/View',compact('data' ,'developer' , 'manager'));
     }
     public function detail($id)
     {

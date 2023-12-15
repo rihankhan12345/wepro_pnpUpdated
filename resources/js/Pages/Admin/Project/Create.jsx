@@ -19,6 +19,7 @@ import {
     Select,
     Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 
 const style = {
     position: "absolute",
@@ -47,21 +48,21 @@ export default function Create({ auth, developer, manager }) {
     const handleDeveloper = (id) => {
         setData((prev) => ({
             ...prev,
-            developer: prev.developer.includes(id)
-                ? prev.developer.filter((value) => value !== id)
-                : [...prev.developer, id],
+            developer: prev?.developer?.includes(id)
+                ? prev?.developer?.filter((value) => value !== id)
+                : [...prev?.developer, id],
         }));
     };
 
-
-    const handleDeveloperSelect = (e) => {
-        const selectedDeveloper = e.target.value;
-        setData("developer", selectedDeveloper);
-        setSelectedDevelopers((prevSelected) => [
-            ...prevSelected,
-            selectedDeveloper,
-        ]);
-    };
+    useEffect(()=>{
+        setData({
+            title: "",
+            description: "",
+            start_date: "",
+            project_manager: "",
+            developer: [],
+        })
+    },[]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -208,8 +209,8 @@ export default function Create({ auth, developer, manager }) {
                             </div>
                             <div className="mt-4">
                                 <InputLabel
-                                    htmlFor="start_date"
-                                    value="Start Date"
+                                    htmlFor="Assign Date"
+                                    value="Assign Date"
                                 />
 
                                 <TextInput

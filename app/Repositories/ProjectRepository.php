@@ -46,7 +46,7 @@ class ProjectRepository implements ProjectInterface
         if($role === "admin" || $role === "hr manager"){
             $developer = User::whereIn('user_role',['senior developer','junior developer'])->get();
             $manager = User::where('user_role','project manager')->get();
-            $data = Project::all();
+            $data = Project::paginate(10);
             return [$data , $developer ,$manager];
         }
 
@@ -60,12 +60,12 @@ class ProjectRepository implements ProjectInterface
         {
             $dev_id = $user->id;
             $project_id = Developer::where('developer_id', 'like', '%' . $dev_id . '%')->pluck('project_id')->toArray();
-            $project = Project::whereIn('id',$project_id)->get();
+            $data = Project::whereIn('id',$project_id)->paginate(10);
             $developer = User::whereIn('user_role',['senior developer','junior developer'])->get();
             $manager = User::where('user_role','project manager')->get();
 
 
-            return [$project , $developer , $manager ];
+            return [$data , $developer , $manager ];
         }
 
     }

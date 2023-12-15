@@ -41,7 +41,7 @@ export default function View({ data, auth, developer, manager }) {
             <div  className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-2 py-3">
-                        { data.length === 0 ? (
+                        { data.data.length === 0 ? (
                             <>
                                 <Alert
                                     severity="info"

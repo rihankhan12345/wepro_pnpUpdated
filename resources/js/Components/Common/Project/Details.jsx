@@ -125,7 +125,7 @@ export default function Details({ user, data, auth ,updated}) {
                         user.map((item, j) =>
                         {
                            return (
-                            <Chip label={item.name} className="capitalize" sx={{ margin:"10px"}}
+                            <Chip label={item.name} key={j} className="capitalize" sx={{ margin:"10px"}}
                              color={item.user_role == "senior developer" ? "primary" : "success"}/>
 
                            );

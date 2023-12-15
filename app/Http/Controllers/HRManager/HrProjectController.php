@@ -22,7 +22,7 @@ class HrProjectController extends Controller
         $developer= $items[1];
         $manager= $items[2];
 
-        return Inertia::render('HRManager/Project/View',['data'=>$data ,"developer"=>$developer ,'manager'=>$manager]);
+        return Inertia::render('HRManager/Project/View',compact('data',"developer",'manager'));
     }
     public function Detail($id){
         $allData = $this->projectRepository->detail($id);

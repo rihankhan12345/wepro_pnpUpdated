@@ -8,6 +8,7 @@ import {
     Box,
     Button,
     DialogContentText,
+    Grid,
     Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -34,9 +35,25 @@ export default function PauseOrUpdateTime({auth,pauseStatus ,updated, setState ,
         <React.Fragment>
             <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" maxWidth={"md"} aria-describedby="alert-dialog-slide-description">
                 <DialogTitle className="bg-[#0AA283] text-center text-white" padding={"3px 24px !important"} fontSize={"16px !important"} fontWeight={"600 !important"}> Task Status Warning</DialogTitle>
-                    <Typography variant="h6" sx={{ display:'flex',alignItems:"center",justifyContent:"center",pt:"15px" }} >One Task is Already Start</Typography>
-                    <Typography sx={{ p:'0px 12px' }}>Task Id : {updated[0].id} , Task Name : {updated[0].task_name} and start time of task : {updated[0].started_at}</Typography>
-                    <Typography sx={{ pl:'16px' }}> if you want to start current task first pause task " {updated[0].task_name} (task id :{updated[0].id}) "</Typography>
+                    <Typography variant="h6" sx={{ display:'flex',alignItems:"center",justifyContent:"center",pt:"15px",fontWeight:"bold" }} >One Task is Already Start</Typography>
+                    <Grid container sx={{ display:'flex',padding:'10px 50px',justifyContent:"center"}}>
+                        <Grid container>
+                            <Grid item xs="6">Task Id</Grid>
+                            <Grid item xs="6"> {updated[0].id}</Grid>
+                       </Grid>
+                       <Grid container>
+                            <Grid item xs="6">Task Name</Grid>
+                            <Grid item xs="6">{updated[0].task_name}</Grid>
+                       </Grid>
+                       <Grid container>
+                            <Grid item xs="6">Start Time of Task</Grid>
+                            <Grid item xs="6">{updated[0].started_at}</Grid>
+                       </Grid>
+
+                    </Grid>
+                   <Typography variant="h6" sx={{ pl:'16px' , display:'flex', justifyContent:"center"}}> Do you want to Pause Task :"
+                    {updated[0].task_name} (task id :{updated[0].id}) "</Typography>
+
 
                 <DialogActions sx={{ display:'flex',justifyContent:'center',alignItems:"center" }}>
                     <Button variant="contained" color="error" startIcon={<CloseIcon/>} onClick={handleClose} sx={{ cursor:"pointer" }}>cancle </Button>

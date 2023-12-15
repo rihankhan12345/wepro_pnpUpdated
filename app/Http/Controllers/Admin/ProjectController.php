@@ -32,8 +32,7 @@ class ProjectController extends Controller
         $data = $items[0];
         $developer = $items[1];
         $manager = $items[2];
-        return Inertia::render('Admin/Project/View',
-        ['data' => $data , 'developer'=>$developer , 'manager'=>$manager]);
+        return Inertia::render('Admin/Project/View',compact('data','developer','manager'));
     }
 
     public function create()

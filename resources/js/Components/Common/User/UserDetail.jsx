@@ -26,10 +26,7 @@ export default function UserDetail({ data ,auth }) {
                     <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>
                         Basic Information
                     </Typography>
-                    <Button
-                        sx={{ display: "flex", justifyContent: "center",borderRadius:'10px',height:"40px",marginRight:"10px", }}
-                        onClick={() => handleUpdate(data.id)}
-                    >
+                    <Button sx={{ display: "flex", justifyContent: "center",borderRadius:'10px',height:"40px",marginRight:"10px", }} >
                         <Edit auth={auth} user={data}/>
                     </Button>
                 </Grid>

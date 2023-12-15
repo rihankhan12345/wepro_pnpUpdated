@@ -52,7 +52,6 @@ export default function Create({ auth }) {
     });
 
     const handleProfile =(event) =>{
-        console.log(event,"avanet");
         if (event.target.files && event.target.files[0]) {
             setImage(URL.createObjectURL(event.target.files[0]));
           }
