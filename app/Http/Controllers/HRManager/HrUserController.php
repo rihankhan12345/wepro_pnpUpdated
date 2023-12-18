@@ -28,19 +28,9 @@ class HrUserController extends Controller
     }
 
     public function save(UserRequest $request){
-        $profileImage = $request->file('profile');
-        $data = $this->userRepository->save($request ,$profileImage);
+        $data = $this->userRepository->save($request );
         $id = $data->id;
-        // if($data->user_role === 'admin'){
-        //     return Redirect::back();
-        // }
-        // else{
-        //     return redirect::route('hrManager.user.salary.create',['user'=>$data]);
-        // }
-        // $data = $this->userRepository->save($request);
-        // $id = $data->id;
         return Redirect::route('hrManager.user.salary.create' ,['user'=>$id]);
-
     }
 
 

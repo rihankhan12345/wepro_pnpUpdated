@@ -14,6 +14,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import '@/Pages/Admin/Salary/Style.scss';
 import { useState } from "react";
 import { useEffect } from "react";
+import SuccessMsg from "../../SuccessMsg";
+import UpdateIcon from '@mui/icons-material/Update';
 const style = {
     position: "absolute",
     top: "50%",
@@ -25,11 +27,12 @@ const style = {
     p: 4,
 };
 
-export default function Edit({auth,salary}) {
-    console.log(salary,'salary');
+export default function Edit({auth,salary,userId}) {
+    console.log(userId,'userId');
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [alert ,setAlert] = useState(false);
 
     const { data, setData, post, processing, errors } = useForm({
         basic_salary: salary[0]?.basic_salary,
@@ -90,21 +93,30 @@ export default function Edit({auth,salary}) {
           e.preventDefault();
           {
             auth.user.user_role === "admin" ?
-            post(route("admin.user.salary.update",{id:salary[0].user_id} ),{
+            post(route("admin.user.salary.update",{id:userId} ),{
                 onSuccess:()=>{
+                    setAlert('Salary Updated.')
                     setOpen(false);
+                },onError:()=>{
+                    setAlert('Something is wrong !')
                 }
               })
               : auth.user.user_role === 'hr manager' &&
-              post(route("hrManager.user.salary.update",{id:salary[0].user_id} ),{
+              post(route("hrManager.user.salary.update",{id:userId} ),{
                 onSuccess:()=>{
+                    setAlert('Salary Updated.')
                     setOpen(false);
+                },onError:()=>{
+                    setAlert('Something is wrong !')
                 }
               });
           }
         };
     return (
         <>
+            {
+                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+            }
             <IconButton aria-label="edit" color="primary">
                 <EditIcon color="info" onClick={handleOpen}/>
             </IconButton>
@@ -334,7 +346,7 @@ export default function Edit({auth,salary}) {
                                     disabled={processing}
                                     style={{ height: "40px" }}
                                 >
-                                    Save
+                                   <UpdateIcon sx={{ height:'15px' }}/> Update
                                 </PrimaryButton>
                             </div>
                         </Box>

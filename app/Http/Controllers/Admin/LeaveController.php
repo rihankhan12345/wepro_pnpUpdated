@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use App\Interfaces\LeaveInterface;
 use App\Repository\LeaveRepository;
+use App\Http\Requests\LeaveRequest;
+use App\Http\Requests\LeaveEditRequest;
+
 
 class LeaveController extends Controller
 {
@@ -24,13 +27,13 @@ class LeaveController extends Controller
         return Inertia::render('Admin/Leave/View',['leave'=>$leaves]);
     }
 
-    public function save(Request $request ,$id)
+    public function save(LeaveRequest $request ,$id)
     {
         $this->leaveRepository->save($request->all(),$id);
         return redirect()->back();
     }
 
-    public function update(Request $request,$id)
+    public function update(LeaveEditRequest $request,$id)
     {
         $this->leaveRepository->update($request->all(),$id);
         return redirect()->back();

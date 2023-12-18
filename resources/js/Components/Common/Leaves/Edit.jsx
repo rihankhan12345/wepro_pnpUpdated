@@ -6,6 +6,7 @@ import Fade from "@mui/material/Fade";
 import EditIcon from "@mui/icons-material/Edit";
 import { useForm } from "@inertiajs/react";
 import CloseIcon from '@mui/icons-material/Close';
+import UpdateIcon from '@mui/icons-material/Update';
 import SaveIcon from '@mui/icons-material/Save';
 import {
     Button,
@@ -19,6 +20,8 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useEffect } from "react";
+import { useState } from "react";
+import SuccessMsg from "../SuccessMsg";
 
 const style = {
     position: "absolute",
@@ -33,9 +36,9 @@ const style = {
 
 export default function Edit({item,auth}){
 
-        const [open, setOpen] = React.useState(false);
+        const [open, setOpen] = useState(false);
+        const [alert,setAlert] = useState(false);
         const handleOpen = () => setOpen(true);
-        const handleClose = () => setOpen(false);
 
         const { data, setData, get, post, processing, errors, reset } = useForm({
             description: item.description,
@@ -46,6 +49,10 @@ export default function Edit({item,auth}){
             reason: item.reason,
         });
 
+        const handleClose = () => {
+            setOpen(false);
+            setData({});
+        }
         useEffect(()=>{
             setData({
                 description: item.description,
@@ -59,25 +66,35 @@ export default function Edit({item,auth}){
 
         const submit = (e) => {
             e.preventDefault();
+
             {
                 auth.user.user_role === "admin"
                     ? post(route("admin.user.leave.update",{id:item.id}), {
                           onSuccess: () => {
+                              setAlert("Leave Updated.")
                               setOpen(false);
                               setData({});
-                          },
+                          },onError:()=>{
+                            setAlert('Something is wrong !')
+                        }
                       })
                     : post(route("hrManager.user.leave.update",{id:item.id}), {
                           onSuccess: () => {
+                              setAlert("Leave Updated.");
                               setOpen(false);
                               setData({});
-                          },
+                          },onError:()=>{
+                            setAlert('Something is wrong !')
+                        }
                       });
             }
         };
 
         return (
             <div>
+                {
+                    alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+                }
                 <IconButton aria-label="edit" color="primary">
                    <EditIcon color="info" onClick={handleOpen} />
                 </IconButton>
@@ -191,7 +208,7 @@ export default function Edit({item,auth}){
                                             <div className="mt-4">
                                                 <InputLabel
                                                     htmlFor="from_date"
-                                                    value="from_date"
+                                                    value="From Date"
                                                     style={{
                                                         fontSize: "15px",
                                                         fontWeight: "bold",
@@ -315,6 +332,7 @@ export default function Edit({item,auth}){
                                             </div>
                                         )}
 
+
                                         <div className="flex items-center justify-center m-8">
                                         <Button
                                                 onClick={handleClose}
@@ -336,9 +354,8 @@ export default function Edit({item,auth}){
                                                     height: "40px",
                                                     backgroundColor: "#1976d2",
                                                 }}
-                                                startIcon={<SaveIcon/>}
                                             >
-                                                update
+                                              <UpdateIcon sx={{ height:'15px' }}/>  update
                                             </PrimaryButton>
 
                                         </div>

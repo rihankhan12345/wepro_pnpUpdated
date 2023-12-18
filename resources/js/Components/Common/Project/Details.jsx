@@ -7,6 +7,7 @@ import {
     Typography,
     IconButton,
     Chip,
+    Tooltip,
 } from "@mui/material";
 
 export default function Details({ user, data, auth ,updated}) {
@@ -29,8 +30,7 @@ export default function Details({ user, data, auth ,updated}) {
                             display: "flex",
                             justifyContent: "space-between",
                             height:"50px",
-                            borderTopLeftRadius:'10px',
-                            borderTopRightRadius:"10px"
+
                         }}
                     >
                         <Typography
@@ -106,8 +106,7 @@ export default function Details({ user, data, auth ,updated}) {
                             display: "flex",
                             justifyContent: "space-between",
                             height: "50px",
-                            borderTopLeftRadius:'10px',
-                            borderTopRightRadius:"10px"
+
                         }}
                     >
                         <Typography
@@ -125,9 +124,10 @@ export default function Details({ user, data, auth ,updated}) {
                         user.map((item, j) =>
                         {
                            return (
+                            <Tooltip title={item.user_role}>
                             <Chip label={item.name} key={j} className="capitalize" sx={{ margin:"10px"}}
                              color={item.user_role == "senior developer" ? "primary" : "success"}/>
-
+                             </Tooltip>
                            );
                         })
                     }

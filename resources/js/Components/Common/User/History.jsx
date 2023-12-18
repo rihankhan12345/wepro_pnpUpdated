@@ -2,7 +2,6 @@ import { data } from "autoprefixer";
 import { Box, Typography ,Grid } from "@mui/material";
 import DateTimeFormat from "@/Util/DateTimeFormat";
 
-
 export default function History({data})
 {
     return (
@@ -17,8 +16,6 @@ export default function History({data})
                      justifyContent: "space-between",
                      alignItems: "center",
                      height:"50px",
-                     borderTopLeftRadius:"10px",
-                     borderTopRightRadius:"10px"
                  }}
              >
                  <Typography

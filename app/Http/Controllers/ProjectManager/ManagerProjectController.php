@@ -23,7 +23,7 @@ class ManagerProjectController extends Controller
         $developer= $items[1];
         $manager= $items[2];
 
-        return Inertia::render('ProjectManager/Project/View',['data'=>$data ,"developer"=>$developer ,'manager'=>$manager]);
+        return Inertia::render('ProjectManager/Project/View',compact("data","developer" ,"manager"));
     }
 
     public function Detail($id){

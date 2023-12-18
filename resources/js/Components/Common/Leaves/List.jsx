@@ -17,6 +17,7 @@ import DateTimeFormat from "@/Util/DateTimeFormat";
 import Detail from "./Detail";
 import Create from "./Create";
 import Edit from "./Edit";
+
 export default function List({ data, auth}) {
 
     const [page, setPage] = useState(0);
@@ -44,14 +45,14 @@ export default function List({ data, auth}) {
     return (
         <>
             <div style={{ display: "flex", justifyContent: "end", paddingBottom:"10px"}} >
-                {auth.user.user_role == "admin" || auth.user.user_role == "hr manager" && ( <Create Id={data[0].user_id} auth={auth} /> )}
+                {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={data[0].user_id} auth={auth} /> )}
             </div>
 
             <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: "bold" }}>ID gjh</TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>ID </TableCell>
                             <TableCell sx={{ fontWeight: "bold" }}> Description </TableCell>
                             <TableCell sx={{ fontWeight: "bold" }}>Requested Date </TableCell>
                             <TableCell sx={{ fontWeight: "bold" }}> Status </TableCell>
@@ -77,6 +78,7 @@ export default function List({ data, auth}) {
                                             <TableCell className="capitalize">
                                                 <Chip
                                                     label={item.status}
+                                                    // color={data.status=='approved'?"success":data.status=='denied'?"error":''}
                                                 />
                                             </TableCell>
                                             <TableCell>
@@ -107,7 +109,7 @@ export default function List({ data, auth}) {
                                                     </VisibilityIcon>
                                                 </IconButton>
                                                 &emsp;
-                                                { auth.user.user_role == "admin" || auth.user.user_role == "hr manager" && (
+                                                { (auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && (
                                                     <IconButton aria-label="edit">
                                                         <Edit
                                                             item={item}

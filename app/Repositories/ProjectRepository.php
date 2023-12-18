@@ -51,7 +51,7 @@ class ProjectRepository implements ProjectInterface
         }
 
         else if($role ==="project manager"){
-            $project = Project::where('project_manager',$user->name)->get();
+            $project = Project::where('project_manager',$user->name)->paginate(10);
             $developer = User::whereIn('user_role',['senior developer','junior developer'])->get();
             $manager = User::where('user_role','project manager')->get();
             return [$project , $developer , $manager];
@@ -72,7 +72,6 @@ class ProjectRepository implements ProjectInterface
 
     public function save($req)
     {
-
         $data = Project::create([
             'title' => $req['title'],
             'description' => $req['description'],
@@ -97,16 +96,15 @@ class ProjectRepository implements ProjectInterface
     {
         try {
             $data = Project::findOrFail($id);
-        $dev_id = Developer::where('project_id', $data->id)->pluck('developer_id');
-        $dev = $dev_id->toArray();
+            $dev_id = Developer::where('project_id', $data->id)->pluck('developer_id');
+            $dev = $dev_id->toArray();
 
-        $developer = array_map('intval', explode(',', $dev[0]));
-        $developer = array_unique($developer);
+            $developer = array_map('intval', explode(',', $dev[0]));
+            $developer = array_unique($developer);
 
-        $manager = User::whereIn('user_role', ['project manager'])->pluck('name');
-        $devUsers = User::select('id', 'name', 'user_role')->whereIn('user_role', ['junior developer', 'senior developer'])->get();
-        return [ 'success' => true ,
-            $data,  $devUsers,  $manager, $developer];
+            $manager = User::whereIn('user_role', ['project manager'])->pluck('name');
+            $devUsers = User::select('id', 'name', 'user_role')->whereIn('user_role', ['junior developer', 'senior developer'])->get();
+            return [ 'success' => true,$data,  $devUsers,  $manager, $developer];
         } catch (\Throwable $th) {
             return [
                 'success' => false,

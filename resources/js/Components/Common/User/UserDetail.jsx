@@ -6,7 +6,7 @@ import Edit from "./Edit";
 
 export default function UserDetail({ data ,auth }) {
     const { setData, get, processing, errors, setError } = useForm();
-
+   console.log(data,'data');
     return (
         <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
             <Grid container >
@@ -19,8 +19,6 @@ export default function UserDetail({ data ,auth }) {
                         justifyContent: "space-between",
                         alignItems: "center",
                         height: "50px",
-                        borderTopLeftRadius:"15px",
-                        borderTopRightRadius:"15px",
                     }}
                 >
                     <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>

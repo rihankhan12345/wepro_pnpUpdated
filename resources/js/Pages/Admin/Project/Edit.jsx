@@ -1,21 +1,44 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { Head, router, useForm } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
+import CloseIcon from '@mui/icons-material/Close';
 import {
     Button,
     Grid,
+    IconButton,
     Typography,
 } from "@mui/material";
+import * as React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import EditIcon from "@mui/icons-material/Edit";
+import { useForm } from "@inertiajs/react";
+import UpdateIcon from '@mui/icons-material/Update';
 import InputError from "@/Components/InputError";
+import PrimaryButton from "@/Components/PrimaryButton";
 import { useEffect } from "react";
+import SuccessMsg from "@/Components/Common/SuccessMsg";
+
+const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    boxShadow: 24,
+    p: 4,
+};
 
 export default function Edit({ data, auth, developer, manager, devId }) {
+    console.log(manager,'data');
 
-    console.log(devId,'devevloper');
-    const [selectedDevelopers, setSelectedDevelopers] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [alert ,setAlert] = useState(false);
+    const handleOpen = () => setOpen(true);
     const { post, processing, errors, reset } = useForm();
 
     const [item, setItem] = useState({
@@ -35,6 +58,9 @@ export default function Edit({ data, auth, developer, manager, devId }) {
             };
         });
     };
+    const handleClose = () => {
+        setOpen(false);
+    }
     useEffect(()=>{
         setItem({
             title: data.title,
@@ -48,31 +74,55 @@ export default function Edit({ data, auth, developer, manager, devId }) {
     const handleDeveloper = (id) => {
         setItem((prev) => ({
             ...prev,
-            developer: prev.developer.includes(id)
-                ? prev.developer.filter((value) => value !== id)
-                : [...prev.developer, id],
+            developer: prev.developer
+                ? prev?.developer?.includes(id)
+                    ? prev.developer.filter((value) => value !== id)
+                    : [...prev.developer, id]
+                : [id],
         }));
     };
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        router.post(route("admin.project.update", [data.id]), item);
+        router.post(route("admin.project.update", [data.id]), item,{
+            onSuccess:()=>{
+                setAlert('Projectupdated');
+            }
+        });
     };
 
     return (
-        <AuthenticatedLayout user={auth.user}>
-            <div className="mt-5 flex flex-col sm:justify-center items-center sm:pt-0 bg-gray-100">
-                <Head title="Create Project" />
-
-                <div
-                    className="w-full  mt-0 px-3 py-2 shadow-md bg-white overflow-hidden sm:rounded-lg"
-                    style={{
-                        width: "60%",
-                        alignContent: "center",
-                        justifyContent: "space-between",
-                    }}
-                >
+        <div>
+        {
+            alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+        }
+       {
+        auth.user.user_role !== 'hr manager' &&
+        <IconButton aria-label="edit" color="primary">
+            <EditIcon color="info" onClick={handleOpen}/>
+        </IconButton>
+       }
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            slots={{ backdrop: Backdrop }}
+            slotProps={{ backdrop: { timeout: 500 } }}
+        >
+            <Fade in={open}>
+                <Box sx={style} style={{ width: "800px" }}>
+                    <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5">
+                        <div
+                            style={{
+                                alignItems: "center",
+                                display: "flex",
+                                justifyContent: "center",
+                                paddingBottom: "10px",
+                            }}
+                        >
                     <form onSubmit={handleSubmit}>
                         <div
                             style={{
@@ -143,10 +193,13 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 required
                             >
                                 {manager.map((mngr, index) => {
+                                    console.log(mngr,'manager');
                                     return (
-                                        <option value={mngr} key={index}>
-                                            {mngr}
-                                        </option>
+
+                                        <option value={mngr.name} key={index}>
+                                        {mngr.name}
+                                       </option>
+
                                     );
                                 })}
                             </select>
@@ -156,7 +209,7 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                             />
                         </div>
 
-                        <div className="mt-4">
+                        {/* <div className="mt-4">
                             <InputLabel
                                 htmlFor="Assign Date"
                                 value="Assign Date"
@@ -176,8 +229,7 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 message={errors.start_date}
                                 className="mt-2"
                             />
-                        </div>
-
+                        </div> */}
 
                         <div className="mt-4">
                             <InputLabel htmlFor="developer" value="Assign To" />
@@ -210,6 +262,17 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                         </div>
 
                         <div className="flex items-center justify-center m-8">
+                            <Button
+                                onClick={handleClose}
+                                variant="contained"
+                                color="error"
+                                style={{
+                                    height: "33px",
+                                    marginLeft: "10px",
+                                }}
+                                startIcon={<CloseIcon/>}>
+                                Cancle
+                            </Button>
                             <PrimaryButton
                                 className="ms-4"
                                 variant="contained"
@@ -219,13 +282,17 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                     backgroundColor: "#1976d2",
                                 }}
                             >
-                                Update Project
+                               <UpdateIcon sx={{ height:'15px' }}/> Update
                             </PrimaryButton>
-
                         </div>
+
                     </form>
-                </div>
+              </div>
             </div>
-        </AuthenticatedLayout>
+            </Box>
+          </Fade>
+         </Modal>
+        </div>
+
     );
 }

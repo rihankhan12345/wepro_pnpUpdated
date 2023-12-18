@@ -2,6 +2,7 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { router, useForm } from "@inertiajs/react";
+import SaveIcon from '@mui/icons-material/Save';
 import React from 'react';
 import './Style.scss'
 import {
@@ -12,9 +13,12 @@ import {
     Typography,
 } from "@mui/material";
 import _debounce from 'lodash/debounce';
+import { useState } from "react";
+import SuccessMsg from "@/Components/Common/SuccessMsg";
 
 
 export default function Create({ auth }) {
+    const [alert ,setAlert] = useState(false);
     const { data, setData, post, processing, errors } = useForm({
       basic_salary: 0,
       house_rent: 0,
@@ -36,7 +40,6 @@ export default function Create({ auth }) {
         params[key] = decodeURIComponent(value);
     });
 
-    console.log(params,'params');
 
     React.useEffect(() => {
         const grossSalary =
@@ -69,12 +72,19 @@ export default function Create({ auth }) {
 
       const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("admin.user.salary.save", params.user));
+        post(route("admin.user.salary.save", params.user),{
+            onSuccess:()=>{
+                setAlert("Salary Created Successfully");
+            }
+        });
       };
 
     return (
       <AuthenticatedLayout user={auth.user}>
-        <Container maxWidth="lg" className="shadow-sm bg-white py-5 m-5">
+        {
+            alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+        }
+        <Container maxWidth="md" className="shadow-sm bg-white py-5 m-5">
         <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
           <Typography variant="h5" align="center" className="pt-3 pb-5" sx={{ fontWeight: "bold" }}>
             Salary Compensation
@@ -242,7 +252,6 @@ export default function Create({ auth }) {
                       id="net_salary"
                       type="number"
                       value={data.net_salary}
-                      // onBlur={calculateNetSalary}
                       autoComplete="net_salary"
                       size="small"
                     />
@@ -255,7 +264,7 @@ export default function Create({ auth }) {
                         className="ms-4"
                         variant="contained"
                         disabled={processing}>
-                   Create Salary
+                        <SaveIcon sx={{ height:'15px' }}/> Create
                  </PrimaryButton>
                 </div>
 

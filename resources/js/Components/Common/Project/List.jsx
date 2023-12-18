@@ -62,7 +62,6 @@ export default function List({ data, auth, developer, manager}) {
         get(`${data.path}?page=1&per_page=${newRowsPerPage}`);
     };
 
-
     return (
         <>
         <Box mb={2}>
@@ -139,7 +138,7 @@ export default function List({ data, auth, developer, manager}) {
                                             }
                                         />
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell sx={{ display:"flex" }}>
                                         <IconButton aria-label="detail">
                                             <VisibilityIcon
                                                 sx={{
@@ -153,18 +152,17 @@ export default function List({ data, auth, developer, manager}) {
                                             />
                                         </IconButton>
                                         &emsp;
-                                        <IconButton
+                                        {/* <IconButton
                                             aria-label="edit"
                                             color="primary"
                                         >
                                             {
                                                 auth.user.user_role=="admin" &&
-                                                <EditIcon color="info" onClick={() =>handleUpdate(item.id) }/>
-                                                // <Edit data={item} developer={developer}
-                                                // manager={manager} devId={1}/>
-                                            }
+                                                // <EditIcon color="info" onClick={() =>handleUpdate(item.id) }/>
 
-                                        </IconButton>
+                                            }
+                                        </IconButton> */}
+                                        <Edit auth={auth} data={item} developer={developer} manager={manager} devId={[]}/>
                                     </TableCell>
                                 </TableRow>
                             );

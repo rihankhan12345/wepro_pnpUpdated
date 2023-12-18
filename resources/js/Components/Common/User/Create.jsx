@@ -13,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {  useForm } from "@inertiajs/react";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Save';
 
 import {
     Button,
@@ -23,6 +24,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useState } from "react";
+import SuccessMsg from "../SuccessMsg";
 
 const style = {
     position: "absolute",
@@ -38,8 +40,8 @@ const style = {
 export default function Create({ auth }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const [image,setImage] = useState(null);
+    const [alert ,setAlert] = useState(false);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
         name: "",
@@ -50,7 +52,10 @@ export default function Create({ auth }) {
         salary: "",
         profile:null,
     });
-
+    const handleClose = () => {
+        setOpen(false);
+        setData({});
+    };
     const handleProfile =(event) =>{
         if (event.target.files && event.target.files[0]) {
             setImage(URL.createObjectURL(event.target.files[0]));
@@ -62,13 +67,15 @@ export default function Create({ auth }) {
             auth.user.user_role === "admin" ?
             post(route("admin.user.save"), {
                 onSuccess: ( )=> {
+                    setAlert("User Created Successfully");
                     handleClose();
                     setData({});
                 }
             })
             :
             post(route('hrManager.user.save'),{
-                onSuccess: ( )=> {
+                onSuccess: ()=> {
+                    setAlert("User Created Successfully");
                     handleClose();
                     setData({});
                 }
@@ -79,7 +86,7 @@ export default function Create({ auth }) {
 
     return (
         <div>
-
+            {alert && <SuccessMsg severity={"success"} error={alert} setError={setAlert} title={alert}/>}
         <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />} >  Create</Button>
         <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" open={open} onClose={handleClose} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{  backdrop: {  timeout: 500,}, }}>
             <Fade in={open}>
@@ -282,7 +289,10 @@ export default function Create({ auth }) {
                              {
                                 data.profile &&  <img alt="preview image" className="pt-4" src={image} width={'200px'} height={'150px'}/>
                              }
-
+                             <InputError
+                                message={errors.profile}
+                                className="mt-2"
+                            />
                         </div>
 
                         {data.user_role === "admin" ? (
@@ -295,7 +305,7 @@ export default function Create({ auth }) {
                                         backgroundColor: "#1976d2",
                                     }}
                                 >
-                                    Create User
+                                   <SaveIcon sx={{ height:'15px' }}/> Create
                                 </PrimaryButton>
                             </div>
                         ) : (

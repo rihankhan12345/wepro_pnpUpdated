@@ -13,6 +13,8 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from "react";
+import UpdateIcon from '@mui/icons-material/Update';
+import SuccessMsg from "../../SuccessMsg";
 
 const style = {
     position: "absolute",
@@ -30,6 +32,7 @@ export default function Edit({ data, developer, devId ,auth }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [alert , setAlert] = useState();
     const priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const { post, get, processing, errors, reset } = useForm();
@@ -55,13 +58,14 @@ export default function Edit({ data, developer, devId ,auth }) {
     const handleChange = (e) => {
         setItem({ ...item, [e.target.name]: e.target.value });
     };
-
     const handleDeveloper = (id) => {
         setItem((prev) => ({
             ...prev,
-            developer: prev?.developer?.includes(id)
-                ? prev.developer.filter((value) => value !== id)
-                : [...prev.developer, id],
+            developer: prev.developer
+                ? prev.developer.includes(id)
+                    ? prev.developer.filter((value) => value !== id)
+                    : [...prev.developer, id]
+                : [id],
         }));
     };
 
@@ -81,17 +85,22 @@ export default function Edit({ data, developer, devId ,auth }) {
             auth.user.user_role == "admin" ?
             router.post(route("admin.project.task.update", { id: data.id }), item ,{
                 onSuccess: ( )=> {
+                    setAlert("Task Updated .");
                     setItem({});
                     setOpen(false);
+                },onError:()=>{
+                    setAlert('Something is wrong !')
                 }
             })
 
             :
-            // auth.user.user_role == "project manager" &&
             router.post(route("projectManager.project.task.update", { id: data.id }), item ,{
                 onSuccess: ( )=> {
+                    setAlert("Task Updated .");
                     setOpen(false);
                     setItem({});
+                },onError:()=>{
+                    setAlert('Something is wrong !')
                 }
             });
         }
@@ -100,6 +109,9 @@ export default function Edit({ data, developer, devId ,auth }) {
 
     return (
         <>
+            {
+                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+            }
             <IconButton aria-label="edit" color="primary">
                 <EditIcon color="info" onClick={handleOpen} />
             </IconButton>
@@ -212,7 +224,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                                         name="priority"
                                         style={{
                                             height: "42px",
-                                            width: "352px",
+                                            width: "335px",
                                         }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                         onChange={handleChange}
@@ -249,14 +261,14 @@ export default function Edit({ data, developer, devId ,auth }) {
                                         name="level"
                                         style={{
                                             height: "42px",
-                                            width: "352px",
+                                            width: "335px",
                                             marginLeft: "20px",
                                         }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full "
                                         onChange={handleChange}
                                         required
                                     >
-                                        <MenuItem>Choose level</MenuItem>
+                                        <MenuItem disabled>Choose level</MenuItem>
                                         {level.map((lab, index) => (
                                             <MenuItem
                                                 key={index}
@@ -320,6 +332,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                                     >Cancle</Button>
                                 <PrimaryButton
                                     className="ms-4"
+                                    startIcon={<UpdateIcon/>}
                                     variant="contained"
                                     disabled={processing}
                                     style={{
@@ -327,12 +340,11 @@ export default function Edit({ data, developer, devId ,auth }) {
                                         backgroundColor: "#1976d2",
                                     }}
                                 >
-                                    Update Task
+                                  <UpdateIcon sx={{ height:'15px' }}/>  Update Task
                                 </PrimaryButton>
-
                             </div>
                         </form>
-                    </div>
+                     </div>
                     </Box>
                 </Fade>
             </Modal>

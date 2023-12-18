@@ -17,6 +17,8 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
+import SuccessMsg from "../SuccessMsg";
+import { useState } from "react";
 
 const style = {
     position: "absolute",
@@ -30,9 +32,9 @@ const style = {
 };
 
 export default function Create({ auth ,Id }) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [alert,setAlert] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
         description: "",
@@ -40,7 +42,8 @@ export default function Create({ auth ,Id }) {
         from_date: "",
         to_date: "",
         status: "requested",
-        reason: "",
+        reason: null,
+        file:"",
     });
 
     const submit = (e) => {
@@ -49,21 +52,35 @@ export default function Create({ auth ,Id }) {
             auth.user.user_role === "admin"
                 ? post(route("admin.user.leave.save",{id:Id}), {
                       onSuccess: () => {
+                          setAlert('Leave Created successfully.');
                           handleClose();
                           setData({});
-                      },
+                      },onError:()=>{
+                        setAlert('Something is wrong !')
+                    }
                   })
                 : post(route("hrManager.user.leave.save",{id:Id}), {
                       onSuccess: () => {
+                          setAlert('Leave Created successfully.');
                           handleClose();
                           setData({});
-                      },
+                      },onError:()=>{
+                        setAlert('Something is wrong !')
+                    }
                   });
         }
     };
 
+    const handleClose = () => {
+        setOpen(false);
+        setData({});
+    }
+
     return (
         <div>
+            {
+                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+            }
             <Button
                 variant="contained"
                 onClick={handleOpen}
@@ -181,7 +198,7 @@ export default function Create({ auth ,Id }) {
                                         <div className="mt-4">
                                             <InputLabel
                                                 htmlFor="from_date"
-                                                value="from_date"
+                                                value="From Date"
                                                 style={{
                                                     fontSize: "15px",
                                                     fontWeight: "bold",
@@ -304,6 +321,21 @@ export default function Create({ auth ,Id }) {
                                             />
                                         </div>
                                     )}
+                                    <div className="mt-4">
+                                            <InputLabel
+                                                htmlFor="File"
+                                                value="Upload File"
+                                                style={{
+                                                    fontSize: "15px",
+                                                    fontWeight: "bold",
+                                                }}
+                                            />
+                                           <input type="file" onChange={e => setData('file', e.target.files[0])}/>
+                                            <InputError
+                                                message={errors.file}
+                                                className="mt-2"
+                                            />
+                                    </div>
 
                                     <div className="flex items-center justify-center m-8">
                                     <Button
@@ -326,8 +358,7 @@ export default function Create({ auth ,Id }) {
                                                 height: "40px",
                                                 backgroundColor: "#1976d2",
                                             }}
-                                            startIcon={<SaveIcon/>}
-                                        >
+                                        ><SaveIcon sx={{ height:'15px' }}/>
                                             Save
                                         </PrimaryButton>
 

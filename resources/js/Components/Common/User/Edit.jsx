@@ -13,6 +13,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { useEffect } from "react";
+import SuccessMsg from "../SuccessMsg";
+import UpdateIcon from '@mui/icons-material/Update';
 
 const style = {
     position: "absolute",
@@ -27,10 +29,10 @@ const style = {
 
 
 export default function Edit({ auth, user }) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [alert,setAlert] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [effect,setEffect] = useState(true);
     const { data, setData, get, post, processing, errors, reset } = useForm();
 
     const [value, setValue] = useState({
@@ -38,6 +40,7 @@ export default function Edit({ auth, user }) {
         email: user.email,
         user_role: user.user_role,
         contact_no: user.contact_no,
+        profile:user.profile,
     });
     const handleChange = (e) => {
 
@@ -63,15 +66,21 @@ export default function Edit({ auth, user }) {
             auth.user.user_role == "admin" ?
             router.post(route("admin.user.update", [user.id]), value ,{
                 onSuccess: ( )=> {
+                    setAlert("User Updated Successfully");
                     handleClose();
                     setValue({});
+                },onError:()=>{
+                    setAlert('Something is wrong !')
                 }
             })
             :
             router.post(route("hrManager.user.update", [user.id]), value ,{
                 onSuccess: ( )=> {
+                    setAlert("User Updated Successfully");
                     handleClose();
                     setValue({});
+                },onError:()=>{
+                    setAlert('Something is wrong !')
                 }
             });
         }
@@ -81,8 +90,9 @@ export default function Edit({ auth, user }) {
 
     return (
        <>
-           <IconButton aria-label="edit" color="primary" onClick={handleOpen} disabled={user.user_role=="admin" ? true :false} >
-                <EditIcon color={user.user_role !=="admin" ? 'info' : 'error'}/>
+            {alert && <SuccessMsg severity={"success"} error={alert} setError={setAlert} title={alert}/>}
+           <IconButton aria-label="edit" color="primary" onClick={handleOpen} disabled={(auth.user.user_role=="hr manager" && user.user_role =='admin') ? true :false} >
+                <EditIcon color={(auth.user.user_role =="hr manager" && user.user_role=='admin') ? 'error' : 'info'}/>
             </IconButton>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -147,13 +157,20 @@ export default function Edit({ auth, user }) {
                                     <InputError message={errors.user_role} className="mt-2" />
                                 </div>
 
+                                {/* <div className="mt-4">
+                                    <InputLabel htmlFor="profile" value="Profile" />
+                                    <input id="profile" type="file" name="profile" value={value.profile} className="mt-1 block w-full" onChange={(e) => handleChange(e)}/>
+                                    <InputError message={errors.profile} className="mt-2" />
+                                </div> */}
+
+
                                 <div className="flex items-center justify-center mt-4">
                                     <Button onClick={handleClose} variant="contained" color="error"
                                     style={{ height: "33px", marginLeft:"10px" }} startIcon={<CloseIcon/>}> Cancle</Button>
-                                    <PrimaryButton className="ms-4"
-                                    style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center",
-                                    display: "flex", justifyContent: "center",textTransform:"none"  }} > Update User </PrimaryButton>
+                                    <PrimaryButton className="ms-4" style={{ height: "40px", backgroundColor: "#1976d2",width: "150px", alignItems: "center",
+                                    display: "flex", justifyContent: "center",textTransform:"none"  }} > <UpdateIcon sx={{ height:'15px' }}/> Update  </PrimaryButton>
                                 </div>
+
                             </form>
                         </div>
                     </Box>

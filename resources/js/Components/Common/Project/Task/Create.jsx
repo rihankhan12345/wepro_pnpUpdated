@@ -13,6 +13,9 @@ import TextInput from "@/Components/TextInput";
 import { Alert, Grid, MenuItem, Select } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Save';
+import { useState } from "react";
+import SuccessMsg from "../../SuccessMsg";
 
 const style = {
     position: "absolute",
@@ -27,9 +30,9 @@ const style = {
 
 export default function Create({ developer, Id ,auth }) {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [alert,setAlert] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -44,11 +47,18 @@ export default function Create({ developer, Id ,auth }) {
     const handleDeveloper = (id) => {
         setData((prev) => ({
             ...prev,
-            developer: prev?.developer?.includes(id)
-                ? prev.developer.filter((value) => value !== id)
-                : [...prev.developer, id],
+            developer: prev.developer
+                ? prev.developer.includes(id)
+                    ? prev.developer.filter((value) => value !== id)
+                    : [...prev.developer, id]
+                : [id],
         }));
     };
+
+    const handleClose = () =>{
+        setOpen(false);
+        setData({});
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -56,8 +66,11 @@ export default function Create({ developer, Id ,auth }) {
             auth.user.user_role == "admin" ?
            post(route("admin.project.task.save", { id: Id }),{
             onSuccess: ()=> {
+                setAlert('Task Created Successfully .')
                 handleClose();
                 setData({});
+            },onError:()=>{
+                setAlert('Something is wrong !')
             }
         })
            :
@@ -65,6 +78,8 @@ export default function Create({ developer, Id ,auth }) {
             onSuccess: ( )=> {
                 handleClose();
                 setData({});
+            },onError:()=>{
+                setAlert('Something is wrong !')
             }
         })
         }
@@ -74,6 +89,9 @@ export default function Create({ developer, Id ,auth }) {
 
     return (
         <div>
+            {
+                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+            }
             <Button
                 variant="contained"
                 onClick={handleOpen}
@@ -222,7 +240,7 @@ export default function Create({ developer, Id ,auth }) {
                                         name="priority"
                                         style={{
                                             height: "42px",
-                                            width: "352px",
+                                            width: "335px",
                                         }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 "
                                         onChange={(e) =>
@@ -265,7 +283,7 @@ export default function Create({ developer, Id ,auth }) {
                                         name="level"
                                         style={{
                                             height: "42px",
-                                            width: "352px",
+                                            width: "335px",
                                             marginLeft: "20px",
                                         }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 "
@@ -380,7 +398,7 @@ export default function Create({ developer, Id ,auth }) {
                                         height: "40px",
                                         backgroundColor: "#1976d2",
                                     }}
-                                >
+                                ><SaveIcon sx={{ height:'15px' }}/>
                                     Create Task
                                 </PrimaryButton>
 

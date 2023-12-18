@@ -17,5 +17,6 @@ class Leave extends Model
         'status',
         'reason',
         'user_id',
+        'file',
     ];
 }

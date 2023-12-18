@@ -17,8 +17,7 @@ export default function History({data})
                      justifyContent: "space-between",
                      alignItems: "center",
                      height:"50px",
-                     borderTopLeftRadius:'10px',
-                    borderTopRightRadius:"10px"
+
                  }}
              >
                  <Typography
@@ -60,6 +59,7 @@ export default function History({data})
          <Grid container className="px-3">
 
          </Grid>
+
          </Box>
     );
 }

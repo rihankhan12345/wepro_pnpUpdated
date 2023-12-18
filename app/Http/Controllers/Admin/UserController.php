@@ -43,8 +43,7 @@ class UserController extends Controller
 
     public function save(UserRequest $request){
 
-        $profileImage = $request->file('profile');
-        $data = $this->userRepository->save($request ,$profileImage);
+        $data = $this->userRepository->save($request);
         $id = $data->id;
         if($data->user_role === 'admin'){
             return Redirect::back();

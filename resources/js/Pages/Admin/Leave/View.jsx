@@ -25,7 +25,7 @@ export default function View({auth,leave ,Id}) {
                                             <Create auth={auth} Id={Id}/>
                                           }
                                     >
-                                      Don't have Leave recordes
+                                      Don't have Leave record
                                     </Alert>
                                 </div>
                             </div>

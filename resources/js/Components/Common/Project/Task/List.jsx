@@ -44,7 +44,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "end",}} >
+            <div style={{ display: "flex", justifyContent: "end",paddingBottom:'10px'}} >
                 {auth.user.user_role == "admin" && ( <Create developer={developer} Id={Id} auth={auth} /> )}
             </div>
 

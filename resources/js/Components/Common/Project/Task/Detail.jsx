@@ -9,6 +9,7 @@ import {
     IconButton,
     MenuItem,
     Select,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import DateTimeFormat from "@/Util/DateTimeFormat";
@@ -79,11 +80,9 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                 )
             ) : auth.user.user_role == "senior developer" ? (
                 router.post(route("developer.project.task.status", { id: data.id }),state)
-            ) : auth.user.user_role == "junior developer" ? (
+            ) : auth.user.user_role == "junior developer" && (
                 router.post(route("developer.project.task.status", { id: data.id }), state)
-            ) : (
-                <Alert> Route Not Define</Alert>
-            );
+            )
         }
         setIsEdit(false);
     };
@@ -109,8 +108,6 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                             justifyContent: "space-between",
                             alignItems: "center",
                             height: "50px",
-                            borderTopLeftRadius: "10px",
-                            borderTopRightRadius: "10px",
                         }}
                     >
                         <Typography
@@ -286,8 +283,6 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                             display: "flex",
                             justifyContent: "space-between",
                             height: "50px",
-                            borderTopLeftRadius: "10px",
-                            borderTopRightRadius: "10px",
                         }}
                     >
                         <Typography
@@ -308,16 +303,18 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                 dev.map((id_dev,i)=>{
                                     return (
                                         id_dev == item.id &&
-                                    <Chip
-                                        label={item.name} key={j || i}
-                                        className="capitalize"
-                                        sx={{ margin: "10px" }}
-                                        color={
-                                            item.user_role == "senior developer"
-                                                ? "primary"
-                                                : "success"
-                                        }
-                                    />);
+                                        <Tooltip title={item.user_role}>
+                                            <Chip
+                                                label={item.name} key={j || i}
+                                                className="capitalize"
+                                                sx={{ margin: "10px" }}
+                                                color={
+                                                   item.user_role == "senior developer"
+                                                        ? "primary"
+                                                        : "success"
+                                                }
+                                            />
+                                    </Tooltip>);
                                 })
 
                             );

@@ -70,7 +70,7 @@ export default function Create({ auth }) {
 
     return (
       <AuthenticatedLayout user={auth.user}>
-        <Container maxWidth="lg" className="shadow-md bg-white py-5 m-5">
+        <Container maxWidth="md" className="shadow-md bg-white py-5 m-5">
           <Typography variant="h5" align="center" className="pt-3 pb-5" sx={{ fontWeight: "bold" }}>
             Salary Compensation
           </Typography>

@@ -5,6 +5,7 @@ import {
     Grid,
     Typography,
     Chip,
+    Alert,
 } from "@mui/material";
 
 export default function Details({ data, auth }) {
@@ -23,32 +24,16 @@ export default function Details({ data, auth }) {
                             display: "flex",
                             justifyContent: "space-between",
                             height:"50px",
-                            borderTopLeftRadius:'10px',
-                            borderTopRightRadius:"10px"
-                        }}
-                    >
-                        <Typography
-                            sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                        >
+                        }}>
+                        <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>
                             Leave Information
                         </Typography>
-
-
 
                     </Grid>
                 </Grid>
                 <br />
 
                 <Grid container className="px-3">
-                    <Grid item xs={4}>
-                        <Typography sx={{ fontWeight: "bold" }}>
-                            Description
-                        </Typography>
-                        <Typography className="capitalize">
-                            {data.description}
-                        </Typography>
-                    </Grid>
-
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>
                             Requested Date
@@ -59,12 +44,43 @@ export default function Details({ data, auth }) {
                     </Grid>
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>
+                            From Date
+                        </Typography>
+                        <Typography className="capitalize">
+                           <FormatDate date={data.from_date}/>
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Typography sx={{ fontWeight: "bold" }}>
+                            To Date
+                        </Typography>
+                        <Typography className="capitalize">
+                           <FormatDate date={data.to_date}/>
+                        </Typography>
+                    </Grid>
+
+                </Grid>
+                <br/>
+                <Grid container className="px-3">
+                    <Grid item xs={4}>
+                        <Typography sx={{ fontWeight: "bold" }}>
                            Status
                         </Typography>
                         <Typography className="capitalize">
-                            <Chip color="primary" label={data.status} />
+                            <Chip color={data.status=='approved'?"success":data.status=='denied'?"error":''} label={data.status} />
                         </Typography>
                     </Grid>
+
+                {data.status=='denied' &&
+                     <Grid item xs={4}>
+                     <Typography sx={{ fontWeight: "bold" }}>
+                        Reason
+                     </Typography>
+                     <Typography className="capitalize">
+                         <Alert color="error" severity="error">{data.reason} </Alert>
+                     </Typography>
+                    </Grid>
+                }
                 </Grid>
                 <br />
 

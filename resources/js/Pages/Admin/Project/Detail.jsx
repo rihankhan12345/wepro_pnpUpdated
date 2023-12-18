@@ -11,7 +11,6 @@ import History from "../../../Components/Common/Project/History";
 import Details from "@/Components/Common/Project/Details";
 
 export default function Detail({ data, auth, user, task ,updated }) {
-    console.log(task,'taskkk');
     const [value, setValue] = React.useState("1");
     const handleChange = (event, newValue) => {
         setValue(newValue);

@@ -10,16 +10,16 @@ import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from '@mui/icons-material/Close';
+import SaveIcon from '@mui/icons-material/Save';
 import {
     Alert,
     Box,
     Button,
     Grid,
-    MenuItem,
-    Select,
     Typography,
 } from "@mui/material";
 import { useEffect } from "react";
+import SuccessMsg from "@/Components/Common/SuccessMsg";
 
 const style = {
     position: "absolute",
@@ -32,11 +32,10 @@ const style = {
     p: 4,
 };
 
-export default function Create({ auth, developer, manager }) {
-    const [selectedDevelopers, setSelectedDevelopers] = useState([]);
+export default function Create({developer, manager }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [alert,setAlert] = useState(false);
     const { data, setData, post, processing, errors, reset } = useForm({
         title: "",
         description: "",
@@ -48,11 +47,18 @@ export default function Create({ auth, developer, manager }) {
     const handleDeveloper = (id) => {
         setData((prev) => ({
             ...prev,
-            developer: prev?.developer?.includes(id)
-                ? prev?.developer?.filter((value) => value !== id)
-                : [...prev?.developer, id],
+            developer: prev.developer
+                ? prev.developer.includes(id)
+                    ? prev.developer.filter((value) => value !== id)
+                    : [...prev.developer, id]
+                : [id],
         }));
     };
+
+    const handleClose = () => {
+        setOpen(false);
+        setData({});
+    }
 
     useEffect(()=>{
         setData({
@@ -68,6 +74,7 @@ export default function Create({ auth, developer, manager }) {
         e.preventDefault();
         post(route("admin.project.save"),{
             onSuccess: ( )=> {
+                setAlert("Project created Successfully");
                 handleClose();
                 setData({});
             }
@@ -76,6 +83,9 @@ export default function Create({ auth, developer, manager }) {
     };
     return (
         <div>
+            {
+                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+            }
             <Button
                 variant="contained"
                 onClick={handleOpen}
@@ -325,9 +335,8 @@ export default function Create({ auth, developer, manager }) {
                                     style={{
                                         height: "40px",
                                         backgroundColor: "#1976d2",
-                                    }}
-                                >
-                                    Create Project
+                                    }} >
+                                    <SaveIcon sx={{ height:'15px' }}/>Create
                                 </PrimaryButton>
 
                             </div>

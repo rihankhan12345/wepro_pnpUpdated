@@ -20,19 +20,21 @@ class UserRepository implements UserInterface
          return $data;
     }
 
-    public function save($data ,$profileImage){
-
-        $fileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
-
-        $profileImagePath = $profileImage->storeAs('profile', $fileName . $data['id'] . '.' . $profileImage->getClientOriginalExtension(), 'public');
+    public function save($data){
         $user=User::create([
                     'name' => $data->name,
                     'email' => $data->email,
                     'user_role'=>str_replace('_', ' ', $data->user_role),
                     'password' => Hash::make($data->password),
                     'contact_no' => $data->contact_no,
-                    'profile' =>$profileImagePath,
                 ]);
+
+        if($data->hasFile('profile')){
+            $profileImage = $data->profile;
+            $fileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
+            $profileImagePath = $profileImage->storeAs('profile', $fileName . $user->id . '.' . $profileImage->getClientOriginalExtension(), 'public');
+            User::where('id',$user->id)->update(['profile' =>$profileImagePath]);
+        }
         return $user;
     }
 

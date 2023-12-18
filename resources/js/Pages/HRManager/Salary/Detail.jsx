@@ -4,6 +4,7 @@ import Edit from "@/Components/Common/Project/Salary/Edit";
 
 export default function DetailSalary({auth,salary ,data}){
     const { setData, get, processing, errors, setError } = useForm();
+    console.log(auth,salary,data,'data');
 
     return (
         <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
@@ -17,8 +18,6 @@ export default function DetailSalary({auth,salary ,data}){
                     justifyContent: "space-between",
                     alignItems: "center",
                     height: "50px",
-                    borderTopLeftRadius:"15px",
-                    borderTopRightRadius:"15px",
                 }}
             >
                         <Typography
@@ -28,7 +27,7 @@ export default function DetailSalary({auth,salary ,data}){
                         </Typography>
 
                         <Button sx={{ display: "flex", justifyContent: "end" }}>
-                            <Edit auth={auth} salary={salary} />
+                            <Edit auth={auth} salary={salary} item={data} />
                         </Button>
                     </Grid>
                 </Grid>
