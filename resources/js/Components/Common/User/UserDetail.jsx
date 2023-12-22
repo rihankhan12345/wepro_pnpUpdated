@@ -6,7 +6,6 @@ import Edit from "./Edit";
 
 export default function UserDetail({ data ,auth }) {
     const { setData, get, processing, errors, setError } = useForm();
-   console.log(data,'data');
     return (
         <Box sx={{ backgroundColor: "#f7f7f7",borderRadius:'10px'}} className="pb-5">
             <Grid container >
@@ -41,6 +40,13 @@ export default function UserDetail({ data ,auth }) {
                     <Typography sx={{ fontWeight: "bold" }}>Email</Typography>
                     <Typography>{data.email}</Typography>
                 </Grid>
+                <Grid item xs={4}>
+                    <Typography sx={{ fontWeight: "bold" }}>
+                        User Role
+                    </Typography>
+                    <Typography className="capitalize">{data.user_role}</Typography>
+                </Grid>
+
             </Grid>
             <br />
             <Grid container className="px-3">

@@ -31,7 +31,6 @@ export default function List({data, auth }) {
         get(route("admin.user.detail", {id}));
     }
 
-    console.log(data,'data');
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
         if (data.next_page_url) {

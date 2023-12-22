@@ -44,7 +44,7 @@ export default function Create({ auth ,Id ,user}) {
     const [alert,setAlert] = useState(false);
     const [severity,setSeverity] = useState(null);
     const [effect,setEffect] = useState(false);
-    const [unique ,setUnique] = useState(Id?.user_id);
+    const [unique ,setUnique] = useState(Id);
     const handleOpen=(e)=>setOpen(true);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
@@ -69,7 +69,6 @@ export default function Create({ auth ,Id ,user}) {
         setUnique(e.target.value);
     }
 
-    console.log(unique,'valueeee');
 
     const submit = (e) => {
         e.preventDefault();

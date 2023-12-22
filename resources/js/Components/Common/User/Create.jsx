@@ -26,6 +26,8 @@ import {
 import { useState } from "react";
 import SuccessMsg from "../SuccessMsg";
 import PhoneValidate from "@/Util/PhoneValidate";
+import Joi from "@/Util/JoiValidator";
+import ValdidationSchema from "./Components/ValidationSchema";
 
 const style = {
     position: "absolute",
@@ -47,7 +49,7 @@ export default function Create({ auth }) {
     const [image,setImage] = useState(null);
     const [alert ,setAlert] = useState(false);
     const [severity ,setSeverity] = useState(null);
-    const { data, setData, get, post, processing, errors, reset } = useForm({
+    const { data, setData, get, post, processing, errors, reset ,setError } = useForm({
         name: "",
         email: "",
         password: "",
@@ -104,6 +106,10 @@ export default function Create({ auth }) {
     };
 
     function handleChange(key,val) {
+        setError({
+            ...errors,
+            [key]: Joi.validateToPlainErrors(val,ValdidationSchema.USER_SCHEMA[key])
+        });
         setData({
             ...data,
             [key]: val,

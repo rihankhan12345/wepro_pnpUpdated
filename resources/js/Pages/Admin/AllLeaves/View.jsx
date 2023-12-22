@@ -4,7 +4,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Alert,} from "@mui/material";
 
 export default function View({ leave ,auth ,user}) {
-      console.log(leave ,'leaves');
     return (
         <AuthenticatedLayout user={auth.user}>
             <div  className="py-12">
