@@ -27,7 +27,7 @@ export default function View({ leave ,auth ,user}) {
                             </>
                         ) : (
                             <>
-                            <List leave={leave.data} auth={auth} user={user}/>
+                                <List leave={leave.data} auth={auth} user={user}/>
                             </>
                         )}
                     </div>
