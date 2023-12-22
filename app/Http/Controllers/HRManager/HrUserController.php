@@ -28,16 +28,26 @@ class HrUserController extends Controller
     }
 
     public function save(UserRequest $request){
-        $data = $this->userRepository->save($request );
-        $id = $data->id;
-        return Redirect::route('hrManager.user.salary.create' ,['user'=>$id]);
+        $response = $this->userRepository->save($request );
+        $id = $response['data']['id'];
+        if($response['success']){
+            return Redirect::route('hrManager.user.salary.create' ,['user'=>$id]);
+        }
+        else{
+            return Redirect::back()->withErrors($response);
+        }
     }
 
 
     public function update(Request $request ,$id)
     {
-       $data= $this->userRepository->update($id,$request->all());
-        return Redirect::route('hrManager.user.list');
+
+        $response =$this->userRepository->update($id,$request->all());
+        if($response['success']) {
+            return back();
+        } else {
+            return Redirect::back()->withErrors($response);
+        }
     }
 
     public function detail($id)

@@ -22,9 +22,10 @@ class LeaveEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'requested_date'=>['required'],
-                'from_date'=>['required','after:requested_date'],
-                'to_date'=>['required','after_or_equal:from_date'],
+                'subject'=>['required'],
+                'description'=>['required'],
+                'requested_date'=>['required',],
+                'to_date'=>['required','after_or_equal:requested_date'],
         ];
     }
 }

@@ -33,7 +33,7 @@ export default function UserDetail({ data ,auth }) {
             <Grid container className="px-3">
                 <Grid item xs={4}>
                     <Typography sx={{ fontWeight: "bold" }}>
-                        User Name{" "}
+                        User Name
                     </Typography>
                     <Typography className="capitalize">{data.name}</Typography>
                 </Grid>
@@ -43,12 +43,11 @@ export default function UserDetail({ data ,auth }) {
                 </Grid>
                 <Grid item xs={4}>
                     <Typography sx={{ fontWeight: "bold" }}>
-                        User Role
+                        User Name
                     </Typography>
-                    <Typography className="capitalize">
-                        {data.user_role.replace("_", " ")}
-                    </Typography>
+                    <Typography className="capitalize">{data.name}</Typography>
                 </Grid>
+
             </Grid>
             <br />
             <Grid container className="px-3">
@@ -57,6 +56,13 @@ export default function UserDetail({ data ,auth }) {
                     <Typography className="capitalize">
                         {data.contact_no}
                     </Typography>
+                </Grid>
+            </Grid>
+            <br />
+            <Grid container className="px-3">
+                <Grid item xs={4}>
+                    <Typography sx={{ fontWeight: "bold",paddingBottom:'10px' }}>Profile Image </Typography>
+                    <img src= {data.profile} alt="Profile Image" height={'200px'} width={'200px'}/>
                 </Grid>
             </Grid>
         </Box>

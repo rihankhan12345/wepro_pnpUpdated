@@ -25,7 +25,7 @@ export default function List({ data, auth, developer, manager}) {
     const { setData, get, processing, errors, setError } = useForm();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const { current_page, last_page, total } = data;
+    const { current_page, total } = data;
     const handleView = (id) => {
        if(auth.user.user_role==="admin"){
         get(route("admin.project.detail", { id }));
@@ -92,22 +92,19 @@ export default function List({ data, auth, developer, manager}) {
             <Table aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell
-                            sx={{ fontWeight: "bold" }}
-                        >
-                            {" "}
-                            ID{" "}
+                        <TableCell sx={{ fontWeight: "bold" }}>
+                            ID
                         </TableCell>
                         <TableCell sx={{ fontWeight: "bold" }}>
                             Title
                         </TableCell>
                         <TableCell sx={{ fontWeight: "bold" }}>
-                            Start Date
+                            Assign Date
                         </TableCell>
                         <TableCell sx={{ fontWeight: "bold" }}>
                             Created Date
                         </TableCell>
-                        <TableCell sx={{ fontWeight: "bold" }}>
+                        <TableCell sx={{ fontWeight: "bold" ,textAlign:'center'}}>
                             Action
                         </TableCell>
                     </TableRow>
@@ -124,45 +121,25 @@ export default function List({ data, auth, developer, manager}) {
                                         {item.title}
                                     </TableCell>
                                     <TableCell>
-                                        <FormatDate
-                                            date={
-                                                item.start_date
-                                            }
-                                        />
+                                        <FormatDate date={ item.start_date }/>
                                     </TableCell>
 
                                     <TableCell>
-                                        <DateTimeFormat
-                                            date={
-                                                item.created_at
-                                            }
-                                        />
+                                        <DateTimeFormat date={item.created_at}/>
                                     </TableCell>
-                                    <TableCell sx={{ display:"flex" }}>
+                                    <TableCell sx={{ display:"flex" ,justifyContent:'center',alignItems:'center' }}>
                                         <IconButton aria-label="detail">
                                             <VisibilityIcon
-                                                sx={{
-                                                    color: "rgba(0, 0, 0, 0.54)",
-                                                }}
-                                                onClick={() =>
-                                                    handleView(
-                                                        item.id
-                                                    )
-                                                }
+                                                sx={{ color: "rgba(0, 0, 0, 0.54)", }}
+                                                onClick={() => handleView( item.id ) }
                                             />
                                         </IconButton>
                                         &emsp;
-                                        {/* <IconButton
-                                            aria-label="edit"
-                                            color="primary"
-                                        >
                                             {
                                                 auth.user.user_role=="admin" &&
-                                                // <EditIcon color="info" onClick={() =>handleUpdate(item.id) }/>
+                                                <EditIcon color="info" onClick={() =>handleUpdate(item.id) }/>
 
                                             }
-                                        </IconButton> */}
-                                        <Edit auth={auth} data={item} developer={developer} manager={manager} devId={[]}/>
                                     </TableCell>
                                 </TableRow>
                             );

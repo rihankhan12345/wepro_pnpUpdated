@@ -1,45 +1,27 @@
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useState } from "react";
 import InputLabel from "@/Components/InputLabel";
+import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import { router } from "@inertiajs/react";
-import CloseIcon from '@mui/icons-material/Close';
+import { Head, router, useForm, } from "@inertiajs/react";
+import UpdateIcon from '@mui/icons-material/Update';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import {
     Button,
+    Chip,
     Grid,
-    IconButton,
     Typography,
 } from "@mui/material";
-import * as React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import EditIcon from "@mui/icons-material/Edit";
-import { useForm } from "@inertiajs/react";
-import UpdateIcon from '@mui/icons-material/Update';
 import InputError from "@/Components/InputError";
-import PrimaryButton from "@/Components/PrimaryButton";
 import { useEffect } from "react";
 import SuccessMsg from "@/Components/Common/SuccessMsg";
 
-const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-};
-
 export default function Edit({ data, auth, developer, manager, devId }) {
-    console.log(manager,'data');
 
-    const [open, setOpen] = useState(false);
-    const [alert ,setAlert] = useState(false);
-    const handleOpen = () => setOpen(true);
+    const [selectedDevelopers, setSelectedDevelopers] = useState([]);
     const { post, processing, errors, reset } = useForm();
+    const [alert,setAlert] = useState(false);
+    const [severity,setSeverity]= useState(null);
 
     const [item, setItem] = useState({
         title: data.title,
@@ -58,24 +40,23 @@ export default function Edit({ data, auth, developer, manager, devId }) {
             };
         });
     };
-    const handleClose = () => {
-        setOpen(false);
-    }
+
+    const allDeveloper = developer.concat(manager);
     useEffect(()=>{
-        setItem({
-            title: data.title,
-            description: data.description,
-            start_date: data.start_date,
-            end_date: data.end_date,
-            project_manager: data.project_manager,
-            developer: devId,
-        });
+        setItem((prev)=>({
+            title: prev.title,
+            description: prev.description,
+            start_date: prev.start_date,
+            end_date: prev.end_date,
+            project_manager: prev.project_manager,
+            developer: prev.developer,
+        }));
     },[data]);
     const handleDeveloper = (id) => {
         setItem((prev) => ({
             ...prev,
             developer: prev.developer
-                ? prev?.developer?.includes(id)
+                ? prev.developer.includes(id)
                     ? prev.developer.filter((value) => value !== id)
                     : [...prev.developer, id]
                 : [id],
@@ -85,36 +66,35 @@ export default function Edit({ data, auth, developer, manager, devId }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        router.post(route("admin.project.update", [data.id]), item,{
+        router.post(route("admin.project.update", [data.id]), item ,{
             onSuccess:()=>{
-                setAlert('Projectupdated');
+                setAlert("Project Updated .");
+                setSeverity("success");
+            },onError:()=>{
+                setAlert("something is wrong !");
+                setSeverity("error");
             }
         });
     };
 
     return (
-        <div>
-        {
-            alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
-        }
-       {
-        auth.user.user_role !== 'hr manager' &&
-        <IconButton aria-label="edit" color="primary">
-            <EditIcon color="info" onClick={handleOpen}/>
-        </IconButton>
-       }
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{ backdrop: { timeout: 500 } }}
-        >
-            <Fade in={open}>
-                <Box sx={style} style={{ width: "800px" }}>
-                    <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5">
+        <AuthenticatedLayout user={auth.user}>
+            {
+                alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>
+            }
+            <div className="mt-5 flex flex-col sm:justify-center items-center sm:pt-0 bg-gray-100">
+                <Head title="Update Project" />
+
+                <div
+                    className=" mt-0 px-2 py-2 shadow-md bg-white overflow-hidden"
+                    style={{
+                        width: "50%",
+                        alignContent: "center",
+                        justifyContent: "space-between",
+                    }} >
+                <div className="rounded-t-lg bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
+
+                    <form onSubmit={handleSubmit}>
                         <div
                             style={{
                                 alignItems: "center",
@@ -123,18 +103,9 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 paddingBottom: "10px",
                             }}
                         >
-                    <form onSubmit={handleSubmit}>
-                        <div
-                            style={{
-                                alignItems: "center",
-                                display: "flex",
-                                justifyContent: "center",
-                                paddingBottom: "30px",
-                            }}
-                        >
                             <Typography
                                 variant="h5"
-                                style={{ fontWeight: "bold" ,paddingTop:'20px'}}
+                                style={{ fontWeight: "bold"}}
                             >
                                 Edit Project
                             </Typography>
@@ -193,13 +164,10 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                                 required
                             >
                                 {manager.map((mngr, index) => {
-                                    console.log(mngr,'manager');
                                     return (
-
                                         <option value={mngr.name} key={index}>
-                                        {mngr.name}
-                                       </option>
-
+                                            {mngr.name}
+                                        </option>
                                     );
                                 })}
                             </select>
@@ -209,50 +177,24 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                             />
                         </div>
 
-                        {/* <div className="mt-4">
-                            <InputLabel
-                                htmlFor="Assign Date"
-                                value="Assign Date"
-                            />
-
-                            <TextInput
-                                id="start_date"
-                                type="date"
-                                name="start_date"
-                                value={item.start_date}
-                                className="mt-1 block w-full"
-                                autoComplete="start_date"
-                                onChange={(e) => handleChange(e)}
-                                required
-                            />
-                            <InputError
-                                message={errors.start_date}
-                                className="mt-2"
-                            />
-                        </div> */}
-
                         <div className="mt-4">
-                            <InputLabel htmlFor="developer" value="Assign To" />
+                        <InputLabel htmlFor="Assign to">
+                             Assign To - Project Manager <Chip label="PM" color="primary" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" color="success" style={{ fontSize:'10px' }}/> </InputLabel>
+
 
                             <Grid item xs={12}>
-                                {developer.map((dev, index) => (
-                                    <Button
-                                        key={index}
-                                        variant={
-                                            item.developer.includes(dev.id)
-                                                ? "contained"
-                                                : "outlined"
-                                        }
-                                        size="small"
-                                        onClick={() => handleDeveloper(dev?.id)}
-                                        style={{ margin: "2px" }}
-                                    >
-                                        {dev.name} (
-                                        {dev.user_role == "senior developer"
-                                            ? "Senior"
-                                            : "Junior"}
-                                        )
-                                    </Button>
+                                {allDeveloper.map((user, index) => (
+                                    console.log(user ,'userrr'),
+                                     <Button
+                                     key={index}
+                                     variant={item.developer?.includes(user.id) ? "contained" : "outlined"}
+                                     size="small"
+                                     onClick={()=>handleDeveloper(user.id)}
+                                     style={{ margin: "2px" }}
+                                     endIcon={<Chip style={{ fontSize:'10px' }} label={user.user_role =="project manager" ? "PM" : "D"} color={user.user_role =="project manager" ?"primary" : "success" } size="small"/>}
+                                 >
+                                     {user.name}
+                                 </Button>
                                 ))}
                             </Grid>
                             <InputError
@@ -262,23 +204,14 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                         </div>
 
                         <div className="flex items-center justify-center m-8">
-                            <Button
-                                onClick={handleClose}
-                                variant="contained"
-                                color="error"
-                                style={{
-                                    height: "33px",
-                                    marginLeft: "10px",
-                                }}
-                                startIcon={<CloseIcon/>}>
-                                Cancle
-                            </Button>
+                            <Button variant="contained"  color="error" onClick={() => window.history.back()}
+                                sx={{ height:'35px',width:'120px',borderRadius:'0.375rem',fontSize:"0.80rem" }}>
+                                <ArrowBackIosIcon sx={{ height:'15px' }}/>previous</Button>
                             <PrimaryButton
                                 className="ms-4"
                                 variant="contained"
                                 disabled={processing}
                                 style={{
-                                    height: "40px",
                                     backgroundColor: "#1976d2",
                                 }}
                             >
@@ -287,12 +220,9 @@ export default function Edit({ data, auth, developer, manager, devId }) {
                         </div>
 
                     </form>
-              </div>
+                </div>
+                </div>
             </div>
-            </Box>
-          </Fade>
-         </Modal>
-        </div>
-
+        </AuthenticatedLayout>
     );
 }

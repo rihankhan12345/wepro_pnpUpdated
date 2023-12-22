@@ -114,6 +114,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
         });
     });
 
+    Route::prefix('leave')->name('leave.')->controller(LeaveController::class)->group(function (){
+        Route::get('/list','list')->name('list');
+    });
+
 });
 
 Route::prefix('project-manager')->name('projectManager.')->middleware(['auth', 'role:project manager'])->group(function () {

@@ -25,6 +25,9 @@ const style = {
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
+    overflow:'scroll',
+    height:'90%',
+    display:'block',
 };
 
 export default function Edit({ data, developer, devId ,auth }) {
@@ -32,7 +35,8 @@ export default function Edit({ data, developer, devId ,auth }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [alert , setAlert] = useState();
+    const [alert , setAlert] = useState(false);
+    const [severity ,setSeverity] = useState(null);
     const priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const { post, get, processing, errors, reset } = useForm();
@@ -40,7 +44,8 @@ export default function Edit({ data, developer, devId ,auth }) {
     const result = Object.keys(developer).map((key) => developer[key]);
     const dev = developer.map((dev)=>
     {
-        if( dev.id == devId) {
+        console.log(dev.id ,devId,'deve');
+        if( devId.includes(dev.id)) {
 
             return dev.id;
         }
@@ -70,14 +75,14 @@ export default function Edit({ data, developer, devId ,auth }) {
     };
 
     useEffect(()=>{
-        setItem({
-            task_name: data.task_name,
-            description: data.description,
-            start_date: data.start_date,
-            priority: data.priority,
-            developer:  dev,
-            level: data.level,
-        });
+        setItem((prev)=>({
+            task_name: prev.task_name,
+            description: prev.description,
+            start_date: prev.start_date,
+            priority: prev.priority,
+            developer:  prev.developer,
+            level: prev.level,
+        }));
     },[data]);
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -86,10 +91,11 @@ export default function Edit({ data, developer, devId ,auth }) {
             router.post(route("admin.project.task.update", { id: data.id }), item ,{
                 onSuccess: ( )=> {
                     setAlert("Task Updated .");
-                    setItem({});
+                    setSeverity('success');
                     setOpen(false);
                 },onError:()=>{
                     setAlert('Something is wrong !')
+                    setSeverity('error');
                 }
             })
 
@@ -98,19 +104,19 @@ export default function Edit({ data, developer, devId ,auth }) {
                 onSuccess: ( )=> {
                     setAlert("Task Updated .");
                     setOpen(false);
-                    setItem({});
+                    setSeverity('success');
                 },onError:()=>{
                     setAlert('Something is wrong !')
+                    setSeverity('error');
                 }
             });
         }
-        handleClose();
     };
 
     return (
         <>
             {
-                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+                alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>
             }
             <IconButton aria-label="edit" color="primary">
                 <EditIcon color="info" onClick={handleOpen} />

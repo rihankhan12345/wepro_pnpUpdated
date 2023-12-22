@@ -40,9 +40,9 @@ class TaskController extends Controller
             return Inertia::render('Admin/Task/List' ,['developer'=>$user ,'projectId'=>$id]);
     }
 
-    public function save (Request $request,$id ){
+    public function save (TaskRequest $request,$id ){
             $this->taskRepository->save($id,$request->all());
-            return redirect()->back();
+            return back();
         }
 
 

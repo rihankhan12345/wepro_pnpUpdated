@@ -25,9 +25,9 @@ class TaskRequest extends FormRequest
             'task_name' =>['required','string'],
             'description'=> [ 'required','string'],
             'priority' => ['required' , 'integer'],
-            'start_date' => ['required'],
+            'level'=>['required','integer'],
+            'start_date' => ['required','after_or_equal:now'],
             'developer' => ['required'],
-            'status' => ['required'],
         ];
     }
 }

@@ -26,12 +26,16 @@ const style = {
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
+    overflow:'scroll',
+    height:'90%',
+    display:'block',
 };
 
 export default function Create({ developer, Id ,auth }) {
 
     const [open, setOpen] = useState(false);
-    const [alert,setAlert] = useState(false);
+    const [msg,setMsg] = useState(false);
+    const [severity ,setSeverity] = useState(null);
     const handleOpen = () => setOpen(true);
     const priority = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const level = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -66,31 +70,34 @@ export default function Create({ developer, Id ,auth }) {
             auth.user.user_role == "admin" ?
            post(route("admin.project.task.save", { id: Id }),{
             onSuccess: ()=> {
-                setAlert('Task Created Successfully .')
-                handleClose();
+                setMsg('Task Created Successfully .')
                 setData({});
-            },onError:()=>{
-                setAlert('Something is wrong !')
-            }
+                setOpen(false);
+                setSeverity('success');
+            },onError:(error) => {
+                setMsg(error.message)
+                setSeverity('error');
+            },
         })
            :
            post(route("projectManager.project.task.save", { id: Id }),{
             onSuccess: ( )=> {
-                handleClose();
+                setSeverity('success');
+                setMsg('Task Created Successfully .')
                 setData({});
-            },onError:()=>{
-                setAlert('Something is wrong !')
-            }
+                setOpen(false);
+            },onError:(error) => {
+                setMsg(error.message);
+                setSeverity('error');
+            },
         })
         }
-
-       handleClose();
     };
 
     return (
         <div>
             {
-                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+                msg && <SuccessMsg severity={severity} error={msg} setError={setMsg} title={msg}/>
             }
             <Button
                 variant="contained"

@@ -31,7 +31,13 @@ class SalaryController extends Controller
     }
     public function update(SalaryRequest $request ,$id)
     {
-        $this->salaryRepository->update($request->all(),$id);
-        return back();
+        $response = $this->salaryRepository->update($request->all(),$id);
+        if($response['success']){
+            return back();
+        }
+        else {
+            return Redirect::back()->withErrors($response);
+        }
+
     }
 }

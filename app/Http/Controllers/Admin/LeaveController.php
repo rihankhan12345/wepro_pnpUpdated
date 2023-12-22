@@ -24,7 +24,9 @@ class LeaveController extends Controller
     public function list()
     {
         $leaves = $this->leaveRepository->getlist();
-        return Inertia::render('Admin/Leave/View',['leave'=>$leaves]);
+        $leave = $leaves[0];
+        $user = $leaves[1];
+        return Inertia::render('Admin/AllLeaves/View',['leave'=>$leave ,'user'=>$user]);
     }
 
     public function save(LeaveRequest $request ,$id)

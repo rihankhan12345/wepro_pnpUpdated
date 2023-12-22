@@ -22,9 +22,10 @@ class LeaveRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'subject'=>['required'],
+            'description'=>['required'],
             'requested_date'=>['required','after_or_equal:now'],
-            'from_date'=>['required','after:requested_date'],
-            'to_date'=>['required','after_or_equal:from_date'],
+            'to_date'=>['required','after_or_equal:requested_date'],
         ];
     }
 }

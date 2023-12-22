@@ -15,7 +15,7 @@ import Fade from "@mui/material/Fade";
 import { useEffect } from "react";
 import SuccessMsg from "../SuccessMsg";
 import UpdateIcon from '@mui/icons-material/Update';
-
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
 const style = {
     position: "absolute",
     top: "50%",
@@ -25,14 +25,18 @@ const style = {
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
+    overflow:'scroll',
+    height:'90%',
+    display:'block',
 };
 
 
 export default function Edit({ auth, user }) {
     const [open, setOpen] = useState(false);
     const [alert,setAlert] = useState(false);
+    const [severity ,setSeverity] = useState(null);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [image,setImage] = useState(user.profile);
     const { data, setData, get, post, processing, errors, reset } = useForm();
 
     const [value, setValue] = useState({
@@ -42,6 +46,10 @@ export default function Edit({ auth, user }) {
         contact_no: user.contact_no,
         profile:user.profile,
     });
+    const handleClose = () => {
+        setOpen(false);
+    }
+
     const handleChange = (e) => {
 
         setValue((prev) => {
@@ -52,14 +60,29 @@ export default function Edit({ auth, user }) {
         });
     };
 
-  useEffect(()=>{
-    setValue({
-        name: user.name,
-        email: user.email,
-        user_role: user.user_role,
-        contact_no: user.contact_no,
-    });
-}, [user]);
+    const handleImage = () => {
+        document.getElementById('profile').click();
+    };
+
+    const handleProfile =(event) =>{
+        if (event.target.files && event.target.files[0]) {
+           const url= URL.createObjectURL(event.target.files[0]);
+           setImage(url);
+           setValue((prev)=>({...prev,profile:url}));
+          }
+    }
+
+    useEffect(()=>{
+        setValue((prev)=>({
+            name: prev.name,
+            email: prev.email,
+            user_role: prev.user_role,
+            contact_no: prev.contact_no,
+            profile:prev.profile,
+
+    }));
+    }, [user]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         {
@@ -68,9 +91,11 @@ export default function Edit({ auth, user }) {
                 onSuccess: ( )=> {
                     setAlert("User Updated Successfully");
                     handleClose();
-                    setValue({});
-                },onError:()=>{
-                    setAlert('Something is wrong !')
+                    setOpen(false);
+                    setSeverity('success');
+                },onError:(error)=>{
+                    setAlert(error.error)
+                    setSeverity('error');
                 }
             })
             :
@@ -78,19 +103,18 @@ export default function Edit({ auth, user }) {
                 onSuccess: ( )=> {
                     setAlert("User Updated Successfully");
                     handleClose();
-                    setValue({});
-                },onError:()=>{
-                    setAlert('Something is wrong !')
+                    setOpen(false);
+                    setSeverity('success');
+                },onError:(error)=>{
+                    setAlert(error.error)
+                    setSeverity('error');
                 }
             });
         }
-        setOpen(false);
-
     };
-
     return (
        <>
-            {alert && <SuccessMsg severity={"success"} error={alert} setError={setAlert} title={alert}/>}
+            {alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>}
            <IconButton aria-label="edit" color="primary" onClick={handleOpen} disabled={(auth.user.user_role=="hr manager" && user.user_role =='admin') ? true :false} >
                 <EditIcon color={(auth.user.user_role =="hr manager" && user.user_role=='admin') ? 'error' : 'info'}/>
             </IconButton>
@@ -112,10 +136,26 @@ export default function Edit({ auth, user }) {
                     <Box sx={style} style={{ width: "800px" }} >
                         <div className="rounded-t-xl bg-slate-50 border-gray-100 border border-t-0 shadow-sm p-5" >
                           <div style={{alignItems: "center",display: "flex",justifyContent: "center",paddingBottom:"10px"}}>
-                            <Typography variant="h5" style={{ fontWeight: "bold" }}> Edit User </Typography>
+                            <Typography variant="h5" style={{ fontWeight: "bold" }}> Update User </Typography>
                           </div>
 
                             <form onSubmit={handleSubmit}>
+                                <div className="mt-4">
+
+                                    <div style={{ display:'flex',justifyContent:'center' }}>
+                                        <InputLabel htmlFor=" profile">
+                                            <img id="image" src={image} alt="Profile" style={{ borderRadius:'50%' ,
+                                                border:"2px solid black",cover:'100%', objectFit:'contain',height:'100px'
+                                                ,width:'100px',textAlign:'center',lineHeight:'80px'}} onClick={handleImage}/>
+                                            <CameraAltIcon style={{ position:'absolute',top:'180px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
+
+                                        </InputLabel>
+                                         <input type="file" id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
+                                             onChange={(event)=>handleProfile(event)} hidden/>
+                                     </div>
+                                    <InputError message={errors.profile} className="mt-2" />
+                                </div>
+
                                 <div>
                                     <InputLabel htmlFor="name" value="Name" />
                                     <TextInput id="name" name="name" value={value.name} className="mt-1 block w-full" autoComplete="name" isFocused={true} onChange={(e) => handleChange(e)} required  />
@@ -129,7 +169,7 @@ export default function Edit({ auth, user }) {
                                 </div>
                                 <div className="mt-4">
                                     <InputLabel htmlFor="contact_no" value="Phone No" />
-                                    <TextInput id="contact_no" type="text" name="contact_no" value={value.contact_no} className="mt-1 block w-full" autoComplete="contact_no" onChange={(e) => handleChange(e)} required/>
+                                    <TextInput id="contact_no" type="number" name="contact_no" value={value.contact_no} className="mt-1 block w-full" autoComplete="contact_no" onChange={(e) => handleChange(e)} required/>
                                     <InputError message={errors.contact_no} className="mt-2" />
                                 </div>
 
@@ -139,12 +179,7 @@ export default function Edit({ auth, user }) {
                                             htmlFor="user_role"
                                             value="Select User Role"
                                         />
-                                        <RadioGroup
-                                            value={value.user_role}
-                                            onChange={handleChange}
-                                            name="user_role"
-                                            row
-                                        >
+                                        <RadioGroup value={value.user_role} onChange={handleChange} name="user_role"row>
                                             {
                                             auth.user.user_role == "admin"  && <FormControlLabel value="admin" control={<Radio />} label="Admin" aria-setsize={"small"}/>
                                             }
@@ -156,13 +191,6 @@ export default function Edit({ auth, user }) {
                                     </FormControl>
                                     <InputError message={errors.user_role} className="mt-2" />
                                 </div>
-
-                                {/* <div className="mt-4">
-                                    <InputLabel htmlFor="profile" value="Profile" />
-                                    <input id="profile" type="file" name="profile" value={value.profile} className="mt-1 block w-full" onChange={(e) => handleChange(e)}/>
-                                    <InputError message={errors.profile} className="mt-2" />
-                                </div> */}
-
 
                                 <div className="flex items-center justify-center mt-4">
                                     <Button onClick={handleClose} variant="contained" color="error"

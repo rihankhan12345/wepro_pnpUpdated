@@ -40,3 +40,13 @@ class SalaryRequest extends FormRequest
         ];
     }
 }
+
+// 'medical_conveyance'=>['required','min:0','regex:/^\d{1,6}(\.\d{1,5})?$/'],
+// 'basic_salary' => ['required','min:0','regex:/^\d{1,6}(\.\d{1,5})?$/',],
+// 'house_rent' => ['required','min:0','regex:/^\d{1,6}(\.\d{1,5})?$/',],
+// 'leave_allowance' => ['required','min:0','regex:/^\d{1,6}(\.\d{1,5})?$/',],
+// 'statutory_bonus' => ['required','min:0','regex:/^\d{1,6}(\.\d{1,5})?$/',],
+// 'tax_deducted' => ['required','min:0','regex:/^\d{1,2}(\.\d{1,2})?$/'],
+// 'provided_fund' => ['required','min:0','regex:/^\d{1,6}(\.\d{1,5})?$/',],
+// 'gross_salary'=>['required','min:0','regex:/^\d{1,6}(\.\d{1,5})?$/'],
+// 'net_salary'=>['required','min:0','not_in:0','regex:/^\d{1,6}(\.\d{1,5})?$/'],

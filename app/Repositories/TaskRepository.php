@@ -22,7 +22,7 @@ class TaskRepository implements TaskInterface
             $file->storeAs('/public/task_file', $fileName);
             $media[] = [
                 'text_cases' => $data->text_cases,
-                'url' => $fileName,
+                'url' => asset('storage/'.$fileName),
                 'imageable_type' => $type,
                 'imageable_id' => $id,
             ];

@@ -13,13 +13,13 @@ import {
     Typography,
 } from "@mui/material";
 import DateTimeFormat from "@/Util/DateTimeFormat";
-import StatusStyle from "@/Constant/StatusStyle";
 import { useState } from "react";
 import Edit from "./Edit";
 import StatusPopup from "./StatusPopup";
 import SaveIcon from "@mui/icons-material/Save";
 import StartTimerPopUp from "../Components/StartTimerPopup";
 import PauseorUpdateTime from "../Components/PauseOrUpdateTime";
+import StatusStyle from "../Components/StatusStyle";
 
 export default function Detail({ data, developer, auth, devId, updated }) {
 
@@ -237,7 +237,6 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                 state={{ status:data.status }}
                             />
                         )}
-
                     </Grid>
                 </Grid>
                 <br />
@@ -252,7 +251,14 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                     </Grid>
                     <Grid item xs={4}>
                         <Typography sx={{ fontWeight: "bold" }}>Start Date</Typography>
-                        <Typography className="capitalize"><FormatDate date={data.started_at} /></Typography>
+                        <Typography className="capitalize">{data.started_at && <FormatDate date={data.started_at} />}</Typography>
+                    </Grid>
+                </Grid>
+                <br />
+                <Grid container>
+                <Grid item xs={4}>
+                        <Typography sx={{ fontWeight: "bold" }}>Working Hour</Typography>
+                        <Typography className="capitalize">{data.hour_worked}</Typography>
                     </Grid>
                 </Grid>
                 <br />
@@ -285,10 +291,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                             height: "50px",
                         }}
                     >
-                        <Typography
-                            sx={{ fontWeight: "bold", marginLeft: "10px" }}
-                        >
-                            {" "}
+                        <Typography sx={{ fontWeight: "bold", marginLeft: "10px" }}>
                             Developers
                         </Typography>
                     </Grid>

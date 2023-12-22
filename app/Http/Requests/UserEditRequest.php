@@ -35,6 +35,7 @@ class UserEditRequest extends FormRequest
                 Rule::unique('users', 'email')->ignore($userId),
             ],
             'user_role' => ['required', 'string'],
+            'contact_no'=>['required','min:10','max:10'],
         ];
     }
 }

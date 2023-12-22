@@ -3,11 +3,11 @@ import { router, useForm } from "@inertiajs/react";
 import EditIcon from '@mui/icons-material/Edit';
 import { Box, Button, Chip, Grid, IconButton, MenuItem, Select, Typography } from "@mui/material";
 import DateTimeFormat from "@/Util/DateTimeFormat";
-import StatusStyle from "@/Constant/StatusStyle";
 import { useState } from "react";
 import StatusPopup from "../../../Components/Common/Project/Task/StatusPopup";
 import CheckIcon from '@mui/icons-material/Check';
 import Edit from "@/Components/Common/Project/Task/Edit";
+import StatusStyle from "@/Components/Common/Project/Components/StatusStyle";
 
 export default function Details({data ,developer}){
 

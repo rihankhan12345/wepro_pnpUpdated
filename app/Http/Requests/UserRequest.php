@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
                 'name' => ['required','string','max:255'],
                 'email' => ['required','string','lowercase','email','max:255','unique:'.User::class],
                 'user_role' => ['required','string'],
-                'contact_no'=>['required','min:10','max:12'],
+                'contact_no'=>['required','min:10','max:10'],
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
                 'profile' => ['nullable','mimes:jpg,png,jpeg,svg','max:1024'],
         ];

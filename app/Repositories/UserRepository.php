@@ -17,25 +17,38 @@ class UserRepository implements UserInterface
 
     public function getlist(){
          $data = User::paginate(10);
+        //  foreach($data as $key => $val){
+        //     $data[$key]['profile'] = asset('storage/'.$val->profile);
+        //  }
          return $data;
     }
 
     public function save($data){
-        $user=User::create([
-                    'name' => $data->name,
-                    'email' => $data->email,
-                    'user_role'=>str_replace('_', ' ', $data->user_role),
-                    'password' => Hash::make($data->password),
-                    'contact_no' => $data->contact_no,
-                ]);
+       try {
+             $user=User::create([
+                 'name' => $data->name,
+                 'email' => $data->email,
+                 'user_role'=>str_replace('_', ' ', $data->user_role),
+                 'password' => Hash::make($data->password),
+                  'contact_no' => $data->contact_no,
+            ]);
 
-        if($data->hasFile('profile')){
-            $profileImage = $data->profile;
-            $fileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
-            $profileImagePath = $profileImage->storeAs('profile', $fileName . $user->id . '.' . $profileImage->getClientOriginalExtension(), 'public');
-            User::where('id',$user->id)->update(['profile' =>$profileImagePath]);
-        }
-        return $user;
+                if($data->hasFile('profile') && $data->profile != null){
+                     $profileImage = $data->profile;
+                     $fileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
+                     $profileImagePath = $profileImage->storeAs('profile', $fileName . $user->id . '.' . $profileImage->getClientOriginalExtension(), 'public');
+                     $data=User::where('id',$user->id)->update(['profile' =>asset('storage/'.$profileImagePath)]);
+                }
+            return [
+                'success'=>true,
+                'data'=>$user,
+            ];
+       }catch (\Exception $e) {
+        return [
+           'success'=>false,
+           'error'=>$e->getMessage(),
+        ];
+      }
     }
 
     public function edit($id){
@@ -48,38 +61,49 @@ class UserRepository implements UserInterface
 
     public function update($id, $data)
     {
-        $validator = Validator::make($data, [
-            'email' => 'required|email|unique:users,email,' . $id,
-            'name' => 'required|string|max:255',
-            'user_role' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-
         try {
+            $validator = Validator::make($data, [
+                'email' => 'required|email|unique:users,email,' . $id,
+                'name' => 'required|string|max:255',
+                'user_role' => 'required|string',
+            ]);
             $user = User::findOrFail($id);
             $user->update($data);
-            return true;
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return [
+                'success'=>true,
+                'data'=>$user,
+            ];
+        }catch (\Exception $e) {
+            return [
+                'success'=>false,
+                'error'=>$e->getMessage(),
+            ];
         }
     }
 
 
     public function detail($id)
     {
+
         $salary = Salary::where('user_id' ,$id)->get();
         $data = User::where('id',$id)->first();
-        $leave = Leave::where('user_id',$id)->get();
-        return [$data ,$salary ,$leave];
+        $leave = Leave::where('user_id',$id)->orderBy('created_at','desc')->get();
+        return [ $data ,$salary ,$leave];
+
 
     }
 
     public function delete($id)
     {
-        return User::findOrFail($id)->delete();
+        try {
+            return User::findOrFail($id)->delete();
+
+        } catch (\Throwable $th) {
+            return [
+            'success'=>false,
+            'error'=>$th->getMessage(),
+            ];
+        }
     }
 
 }

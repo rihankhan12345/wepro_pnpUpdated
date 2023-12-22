@@ -15,7 +15,9 @@ import {
     Alert,
     Box,
     Button,
+    Chip,
     Grid,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { useEffect } from "react";
@@ -30,12 +32,16 @@ const style = {
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
+    overflow:'scroll',
+    height:'90%',
+    display:'block',
 };
 
 export default function Create({developer, manager }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const [alert,setAlert] = useState(false);
+    const [severity,setSeverity]= useState(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         title: "",
         description: "",
@@ -43,7 +49,7 @@ export default function Create({developer, manager }) {
         project_manager: "",
         developer: [],
     });
-
+    const allDeveloper = developer.concat(manager);
     const handleDeveloper = (id) => {
         setData((prev) => ({
             ...prev,
@@ -75,16 +81,19 @@ export default function Create({developer, manager }) {
         post(route("admin.project.save"),{
             onSuccess: ( )=> {
                 setAlert("Project created Successfully");
-                handleClose();
+                setSeverity('success');
                 setData({});
-            }
+                setOpen(false);
+            },onError:(error) => {
+                setAlert('something is wrong');
+                setSeverity('error');
+            },
         });
-        setOpen(false);
     };
     return (
         <div>
             {
-                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+                alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>
             }
             <Button
                 variant="contained"
@@ -190,12 +199,7 @@ export default function Create({developer, manager }) {
                                         value={data.project_manager}
                                         name="project_manager"
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                                        onChange={(e) =>
-                                            setData(
-                                                "project_manager",
-                                                e.target.value
-                                            )
-                                        }
+                                        onChange={(e) =>setData("project_manager",e.target.value)}
                                         required
                                     >
                                         <option>Select Manager</option>
@@ -243,90 +247,41 @@ export default function Create({developer, manager }) {
                             </div>
                             <div className="mt-4">
                                 <InputLabel
-                                    htmlFor="developer"
-                                    value="Assign To"
-                                />
-                                {/* <Select
-                                multiple
-                                value={data.developer}
-                                style={{ height: "42px" }}
-                                onChange={handleDeveloperSelect}
-                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                    htmlFor="Assign to"
+                                > Assign To - Project Manager <Chip label="PM" color="primary" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" color="success" style={{ fontSize:'10px' }}/> </InputLabel>
 
-                            > */}
                                 <Grid item xs={12}>
-                                    {developer.length == 0 ? (
+                                    { allDeveloper.length == 0 ?
                                         <Alert severity="info">
                                             Don't Have Any Developer
                                         </Alert>
-                                    ) : (
-                                        developer.map((dev, index) => (
-                                            <Button
-                                                key={index}
-                                                variant={
-                                                    data?.developer?.includes(dev.id)
-                                                        ? "contained"
-                                                        : "outlined"
-                                                }
-                                                size="small"
-                                                onClick={() =>
-                                                    handleDeveloper(dev?.id)
-                                                }
-                                                style={{ margin: "2px" }}
-                                            >
-                                                {dev.name} (
-                                                {dev.user_role ==
-                                                "senior developer"
-                                                    ? "Senior"
-                                                    : "Junior"}
-                                                )
-                                            </Button>
-                                        ))
-                                    )}
+                                     :
+                                            allDeveloper.map((user, index) => (
+                                                    <Button
+                                                        key={index}
+                                                        variant={data.developer?.includes(user.id) ? "contained" : "outlined"}
+                                                        size="small"
+                                                        onClick={()=>handleDeveloper(user.id)}
+                                                        style={{ margin: "2px" }}
+                                                        endIcon={<Chip style={{ fontSize:'10px' }} label={user.user_role =="project manager" ? "PM" : "D"} color={user.user_role =="project manager" ?"primary" : "success" } size="small"/>}
+                                                    >
+                                                        {user.name}
+                                                    </Button>
+                                            ))
+
+                                    }
                                 </Grid>
 
-                                {/* </Select> */}
                                 <InputError
                                     message={errors.developer}
                                     className="mt-2"
                                 />
                             </div>
 
-                            {/* <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="end_date"
-                                    value="End Date"
-                                    style={{ marginLeft: "20px" }}
-                                />
-
-                                <TextInput
-                                    id="end_date"
-                                    type="date"
-                                    name="end_date"
-                                    value={data.end_date}
-                                    className="mt-1"
-                                    style={{
-                                        width: "410px",
-                                        marginLeft: "20px",
-                                    }}
-                                    autoComplete="end_date"
-                                    onChange={(e) =>
-                                        setData("end_date", e.target.value)
-                                    }
-                                    required
-                                />
-
-                                <InputError
-                                    message={errors.end_date}
-                                    className="mt-2"
-                                />
-                            </div> */}
-
                             <div className="flex items-center justify-center m-8">
                             <Button onClick={handleClose} variant="contained" color="error"
-                                    style={{
-                                        height: "33px", marginLeft:"10px"
-                                    }} startIcon={<CloseIcon/>}
+                                    style={{ height: "33px", marginLeft:"10px",fontSize:'10px',letterSpacing:'2px',fontWeight:'bold'
+                                    }} startIcon={<CloseIcon sx={{ height:'15px',alignItems:'center',fontWeight:'bold' }}/>}
                                     >Cancle</Button>
                                 <PrimaryButton
                                     className="ms-4"
@@ -336,7 +291,7 @@ export default function Create({developer, manager }) {
                                         height: "40px",
                                         backgroundColor: "#1976d2",
                                     }} >
-                                    <SaveIcon sx={{ height:'15px' }}/>Create
+                                    Create<SaveIcon sx={{ height:'15px',marginLeft:'8px' }}/>
                                 </PrimaryButton>
 
                             </div>

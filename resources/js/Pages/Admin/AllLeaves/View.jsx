@@ -1,16 +1,16 @@
+import List from "@/Components/Common/AllLeaves/List";
+import Create from "@/Components/Common/User/Leaves/Create";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Alert,} from "@mui/material";
-import Create from "./Create";
-import List from "@/Components/Common/Project/List";
 
-export default function View({ data, auth, developer, manager }) {
-
+export default function View({ leave ,auth ,user}) {
+      console.log(leave ,'leaves');
     return (
         <AuthenticatedLayout user={auth.user}>
             <div  className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-2 py-3">
-                        { data.data.length === 0 ? (
+                        { leave.data.length === 0 ? (
                             <>
                                 <Alert
                                     severity="info"
@@ -20,18 +20,14 @@ export default function View({ data, auth, developer, manager }) {
                                             MarginTop: "9px",
                                         },
                                     }}
-                                    action={<Create
-                                        developer={developer}
-                                        manager={manager}
-                                    />}
+                                    action={<Create auth={auth} Id={''}/>}
                                 >
-                                    Project Not Found ! Create A New Project
+                                    Leaves Not Found ! You can create a Leave ...
                                 </Alert>
                             </>
                         ) : (
                             <>
-                                <List  data={data} developer={developer} manager={manager} auth={auth}/>
-
+                            <List leave={leave.data} auth={auth} user={user}/>
                             </>
                         )}
                     </div>

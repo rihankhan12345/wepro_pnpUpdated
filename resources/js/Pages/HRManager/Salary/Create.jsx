@@ -2,11 +2,14 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
+import SaveIcon from '@mui/icons-material/Save';
 import React from 'react';
 import './style.scss'
 import {
     Box,
     Container,
+    Grid,
+    InputAdornment,
     InputLabel,
     TextField,
     Typography,
@@ -77,11 +80,13 @@ export default function Create({ auth }) {
           <Box
             component="form"
             sx={{ display: "flex", flexDirection: "column" }}
-            onSubmit={handleSubmit}
-             className="salary"
-          >
-                <div className="pb-5">
-                    <InputLabel sx={{ fontWeight:"500" }}>Basic Salary</InputLabel>
+            onSubmit={handleSubmit} className="salary">
+
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                    <Grid item xs={4}>
+                        <InputLabel sx={{ fontWeight:"500" }}>Basic Salary</InputLabel>
+                    </Grid>
+                    <Grid item xs={8}>
                     <TextField
                         required
                         fullWidth
@@ -92,15 +97,19 @@ export default function Create({ auth }) {
                         autoComplete="basic_salary"
                         onChange={handleChange}
                         size="small"
-                        sx={{ }}
+                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
+                    </Grid>
                      <InputError
                                 message={errors.basic_salary}
                                 className="mt-2"
                             />
-                </div>
-                <div className="pb-5">
-                    <InputLabel sx={{ fontWeight:"500" }}>House Rent</InputLabel>
+                </Grid>
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                    <Grid item xs={4}>
+                        <InputLabel sx={{ fontWeight:"500" }}>House Rent</InputLabel>
+                    </Grid>
+                    <Grid item xs={8}>
                     <TextField
                         required
                         fullWidth
@@ -111,14 +120,19 @@ export default function Create({ auth }) {
                         autoComplete="house_rent"
                         onChange={handleChange}
                         size="small"
+                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
+                    </Grid>
                      <InputError
                                 message={errors.house_rent}
                                 className="mt-2"
                             />
-                </div>
-                <div className="pb-5">
-                    <InputLabel sx={{ fontWeight:"500" }}>Leave And Travel Allowance</InputLabel>
+                </Grid>
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                    <Grid item xs={4}>
+                        <InputLabel sx={{ fontWeight:"500" }}>Leave And Travel Allowance</InputLabel>
+                    </Grid>
+                    <Grid item xs={8}>
                     <TextField
                         required
                         fullWidth
@@ -129,15 +143,19 @@ export default function Create({ auth }) {
                         autoComplete="leave_allowance"
                         onChange={handleChange}
                         size="small"
-
+                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
+                    </Grid>
                     <InputError
                                 message={errors.leave_allowance}
                                 className="mt-2"
                             />
-                </div>
-                <div className="pb-5">
-                    <InputLabel sx={{ fontWeight:"500" }}>Medical And Conveyance</InputLabel>
+                </Grid>
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                   <Grid item xs={4}>
+                        <InputLabel sx={{ fontWeight:"500" }}>Medical And Conveyance</InputLabel>
+                    </Grid>
+                    <Grid item xs={8}>
                     <TextField
                         required
                         fullWidth
@@ -148,15 +166,19 @@ export default function Create({ auth }) {
                         autoComplete="medical_conveyance"
                         onChange={handleChange}
                         size="small"
-
+                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
+                    </Grid>
                     <InputError
                                 message={errors.medical_conveyance}
                                 className="mt-2"
                             />
-                </div>
-                <div className="pb-5">
-                    <InputLabel sx={{ fontWeight:"500" }}>Statutory Bonus</InputLabel>
+                </Grid>
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                    <Grid item xs={4}>
+                        <InputLabel sx={{ fontWeight:"500" }}>Statutory Bonus</InputLabel>
+                    </Grid>
+                    <Grid item xs={8}>
                     <TextField
                         required
                         fullWidth
@@ -167,35 +189,20 @@ export default function Create({ auth }) {
                         autoComplete="statutory_bonus"
                         onChange={handleChange}
                         size="small"
-
+                        InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                     />
+                    </Grid>
                     <InputError
                                 message={errors.statutory_bonus}
                                 className="mt-2"
                             />
-                </div>
-                <div className="pb-5" style={{ display: "flex" }}>
-                    <div style={{ width: "50%", paddingRight: "5px" }}>
-                        <InputLabel sx={{ fontWeight:"500" }}>Tax Deducted At Source (%)</InputLabel>
-                        <TextField
-                            required
-                            fullWidth
-                            id="tax_deduct"
-                            name="tax_deducted"
-                            type="number"
-                            value={data.tax_deducted == 0 ? "" : data.tax_deducted}
-                            autoComplete="tax_deduct"
-                            onChange={handleChange}
-                            size="small"
+                </Grid>
 
-                        />
-                        <InputError
-                                message={errors.tax_deducted}
-                                className="mt-2"
-                            />
-                    </div>
-                    <div style={{ width: "50%" }}>
-                        <InputLabel sx={{ fontWeight:"500" }}>Provided Fund</InputLabel>
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                        <Grid item xs={4}>
+                            <InputLabel sx={{ fontWeight:"500" }}>Provided Fund</InputLabel>
+                        </Grid>
+                        <Grid item xs={8}>
                         <TextField
                             required
                             fullWidth
@@ -206,58 +213,86 @@ export default function Create({ auth }) {
                             autoComplete="provided_fund"
                             onChange={handleChange}
                             size="small"
-
+                            InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
                         />
+                        </Grid>
                         <InputError
                                 message={errors.provided_fund}
                                 className="mt-2"
                             />
-                    </div>
+                </Grid>
+
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                    <Grid item xs={4}>
+                        <InputLabel sx={{ fontWeight:"500" }}>Tax Deducted At Source (%)</InputLabel>
+                    </Grid>
+                    <Grid item xs={8}>
+                        <TextField
+                            required
+                            fullWidth
+                            id="tax_deduct"
+                            name="tax_deducted"
+                            type="number"
+                            value={data.tax_deducted == 0 ? "" : data.tax_deducted}
+                            autoComplete="tax_deduct"
+                            onChange={handleChange}
+                            size="small"
+                            InputProps={{ startAdornment:<InputAdornment position="start"> % </InputAdornment> }}
+                        />
+                    </Grid>
+                        <InputError
+                                message={errors.tax_deducted}
+                                className="mt-2"
+                        />
+                </Grid>
+
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                    <Grid item xs={4}>
+                        <InputLabel sx={{ fontWeight: "500" }}>Gross Salary</InputLabel>
+                    </Grid>
+                    <Grid item xs={8}>
+                    <TextField
+                     required
+                     fullWidth
+                     id="gross_salary"
+                     type="number"
+                     value={data.gross_salary}
+                     autoComplete="gross_salary"
+                     size="small"
+                     InputProps={{ startAdornment:<InputAdornment position="start"> Rs </InputAdornment> }}
+                    />
+                    </Grid>
+                     <InputError message={errors.gross_salary} className="mt-2" />
+                </Grid>
+                <Grid container className="pb-5" style={{ display:'flex',alignItems:'baseline' }}>
+                    <Grid item xs={4}>
+                        <InputLabel sx={{ fontWeight: "500" }}>Net Salary</InputLabel>
+                    </Grid>
+                    <Grid item xs={8}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="net_salary"
+                      type="number"
+                      value={data.net_salary}
+                      autoComplete="net_salary"
+                      size="small"
+                      InputProps={{ startAdornment:<InputAdornment position="start">Gross Salary - Tax Deduction = Rs </InputAdornment> }}
+                    />
+                    </Grid>
+                     <InputError message={errors.net_salary} className="mt-2" />
+                </Grid>
+
+                <div className="flex items-center justify-center m-8">
+                    <PrimaryButton
+                        className="ms-4"
+                        variant="contained"
+                        disabled={processing}>
+                        <SaveIcon sx={{ height:'15px' }}/> Create
+                 </PrimaryButton>
                 </div>
 
-
-          <div className="pb-5" style={{ display: "flex" }}>
-            <div style={{ width: "50%", paddingRight: "5px" }}>
-              <InputLabel sx={{ fontWeight: "500" }}>Gross Salary</InputLabel>
-              <TextField
-                required
-                fullWidth
-                id="gross_salary"
-                type="number"
-                value={data.gross_salary}
-                // onBlur={}
-                autoComplete="gross_salary"
-                size="small"
-              />
-              <InputError message={errors.gross_salary} className="mt-2" />
-            </div>
-            <div style={{ width: "50%" }}>
-              <InputLabel sx={{ fontWeight: "500" }}>Net Salary</InputLabel>
-              <TextField
-                required
-                fullWidth
-                id="net_salary"
-                type="number"
-                value={data.net_salary}
-                // onBlur={calculateNetSalary}
-                autoComplete="net_salary"
-                size="small"
-              />
-              <InputError message={errors.net_salary} className="mt-2" />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center m-8">
-            <PrimaryButton
-              className="ms-4"
-              variant="contained"
-              disabled={processing}
-              style={{ height: "40px" }}
-            >
-              Save
-            </PrimaryButton>
-          </div>
-        </Box>
+          </Box>
       </Container>
     </AuthenticatedLayout>
   );

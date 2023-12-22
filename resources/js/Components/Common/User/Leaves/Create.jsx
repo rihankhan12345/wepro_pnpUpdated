@@ -7,18 +7,23 @@ import AddIcon from "@mui/icons-material/Add";
 import { useForm } from "@inertiajs/react";
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
+import { differenceInDays, parseISO } from "date-fns";
+
 import {
     Button,
-    MenuItem,
-    Select,
+    FormControl,
+    FormControlLabel,
+    Radio,
+    RadioGroup,
     Typography,
 } from "@mui/material";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
-import SuccessMsg from "../SuccessMsg";
+import SuccessMsg from "../../SuccessMsg";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const style = {
     position: "absolute",
@@ -28,44 +33,68 @@ const style = {
     width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p:1,
+    overflow:'scroll',
+    height:'90%',
+    display:'block',
 };
 
-export default function Create({ auth ,Id }) {
+export default function Create({ auth ,Id ,user}) {
     const [open, setOpen] = useState(false);
     const [alert,setAlert] = useState(false);
-    const handleOpen = () => setOpen(true);
+    const [severity,setSeverity] = useState(null);
+    const [effect,setEffect] = useState(false);
+    const [unique ,setUnique] = useState(Id?.user_id);
+    const handleOpen=(e)=>setOpen(true);
 
     const { data, setData, get, post, processing, errors, reset } = useForm({
         description: "",
         requested_date: "",
-        from_date: "",
+        subject: "",
         to_date: "",
-        status: "requested",
         reason: null,
+        days:'',
         file:"",
+        user:'',
     });
+
+    useEffect(()=>{
+        const day = differenceInDays(parseISO(data.to_date),parseISO(data.requested_date))+" day";
+        setData('days',day);
+        setEffect(false);
+    },[effect]);
+
+    const handleUser = (e) => {
+        setData('user',e.target.value);
+        setUnique(e.target.value);
+    }
+
+    console.log(unique,'valueeee');
 
     const submit = (e) => {
         e.preventDefault();
         {
             auth.user.user_role === "admin"
-                ? post(route("admin.user.leave.save",{id:Id}), {
+                ? post(route("admin.user.leave.save",{id:unique}), {
                       onSuccess: () => {
                           setAlert('Leave Created successfully.');
-                          handleClose();
+                          setOpen(false);
+                          setSeverity('success');
                           setData({});
                       },onError:()=>{
                         setAlert('Something is wrong !')
+                        setSeverity('error');
                     }
                   })
                 : post(route("hrManager.user.leave.save",{id:Id}), {
                       onSuccess: () => {
                           setAlert('Leave Created successfully.');
-                          handleClose();
+                          setOpen(false);
                           setData({});
+                          setSeverity('success');
                       },onError:()=>{
                         setAlert('Something is wrong !')
+                        setSeverity('error');
                     }
                   });
         }
@@ -79,14 +108,14 @@ export default function Create({ auth ,Id }) {
     return (
         <div>
             {
-                alert && <SuccessMsg error={alert} setError={setAlert} title={alert}/>
+                alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>
             }
             <Button
                 variant="contained"
                 onClick={handleOpen}
                 startIcon={<AddIcon />}
             >
-                Leave form{" "}
+                Leave
             </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -124,6 +153,38 @@ export default function Create({ auth ,Id }) {
                                         </Typography>
                                     </div>
 
+                                    <div style={{ marginTop: "10px" }}>
+                                        <InputLabel
+                                            htmlFor="Subject"
+                                            value="Subject"
+                                            style={{
+                                                fontSize: "15px",
+                                                fontWeight: "bold",
+                                            }}
+                                        />
+                                        <textarea
+                                            id="subject"
+                                            type="text"
+                                            name="subject"
+                                            rows={2}
+                                            value={data.subject}
+                                            className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
+                                            autoComplete="subject"
+                                            onChange={(e) =>
+                                                setData(
+                                                    "subject",
+                                                    e.target.value
+                                                )
+                                            }
+                                            required
+                                        />
+
+                                        <InputError
+                                            message={errors.subject}
+                                            className="mt-2"
+                                        />
+                                    </div>
+
                                     <div className="mt-4">
                                         <InputLabel
                                             htmlFor="Description"
@@ -141,7 +202,7 @@ export default function Create({ auth ,Id }) {
                                             rows={3}
                                             value={data.description}
                                             className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                                            autoComplete="requested_date"
+                                            autoComplete="description"
                                             onChange={(e) =>
                                                 setData(
                                                     "description",
@@ -156,38 +217,6 @@ export default function Create({ auth ,Id }) {
                                             className="mt-2"
                                         />
                                     </div>
-                                    <div style={{ marginTop: "10px" }}>
-                                        <InputLabel
-                                            htmlFor="Requested Date"
-                                            value="Requested Date"
-                                            style={{
-                                                fontSize: "15px",
-                                                fontWeight: "bold",
-                                            }}
-                                        />
-
-                                        <TextInput
-                                            id="requested_date"
-                                            name="requested_date"
-                                            type='datetime-local'
-                                            value={data.requested_date}
-                                            className="mt-1 block w-full"
-                                            autoComplete="requested_date"
-                                            isFocused={true}
-                                            onChange={(e) =>
-                                                setData(
-                                                    "requested_date",
-                                                    e.target.value
-                                                )
-                                            }
-                                            required
-                                        />
-
-                                        <InputError
-                                            message={errors.requested_date}
-                                            className="mt-2"
-                                        />
-                                    </div>
 
                                     <div
                                         style={{
@@ -197,25 +226,25 @@ export default function Create({ auth ,Id }) {
                                     >
                                         <div className="mt-4">
                                             <InputLabel
-                                                htmlFor="from_date"
-                                                value="From Date"
+                                                htmlFor="requested_date"
+                                                value="Requested Date"
                                                 style={{
                                                     fontSize: "15px",
                                                     fontWeight: "bold",
                                                 }}
                                             />
                                             <TextInput
-                                                id="from_date"
-                                                type="datetime-local"
-                                                name="from_date"
-                                                value={data.from_date}
+                                                id="requested_date"
+                                                type="date"
+                                                name="requested_date"
+                                                value={data.requested_date}
                                                 className="mt-1 block w-full"
                                                 autoComplete="from_date"
                                                 onChange={(e) =>
-                                                    setData(
-                                                        "from_date",
+                                                   ( setData(
+                                                        "requested_date",
                                                         e.target.value
-                                                    )
+                                                    ),setEffect(true))
                                                 }
                                                 required
                                                 style={{
@@ -224,7 +253,7 @@ export default function Create({ auth ,Id }) {
                                                 }}
                                             />
                                             <InputError
-                                                message={errors.from_date}
+                                                message={errors.requested_date}
                                                 className="mt-2"
                                             />
                                         </div>
@@ -242,16 +271,17 @@ export default function Create({ auth ,Id }) {
 
                                             <TextInput
                                                 id="to_date"
-                                                type="datetime-local"
+                                                type="date"
                                                 name="to_date"
                                                 value={data.to_date}
                                                 className="mt-1 block w-full"
                                                 autoComplete="to_date"
                                                 onChange={(e) =>
-                                                    setData(
+                                                   ( setData(
                                                         "to_date",
                                                         e.target.value
-                                                    )
+                                                    ),
+                                                    setEffect(true))
                                                 }
                                                 required
                                                 style={{
@@ -268,59 +298,123 @@ export default function Create({ auth ,Id }) {
                                     </div>
                                     <div className="mt-4">
                                         <InputLabel
-                                            htmlFor="Status"
-                                            value="Status"
+                                            htmlFor="Days"
+                                            value="Days"
                                             style={{
                                                 fontSize: "15px",
                                                 fontWeight: "bold",
                                             }}
                                         />
-
-                                        <Select
-                                            value={data.status}
-                                            className="w-full block"
-                                            onChange={(e) => setData("status",e.target.value) }
-                                            name="status"
-                                            style={{ height:'45px' }}
-                                        >
-                                            <MenuItem value="requested">Requested</MenuItem>
-                                            <MenuItem value ="approved">Approved</MenuItem>
-                                            <MenuItem value = "denied">Denied</MenuItem>
-                                        </Select>
+                                        <TextInput
+                                            id="days"
+                                            type="text"
+                                            name="days"
+                                            value={data.days == 'NaN day' ? "" :data.days}
+                                            className="mt-1 block w-full"
+                                            autoComplete="days"
+                                            required
+                                            disabled
+                                        />
 
                                         <InputError
                                             message={errors.status}
                                             className="mt-2"
                                         />
                                     </div>
-                                    {data.status === "denied" && (
-                                        <div className="mt-4">
-                                            <InputLabel
-                                                htmlFor="Reason"
-                                                value="Reason"
-                                                style={{
-                                                    fontSize: "15px",
-                                                    fontWeight: "bold",
-                                                }}
-                                            />
-                                            <textarea
-                                                id="reason"
-                                                value={data.reason}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        "reason",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                rows={3}
-                                                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
-                                                />
+                                    {(data.days == '0 day' ||  data.days == 'half day' ||  data.days == 'full day'
+                                       ||data.days == 'first half' || data.days =='second half') &&(
+                                        <div className="mt-4" style={{ display:'flex' }}>
+                                        <FormControl component="fieldset">
+                                        <RadioGroup
+                                            value={data.days}
+                                            onChange={(e) =>
+                                                setData("days", e.target.value)
+                                            }
+                                            row
+                                        >
+
+                                        <FormControlLabel
+                                            value="full day"
+                                            control={<Radio />}
+                                            label="Full Day"
+                                            aria-setsize={"small"}
+                                            style={{ paddingRight:'10px' }}
+                                        />
+
+                                        <FormControlLabel
+                                            value="half day"
+                                            control={<Radio />}
+                                            label="Half Day"
+                                            aria-setsize={"small"}
+                                            style={{ paddingRight:'10px' }}
+                                            checked={data.days=='first half' || data.days == 'second half' || data.days == 'half day'}
+                                        />
+                                        </RadioGroup>
+                                        </FormControl>
+
+                                        { (data.days == 'half day'|| data.days == 'first half' || data.days =='second half') &&(
+                                        <>
+                                        <FormControl component="fieldset" style={{ paddingTop:"30px" }}>
+                                        <RadioGroup
+                                            value={data.days}
+                                            onChange={(e) =>
+                                                setData("days", e.target.value)
+                                            }
+                                            row
+                                        >
+
+                                        <FormControlLabel
+                                            value="first half"
+                                            control={<Radio />}
+                                            label="First Half"
+                                            aria-setsize={"small"}
+                                            style={{ paddingRight:'10px' }}
+                                        />
+
+                                        <FormControlLabel
+                                            value="second half"
+                                            control={<Radio />}
+                                            label="Second Half"
+                                            aria-setsize={"small"}
+                                            style={{ paddingRight:'10px' }}
+                                        />
+                                        </RadioGroup>
+                                        </FormControl>
+
+                                        </>
+                                    )}
                                             <InputError
-                                                message={errors.reason}
+                                                message={errors.days}
                                                 className="mt-2"
                                             />
                                         </div>
                                     )}
+                                    {
+                                        user.length != 0 &&
+                                        <div className="mt-4">
+                                        <InputLabel
+                                            htmlFor="File"
+                                            value="Select User"
+                                            style={{
+                                                fontSize: "15px",
+                                                fontWeight: "bold",
+                                            }}
+                                        />
+                                        <select value={data.user} onChange={handleUser} className="w-full block" required>
+                                            <option>Select User</option>
+                                            {
+                                                user.map((name,index)=>{
+                                                    return (
+                                                           ( name.user_role !="admin") &&
+                                                            <option value={name.id} key={index} label={name.name}>{name.name}</option>
+                                                    );
+                                                })
+                                            }
+                                        </select>
+
+                                </div>
+                                    }
+
                                     <div className="mt-4">
                                             <InputLabel
                                                 htmlFor="File"

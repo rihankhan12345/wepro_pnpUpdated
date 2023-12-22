@@ -14,6 +14,7 @@ use App\Repositories\UserRepository;
 use App\Interfaces\UserInterface;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\File;
+use App\Http\Requests\UserEditRequest;
 
 
 class UserController extends Controller
@@ -41,16 +42,21 @@ class UserController extends Controller
         return Inertia::render('Admin/User/Create');
     }
 
-    public function save(UserRequest $request){
+    public function save(UserRequest $request)
+    {
+        $response = $this->userRepository->save($request);
+        $id = $response['data']['id'];
+        if($response['success']) {
+            if($response['data']['user_role'] === 'admin'){
+                return Redirect::back();
+            }
+            else{
+                return redirect::route('admin.user.salary.create',['user'=>$response['data']]);
+            }
+        } else {
+            return Redirect::back()->withErrors($response);
+        }
 
-        $data = $this->userRepository->save($request);
-        $id = $data->id;
-        if($data->user_role === 'admin'){
-            return Redirect::back();
-        }
-        else{
-            return redirect::route('admin.user.salary.create',['user'=>$data]);
-        }
     }
 
     public function edit(Request $request , $id){
@@ -60,8 +66,12 @@ class UserController extends Controller
 
     public function update(Request $request ,$id)
     {
-        $this->userRepository->update($id,$request->all());
-        return Redirect::route('admin.user.list');
+        $response =$this->userRepository->update($id,$request->all());
+        if($response['success']) {
+            return back();
+        } else {
+            return Redirect::back()->withErrors($response);
+        }
     }
 
     public function detail($id)
@@ -78,7 +88,11 @@ class UserController extends Controller
     public function delete($id)
     {
         $this->userRepository->delete($id);
-        return back();
+        if($response['success']) {
+            return back();
+        } else {
+            return Redirect::back()->withErrors($response);
+        }
     }
 
 }

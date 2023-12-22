@@ -33,7 +33,13 @@ const Menu =  {
                 "admin.project.task.edit",
                 "admin.project.task.detail",
             ],
-        },
+        },{
+            title: "Leave",
+            route:"admin.leave.list",
+            active : [
+                "admin.leave.list",
+            ]
+        }
 
     ],
     "hr manager":[

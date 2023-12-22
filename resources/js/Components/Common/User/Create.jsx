@@ -14,7 +14,7 @@ import {  useForm } from "@inertiajs/react";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
-
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
     Button,
     FormControl,
@@ -34,7 +34,10 @@ const style = {
     width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p:3,
+    overflow:'scroll',
+    height:'90%',
+    display:'block',
 };
 
 export default function Create({ auth }) {
@@ -42,7 +45,7 @@ export default function Create({ auth }) {
     const handleOpen = () => setOpen(true);
     const [image,setImage] = useState(null);
     const [alert ,setAlert] = useState(false);
-
+    const [severity ,setSeverity] = useState(null);
     const { data, setData, get, post, processing, errors, reset } = useForm({
         name: "",
         email: "",
@@ -52,6 +55,8 @@ export default function Create({ auth }) {
         salary: "",
         profile:null,
     });
+
+
     const handleClose = () => {
         setOpen(false);
         setData({});
@@ -61,6 +66,10 @@ export default function Create({ auth }) {
             setImage(URL.createObjectURL(event.target.files[0]));
           }
     }
+    const handleDelete = (event) => {
+        setData('profile',null);
+        setImage(null);
+        };
     const submit = (e) => {
         e.preventDefault();
             {
@@ -70,6 +79,11 @@ export default function Create({ auth }) {
                     setAlert("User Created Successfully");
                     handleClose();
                     setData({});
+                    setOpen(false);
+                    setSeverity('success');
+                },onError:(error)=>{
+                    setAlert(error.error)
+                    setSeverity('error');
                 }
             })
             :
@@ -78,6 +92,11 @@ export default function Create({ auth }) {
                     setAlert("User Created Successfully");
                     handleClose();
                     setData({});
+                    setOpen(false);
+                    setSeverity('success');
+                },onError:(error)=>{
+                    setAlert(error.error)
+                    setSeverity('error');
                 }
             })
         }
@@ -86,7 +105,7 @@ export default function Create({ auth }) {
 
     return (
         <div>
-            {alert && <SuccessMsg severity={"success"} error={alert} setError={setAlert} title={alert}/>}
+            {alert && <SuccessMsg severity={severity} error={alert} setError={setAlert} title={alert}/>}
         <Button variant="contained" onClick={handleOpen} startIcon={<AddIcon />} >  Create</Button>
         <Modal aria-labelledby="transition-modal-title" aria-describedby="transition-modal-description" open={open} onClose={handleClose} closeAfterTransition slots={{ backdrop: Backdrop }} slotProps={{  backdrop: {  timeout: 500,}, }}>
             <Fade in={open}>
@@ -244,6 +263,7 @@ export default function Create({ auth }) {
                                         control={<Radio />}
                                         label="Admin"
                                         aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
                                     />
                                     }
 
@@ -252,24 +272,28 @@ export default function Create({ auth }) {
                                         control={<Radio />}
                                         label="HR Manager"
                                         aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
                                     />
                                     <FormControlLabel
                                         value="project manager"
                                         control={<Radio />}
                                         label="Project Manager"
                                         aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
                                     />
                                     <FormControlLabel
                                         value="senior developer"
                                         control={<Radio />}
                                         label="Senior Developer"
                                         aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
                                     />
                                     <FormControlLabel
                                         value="junior developer"
                                         control={<Radio />}
                                         label="Junior Developer"
                                         aria-setsize={"small"}
+                                        style={{ paddingRight:'10px' }}
                                     />
                                 </RadioGroup>
                             </FormControl>
@@ -284,10 +308,25 @@ export default function Create({ auth }) {
 
                              <input type="file" className="mt-1 block w-full filetype"
                              id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"
-                            onChange={(event)=>{setData('profile',event.target.files[0]);handleProfile(event)}}
+                              onChange={(event)=>{setData('profile',event.target.files[0]);handleProfile(event)}}
                              />
                              {
-                                data.profile &&  <img alt="preview image" className="pt-4" src={image} width={'200px'} height={'150px'}/>
+                                data.profile &&
+                                <>
+                                       <div style={{ position:'relative' }}>
+                                         <img alt="preview image" className="pt-4" src={image}  style={{ width: '200px', height: '150px' }}/>
+
+                                        <Button
+                                            style={{
+                                                position: 'absolute',
+                                                top: '15px',
+                                                left: '155px',
+                                             }}
+                                             onClick={handleDelete} >
+                                            <DeleteIcon color="error" />
+                                        </Button>
+                                       </div>
+                                </>
                              }
                              <InputError
                                 message={errors.profile}

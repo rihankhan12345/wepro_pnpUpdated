@@ -17,12 +17,13 @@ import DateTimeFormat from "@/Util/DateTimeFormat";
 import Detail from "./Detail";
 import Create from "./Create";
 import Edit from "./Edit";
-import StatusStyle from "../Components/StatusStyle";
-export default function List({ auth, developer, Id, data ,updated}) {
+import LeaveStyle from "../../AllLeaves/Component/LeaveStyle";
+
+export default function List({ data, auth}) {
 
     const [page, setPage] = useState(0);
     const [expandedRows, setExpandedRows] = useState([]);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const { item, setItem, get, post, processing, errors, reset } = useForm();
 
     const toggleRow = (id) => {
@@ -38,26 +39,25 @@ export default function List({ auth, developer, Id, data ,updated}) {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(event.target.value, 5);
+        setRowsPerPage(event.target.value, 10);
         setPage(0);
     };
 
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "end",paddingBottom:'10px'}} >
-                {auth.user.user_role == "admin" && ( <Create developer={developer} Id={Id} auth={auth} /> )}
+            <div style={{ display: "flex", justifyContent: "end", paddingBottom:"10px"}} >
+                {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={data[0]} auth={auth} user={""}/> )}
             </div>
 
             <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}> Name </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>Start Date </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>Priority</TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>ID </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}> Subject </TableCell>
+                            <TableCell sx={{ fontWeight: "bold" }}>Requested Date </TableCell>
                             <TableCell sx={{ fontWeight: "bold" }}> Status </TableCell>
-                            <TableCell sx={{ fontWeight: "bold" }}>Action </TableCell>
+                            <TableCell sx={{ fontWeight: "bold", textAlign: 'right' }}>Action </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -67,43 +67,38 @@ export default function List({ auth, developer, Id, data ,updated}) {
                                     <>
                                         <TableRow key={j + 1}>
                                             <TableCell>{item.id}</TableCell>
-                                            <TableCell sx={{ textTransform: "capitalize" }}>
-                                                {item.task_name}
+                                            <TableCell className="capitalize">
+                                                {item.subject}
                                             </TableCell>
                                             <TableCell>
                                                 <DateTimeFormat
-                                                    date={item.start_date}
+                                                    date={item.requested_date}
                                                 />
                                             </TableCell>
-                                            <TableCell>
-                                                {item.priority}
-                                            </TableCell>
-                                            <TableCell sx={{ textTransform: "capitalize" }}>
-                                                <Chip
-                                                    label={item.status}
-                                                    sx={{
-                                                        backgroundColor:StatusStyle.ChipColor[item.status].color,
-                                                        color: "white",
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                <IconButton aria-label="detail">
-                                                    <VisibilityIcon
-                                                        onClick={() => toggleRow(item.id)}
-                                                        sx={{ color: "rgba(0, 0, 0, 0.54)",}}
-                                                    />
 
+                                            <TableCell className="capitalize">
+                                            <Chip
+                                                color={LeaveStyle.LeaveReason[item.status]?.color}
+                                                label={item.status}
+                                                size="small"
+                                                onDelete={()=>{}}
+                                                deleteIcon={LeaveStyle.LeaveReason[item.status]?.icon}
+                                            />
+
+                                            </TableCell>
+                                            <TableCell sx={{ display:"flex", justifyContent:"end", alignItems:"center" }}>
+                                                <IconButton aria-label="detail">
+                                                    <VisibilityIcon onClick={() => toggleRow(item.id)}>
+                                                    </VisibilityIcon>
                                                 </IconButton>
                                                 &emsp;
-                                                { auth.user.user_role == "admin" && (
+                                                {
+                                                    (auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && (item.status !== 'approved') &&
                                                     <Edit
-                                                            devId={item.developer_id}
-                                                            developer={developer }
-                                                            data={item}
-                                                            auth={auth}
+                                                        item={item}
+                                                        auth={auth}
                                                     />
-                                                )}
+                                                }
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
@@ -127,10 +122,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
                                                 >
                                                     <Detail
                                                         data={item}
-                                                        developer={developer}
                                                         auth={auth}
-                                                        devId={item.developer_id}
-                                                        updated={updated}
                                                           />
                                                 </Collapse>
                                             </TableCell>
@@ -143,7 +135,7 @@ export default function List({ auth, developer, Id, data ,updated}) {
             </TableContainer>
 
             <TablePagination
-                rowsPerPageOptions={[5, 15, 25, 35, 50]}
+                rowsPerPageOptions={[data.to]}
                 component="div"
                 count={data.length}
                 rowsPerPage={rowsPerPage}

@@ -12,10 +12,11 @@ class Leave extends Model
     protected $fillable = [
         'requested_date',
         'description',
-        'from_date',
+        'subject',
         'to_date',
         'status',
         'reason',
+        'days',
         'user_id',
         'file',
     ];

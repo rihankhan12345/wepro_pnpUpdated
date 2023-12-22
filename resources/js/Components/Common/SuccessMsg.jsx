@@ -5,7 +5,6 @@ import { useState } from "react";
 
 
 export default function SuccessMsg({error,setError,title,severity}){
-    console.log(error,setError,title,'succcessMAg');
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
       });

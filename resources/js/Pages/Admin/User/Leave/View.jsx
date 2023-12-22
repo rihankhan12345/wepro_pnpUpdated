@@ -1,10 +1,10 @@
 
-import Create from "@/Components/Common/Leaves/Create";
-import List from "@/Components/Common/Leaves/List";
+import Create from "@/Components/Common/User/Leaves/Create";
+import List from "@/Components/Common/User/Leaves/List";
 import {Alert} from "@mui/material";
 
 
-export default function View({auth,leave ,Id}) {
+export default function View({auth,leave ,Id }) {
 
      return (
        <>
@@ -32,7 +32,7 @@ export default function View({auth,leave ,Id}) {
                         </div>
                     </>
                 ) : (
-                    <List data={leave} auth={auth}/>
+                    <List data={leave} auth={auth} />
                 )}
 
                 </>

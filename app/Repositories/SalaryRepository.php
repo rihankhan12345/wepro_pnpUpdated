@@ -20,6 +20,7 @@ class SalaryRepository implements SalaryInterface
 
     public function save($data ,$id)
     {
+       try {
         $salary = Salary::create([
             'user_id' => $id,
             'medical_and_conveyance' => $data['medical_conveyance'],
@@ -33,6 +34,9 @@ class SalaryRepository implements SalaryInterface
             'net_salary' => $data['net_salary'],
         ]);
         return $salary;
+       } catch (\Throwable $th) {
+        return ['success'=>false,'error'=>$th->getMessage()];
+    }
 
     }
 
@@ -48,14 +52,16 @@ class SalaryRepository implements SalaryInterface
 
     public function update($data,$id)
     {
-        $user = Salary::where('user_id',$id)->first();
-        if($user)
-        {
-            $user->update($data);
-        }
-        else
-        {
-            Salary::Create([
+        try {
+            $user = Salary::where('user_id',$id)->first();
+            if($user)
+            {
+                dd($data);
+                $salary = $user->update($data);
+            }
+            else
+            {
+             Salary::Create([
                 'user_id' => $id,
                 'medical_and_conveyance' => $data['medical_conveyance'],
                 'basic_salary' => $data['basic_salary'],
@@ -68,6 +74,10 @@ class SalaryRepository implements SalaryInterface
                 'net_salary' => $data['net_salary'],
             ]);
         }
-        return true;
+            return ['success'=>true];
+
+        } catch (\Throwable $th) {
+            return ['success'=>false,'error'=>$th->getMessage()];
+        }
     }
 }

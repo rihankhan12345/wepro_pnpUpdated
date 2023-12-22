@@ -3,24 +3,28 @@
 namespace App\Repositories;
 use App\Interfaces\LeaveInterface;
 use App\Models\Leave;
+use App\Models\User;
+
 
 
 class LeaveRepository implements LeaveInterface
 {
+    public function getlist()
+    {
+        $leave = Leave::orderBy('created_at','desc')->paginate(10);
+        $user = User::get();
+        return [  $leave ,$user];
+    }
     public function save($data,$id)
     {
         $leaves= Leave::create([
         'user_id' => $id,
         'description'=>$data['description'],
         'requested_date'=>$data['requested_date'],
-        'from_date'=>$data['from_date'],
+        'subject'=>$data['subject'],
+        'days'=>$data['days'],
         'to_date'=>$data['to_date'],
-        'status'=>$data['status'],
-
        ]);
-       if (array_key_exists('reason', $data)) {
-       Leave::where('user_id',$id)->update(['reason'=>$data['reason']]);
-       }
        if(array_key_exists('file',$data) && isset($data['file']))
        {
         $file = $data['file'];
@@ -36,12 +40,12 @@ class LeaveRepository implements LeaveInterface
     {
         $leave = Leave::where('id',$id)->first();
         $leave->update($data);
-        if(array_key_exists('file',$data) && isset($data['file']))
+        if(isset($data['file']) && array_key_exists('file',$data) && is_array($data['file']))
         {
             $file = $data['file'];
             $fileName = uniqid().'_'.time().'_'.$file->getClientOriginalName();
             $filePath = $file->storeAs('LeaveFile', $fileName . $id . '.' . $file->getClientOriginalExtension(), 'public');
-            Leave::where('user_id',$id)->update(['file'=>$filePath]);
+            Leave::where('user_id',$id)->update(['file'=>asset('storage/'.$filePath)]);
         }
         return true;
     }

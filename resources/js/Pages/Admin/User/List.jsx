@@ -13,13 +13,13 @@ import {
     TablePagination,
     TableRow,
 } from "@mui/material";
-import GlobalStyle from "@/Constant/GlobalStyle";
 import PeopleIcon from '@mui/icons-material/People';
 import { useState } from "react";
 import Create from "@/Components/Common/User/Create";
 import Edit from "@/Components/Common/User/Edit";
 import '../style.scss'
 import DeletePopup from "@/Components/Common/User/Components/DeletePopup";
+import GlobalStyle from "@/Components/Common/User/Components/GlobalStyle";
 
 export default function List({data, auth }) {
     const {url} = usePage();

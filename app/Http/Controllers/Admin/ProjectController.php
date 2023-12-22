@@ -45,7 +45,6 @@ class ProjectController extends Controller
 
     public function save(ProjectRequest $request)
     {
-
       $this->projectRepository->save($request->all());
       return Redirect::route('admin.project.list');
 
