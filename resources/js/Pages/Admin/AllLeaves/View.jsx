@@ -20,7 +20,7 @@ export default function View({ leave ,auth ,user}) {
                                             MarginTop: "9px",
                                         },
                                     }}
-                                    action={<Create auth={auth} Id={''}/>}
+                                    action={(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={leave} auth={auth} user={user}/> )}
                                 >
                                     Leaves Not Found ! You can create a Leave ...
                                 </Alert>

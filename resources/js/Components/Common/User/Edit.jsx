@@ -16,17 +16,15 @@ import { useEffect } from "react";
 import SuccessMsg from "../SuccessMsg";
 import UpdateIcon from '@mui/icons-material/Update';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
-    overflow:'scroll',
-    height:'90%',
     display:'block',
 };
 
@@ -145,10 +143,15 @@ export default function Edit({ auth, user }) {
 
                                     <div style={{ display:'flex',justifyContent:'center' }}>
                                         <InputLabel htmlFor=" profile">
-                                            <img id="image" src={image} alt="Profile" style={{ borderRadius:'50%' ,
-                                                border:"2px solid black",cover:'100%', objectFit:'contain',height:'100px'
-                                                ,width:'100px',textAlign:'center',lineHeight:'80px'}} onClick={handleImage}/>
-                                            <CameraAltIcon style={{ position:'absolute',top:'180px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
+                                            {
+                                                image?
+                                                <img id="image" src={image}
+                                                    style={{cursor:"pointer", borderRadius:'50%', border:"2px solid black",cover:'100%', objectFit:'contain',height:'100px', width:'100px',textAlign:'center',lineHeight:'80px'}} onClick={handleImage}
+                                                />
+                                                : <PersonOutlineOutlinedIcon style={{cursor:"pointer", borderRadius:'50%', border:"2px solid black",cover:'100%', objectFit:'contain',height:'100px', width:'100px'}} onClick={handleImage}/>
+
+                                            }
+                                            <CameraAltIcon onClick={handleImage} style={{cursor:"pointer" ,position:'absolute',top:'180px',right:'345px',color:'black',borderRadius:'50%',background:'aliceblue' }}/>
 
                                         </InputLabel>
                                          <input type="file" id="profile" name="profile" accept="image/png, image/jpeg ,image/jpeg , image/svg"

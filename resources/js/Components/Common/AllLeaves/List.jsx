@@ -44,9 +44,6 @@ export default function List({ leave, auth, user}) {
     };
     return (
         <>
-            <div style={{ display: "flex", justifyContent: "end", paddingBottom:"10px"}} >
-                {(auth.user.user_role == "admin" || auth.user.user_role == "hr manager") && ( <Create Id={leave} auth={auth} user={user}/> )}
-            </div>
 
             <TableContainer sx={{ padding: "10px", border: "2px solid whitesmoke", background: "rgba(0,0,0,0.02)", }}>
                 <Table aria-label="simple table">

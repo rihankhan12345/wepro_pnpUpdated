@@ -31,23 +31,16 @@ export default function UserDetail({ data ,auth }) {
             </Grid>
             <br />
             <Grid container className="px-3">
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                     <Typography sx={{ fontWeight: "bold" }}>
                         User Name
                     </Typography>
                     <Typography className="capitalize">{data.name}</Typography>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                     <Typography sx={{ fontWeight: "bold" }}>Email</Typography>
                     <Typography>{data.email}</Typography>
                 </Grid>
-                <Grid item xs={4}>
-                    <Typography sx={{ fontWeight: "bold" }}>
-                        User Name
-                    </Typography>
-                    <Typography className="capitalize">{data.name}</Typography>
-                </Grid>
-
             </Grid>
             <br />
             <Grid container className="px-3">

@@ -390,7 +390,7 @@ export default function Create({ auth ,Id ,user}) {
                                         </div>
                                     )}
                                     {
-                                        user.length != 0 &&
+                                        user?.length != 0 &&
                                         <div className="mt-4">
                                         <InputLabel
                                             htmlFor="File"
@@ -403,7 +403,7 @@ export default function Create({ auth ,Id ,user}) {
                                         <select value={data.user} onChange={handleUser} className="w-full block" required>
                                             <option>Select User</option>
                                             {
-                                                user.map((name,index)=>{
+                                                user?.map((name,index)=>{
                                                     return (
                                                            ( name.user_role !="admin") &&
                                                             <option value={name.id} key={index} label={name.name}>{name.name}</option>
