@@ -16,10 +16,10 @@ class UserRepository implements UserInterface
 {
 
     public function getlist(){
-         $data = User::paginate(10);
-        //  foreach($data as $key => $val){
-        //     $data[$key]['profile'] = asset('storage/'.$val->profile);
-        //  }
+         $data = User::orderBy('created_at','desc')->paginate(10);
+         foreach($data as $key => $val){
+            $data[$key]['profile'] = asset('storage/'.$val->profile);
+         }
          return $data;
     }
 
@@ -32,12 +32,11 @@ class UserRepository implements UserInterface
                  'password' => Hash::make($data->password),
                   'contact_no' => $data->contact_no,
             ]);
-
                 if($data->hasFile('profile') && $data->profile != null){
                      $profileImage = $data->profile;
                      $fileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
                      $profileImagePath = $profileImage->storeAs('profile', $fileName . $user->id . '.' . $profileImage->getClientOriginalExtension(), 'public');
-                     $data=User::where('id',$user->id)->update(['profile' =>asset('storage/'.$profileImagePath)]);
+                     $data=User::where('id',$user->id)->update(['profile' =>$profileImagePath]);
                 }
             return [
                 'success'=>true,
@@ -69,6 +68,12 @@ class UserRepository implements UserInterface
             ]);
             $user = User::findOrFail($id);
             $user->update($data);
+            if(isset($data['profile']) && array_key_exists('profile',$data) ){
+                $profileImage =  $data['profile'];
+                $profileName = uniqid().'_'.time().'_'.$profileImage->getClientOriginalName();
+                $profileImagePath = $profileImage->storeAs('profile', $profileName . $id . '.' . $profileImage->getClientOriginalExtension(),'public');
+                User::where('id',$id)->update(['profile' =>$profileImagePath]);
+           }
             return [
                 'success'=>true,
                 'data'=>$user,

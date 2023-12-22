@@ -46,7 +46,7 @@ class ProjectRepository implements ProjectInterface
         if($role === "admin" || $role === "hr manager"){
             $developer = User::whereIn('user_role',['senior developer','junior developer'])->get();
             $manager = User::where('user_role','project manager')->get();
-            $data = Project::paginate(10);
+            $data = Project::orderBy('created_at','desc')->paginate(10);
             return [$data , $developer ,$manager];
         }
 

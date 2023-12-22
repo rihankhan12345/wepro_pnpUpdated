@@ -188,12 +188,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                 <Typography className="capitalize">
                                     <Chip
                                         label={state.status}
-                                        style={{
-                                            background:
-                                                StatusStyle.ChipColor[
-                                                    state.status
-                                                ].color,
-                                            color: "white",
+                                        style={{background:StatusStyle.ChipColor[state.status ].color,color: "white",
                                         }}
                                     />
                                 </Typography>
@@ -203,9 +198,7 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                         aria-label="edit"
                                         onClick={handleStatus}
                                     >
-                                        <EditIcon
-                                            color="primary"
-                                        />
+                                        <EditIcon color="primary"/>
                                     </IconButton>
                                 )}
                             </div>
@@ -307,17 +300,9 @@ export default function Detail({ data, developer, auth, devId, updated }) {
                                     return (
                                         id_dev == item.id &&
                                         <Tooltip title={item.user_role}>
-                                            <Chip
-                                                label={item.name} key={j || i}
-                                                className="capitalize"
-                                                sx={{ margin: "10px" }}
-                                                color={
-                                                   item.user_role == "senior developer"
-                                                        ? "primary"
-                                                        : "success"
-                                                }
-                                            />
-                                    </Tooltip>);
+                                            <Chip label={item.name} key={j} className="capitalize" sx={{ margin:"10px"}}
+                                                color={item.user_role == "project manager" ? "success" : "primary"}/>
+                                        </Tooltip>);
                                 })
 
                             );

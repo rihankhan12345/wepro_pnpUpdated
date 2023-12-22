@@ -10,7 +10,7 @@ import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
-import { Alert, Grid, MenuItem, Select } from "@mui/material";
+import { Alert, Chip, Grid, MenuItem, Select } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
@@ -25,7 +25,7 @@ const style = {
     width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p: 1,
     overflow:'scroll',
     height:'90%',
     display:'block',
@@ -247,7 +247,7 @@ export default function Create({ developer, Id ,auth }) {
                                         name="priority"
                                         style={{
                                             height: "42px",
-                                            width: "335px",
+                                            width: "355px",
                                         }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 "
                                         onChange={(e) =>
@@ -290,7 +290,7 @@ export default function Create({ developer, Id ,auth }) {
                                         name="level"
                                         style={{
                                             height: "42px",
-                                            width: "335px",
+                                            width: "350px",
                                             marginLeft: "20px",
                                         }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 "
@@ -320,14 +320,15 @@ export default function Create({ developer, Id ,auth }) {
                             </div>
 
                             <div className="mt-4">
+
                                 <InputLabel
-                                    htmlFor="developer"
-                                    value="Assign To"
+                                    htmlFor="Assign to"
                                     style={{
                                         fontSize: "15px",
                                         fontWeight: "bold",
                                     }}
-                                />
+                                > Assign To - Project Manager <Chip label="PM" color="success" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" style={{ fontSize:'10px' ,background:'gray',color:'white' }}/>
+                                </InputLabel>
                                 {/* <Select
                                     multiple
                                     value={data.developer}
@@ -355,32 +356,23 @@ export default function Create({ developer, Id ,auth }) {
                                     )}
                                 </Select> */}
                                 <Grid item xs={12}>
-                                    {developer.length == 0 ? (
+                                    { developer.length == 0 ? (
                                         <Alert severity="info">
                                             Don't Have Any Developer
                                         </Alert>
                                     ) : (
-                                        developer.map((dev, index) => (
+                                        developer.map((user, index) => (
                                             <Button
                                                 key={index}
-                                                variant={
-                                                    data?.developer?.includes(dev.id)
-                                                        ? "contained"
-                                                        : "outlined"
-                                                }
+                                                variant={data.developer?.includes(user.id) ? "contained" : "outlined"}
                                                 size="small"
-                                                onClick={() =>
-                                                    handleDeveloper(dev?.id)
-                                                }
+                                                onClick={()=>handleDeveloper(user.id)}
                                                 style={{ margin: "2px" }}
+                                                endIcon={<Chip style={{ fontSize:'10px' }} label={user.user_role =="project manager" ? "PM" : "D"} color={user.user_role =="project manager" ?"success" : "primary" } sx={user.user_role !=="project manager" && { background:'gray'  }} size="small"/>}
                                             >
-                                                {dev.name} (
-                                                {dev.user_role ==
-                                                "senior developer"
-                                                    ? "Senior"
-                                                    : "Junior"}
-                                                )
+                                                {user.name}
                                             </Button>
+
                                         ))
                                     )}
                                 </Grid>

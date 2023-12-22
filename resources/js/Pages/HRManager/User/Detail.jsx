@@ -8,8 +8,8 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import UserDetail from "@/Components/Common/User/UserDetail";
 import History from "@/Components/Common/User/History";
+import Details from "@/Components/Common/Salary/Detail";
 import View from "../Leave/View";
-import Details from "@/Components/Common/Project/Salary/Detail";
 
 export default function Detail({ data, auth, salary ,leave}) {
     const [value, setValue] = React.useState("1");
@@ -49,7 +49,6 @@ export default function Detail({ data, auth, salary ,leave}) {
                         <UserDetail data={data} auth={auth}/>
                     </TabPanel>
                     <TabPanel value="2">
-
                         <Details salary={salary} data={data} auth={auth}/>
                     </TabPanel>
 

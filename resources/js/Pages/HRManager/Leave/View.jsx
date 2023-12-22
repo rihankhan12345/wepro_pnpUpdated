@@ -1,6 +1,6 @@
 
 import Create from "@/Components/Common/User/Leaves/Create";
-import List from "@/Components/Common/Project/Leaves/List";
+import List from "@/Components/Common/User/Leaves/List";
 import {Alert} from "@mui/material";
 
 

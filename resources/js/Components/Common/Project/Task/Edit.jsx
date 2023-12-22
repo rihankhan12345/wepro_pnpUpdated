@@ -1,5 +1,5 @@
 import { Head, router, useForm } from "@inertiajs/react";
-import { Button, Grid, IconButton, MenuItem, Select, Typography } from "@mui/material";
+import { Button, Chip, Grid, IconButton, MenuItem, Select, Typography } from "@mui/material";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import * as React from "react";
@@ -24,7 +24,7 @@ const style = {
     width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p: 1,
     overflow:'scroll',
     height:'90%',
     display:'block',
@@ -230,7 +230,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                                         name="priority"
                                         style={{
                                             height: "42px",
-                                            width: "335px",
+                                            width: "355px",
                                         }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full"
                                         onChange={handleChange}
@@ -267,7 +267,7 @@ export default function Edit({ data, developer, devId ,auth }) {
                                         name="level"
                                         style={{
                                             height: "42px",
-                                            width: "335px",
+                                            width: "350px",
                                             marginLeft: "20px",
                                         }}
                                         className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full "
@@ -293,37 +293,24 @@ export default function Edit({ data, developer, devId ,auth }) {
                             </div>
 
                             <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="developer"
-                                    value="Assign To"
-                                    style={{
-                                        fontSize: "15px",
-                                        fontWeight: "bold",
-                                    }}
-                                />
-                                <Grid item xs={12}>
-                                    {developer.map((dev, index) => (
-                                        <Button
-                                            key={index}
-                                            variant={
-                                                item?.developer?.includes(dev.id)
-                                                    ? "contained"
-                                                    : "outlined"
-                                            }
-                                            size="small"
-                                            onClick={() =>
-                                                handleDeveloper(dev?.id)
-                                            }
-                                            style={{ margin: "2px" }}
-                                        >
-                                            {dev.name} (
-                                            {dev.user_role == "senior developer"
-                                                ? "Senior"
-                                                : "Junior"}
-                                            )
-                                        </Button>
-                                    ))}
-                                </Grid>
+
+                                <InputLabel htmlFor="Assign to" style={{fontSize: "15px",fontWeight: "bold",}}>
+                                     Assign To - Project Manager <Chip label="PM" color="success" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" style={{ fontSize:'10px',background:'gray',color:'white' }}/>
+                                </InputLabel>
+                               <Grid item xs={12}>
+                                {developer.map((user, index) => (
+                                     <Button
+                                     key={index}
+                                     variant={item.developer?.includes(user.id) ? "contained" : "outlined"}
+                                     size="small"
+                                     onClick={()=>handleDeveloper(user.id)}
+                                     style={{ margin: "2px" }}
+                                     endIcon={<Chip style={{ fontSize:'10px' }} label={user.user_role =="project manager" ? "PM" : "D"} color={user.user_role =="project manager" ? "success" : "primary" } sx={user.user_role !=="project manager" && { background:'gray'  }} size="small"/>}
+                                 >
+                                     {user.name}
+                                 </Button>
+                                ))}
+                            </Grid>
                                 <InputError
                                     message={errors.developer}
                                     className="mt-2"

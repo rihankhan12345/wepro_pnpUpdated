@@ -24,7 +24,7 @@ class LeaveRequest extends FormRequest
         return [
             'subject'=>['required'],
             'description'=>['required'],
-            'requested_date'=>['required','after_or_equal:now'],
+            'requested_date'=>['required','after_or_equal:today'],
             'to_date'=>['required','after_or_equal:requested_date'],
         ];
     }

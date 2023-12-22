@@ -56,8 +56,16 @@ class SalaryRepository implements SalaryInterface
             $user = Salary::where('user_id',$id)->first();
             if($user)
             {
-                dd($data);
-                $salary = $user->update($data);
+                $salary = $user->update([
+                    'medical_and_conveyance' => $data['medical_conveyance'],
+                    'basic_salary' => $data['basic_salary'],
+                    'house_rent' => $data['house_rent'],
+                    'leave_travel_allowance' => $data['leave_allowance'],
+                    'statutory_bonus' => $data['statutory_bonus'],
+                    'tax_deducted_at_source' => $data['tax_deducted'],
+                    'gross_salary' => $data['gross_salary'],
+                    'provided_fund'=>$data['provided_fund'],
+                    'net_salary' => $data['net_salary'],]);
             }
             else
             {

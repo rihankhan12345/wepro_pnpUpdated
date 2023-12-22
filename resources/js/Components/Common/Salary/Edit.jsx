@@ -25,7 +25,7 @@ const style = {
     width: 400,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
+    p: 1,
     overflow: 'scroll',
     height: '90%',
     display: 'block',
@@ -314,13 +314,13 @@ export default function Edit({ auth, salary, userId }) {
                                     </Grid>
                                     <Grid item xs={8}>
                                         <TextField
+                                            type="number"
                                             required
                                             fullWidth
-                                            id="tax_deduct"
+                                            id="tax_deducted"
                                             name="tax_deducted"
-                                            type="number"
                                             value={data.tax_deducted}
-                                            autoComplete="tax_deduct"
+                                            autoComplete="tax_deducted"
                                             onChange={handleChange}
                                             size="small"
                                             InputProps={{ startAdornment: <InputAdornment position="start"> % </InputAdornment> }}

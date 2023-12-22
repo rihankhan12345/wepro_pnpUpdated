@@ -24,7 +24,7 @@ class ProjectRequest extends FormRequest
         return [
             'title'=>['required','string'],
             'description' => ['required','string'],
-            'start_date' => ['required','after_or_equal:now'],
+            'start_date' => ['required','after_or_equal:today'],
             'project_manager' => ['required'],
             'developer' => ['required'],
         ];

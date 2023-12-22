@@ -34,7 +34,7 @@ class TaskRepository implements TaskInterface
     {
         $user = Auth::user();
         $role = $user->user_role;
-        $data = Task::where('project_id',$id)->get();
+        $data = Task::where('project_id',$id)->orderBy('created_at','desc')->get();
         $task_id = Task::where('project_id',$id)->pluck('id');
         $dev_id = Developer::whereIn('assignable_id',$task_id)->where('assignable_type','App\Models\Task')->pluck('developer_id');
         $developer = explode(',',$dev_id);

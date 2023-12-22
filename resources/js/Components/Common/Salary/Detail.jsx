@@ -3,7 +3,7 @@ import './Style.scss';
 import Edit from "./Edit";
 
 export default function Details({auth,salary ,data}){
-    const tax = Math.ceil((salary[0].gross_salary  * salary[0].tax_deducted_at_source) / 100);
+    const tax = (salary[0].gross_salary  * salary[0].tax_deducted_at_source) / 100;
 
     return (
              <Box
@@ -36,7 +36,7 @@ export default function Details({auth,salary ,data}){
                         <Typography className="title">
                            Basic Salary
                         </Typography>
-                        <Typography className="data" style={{ maxWidth:'50%' }}>Rs {salary[0]?.basic_salary}</Typography>
+                        <Typography  className = "text" style={{ maxWidth:'50%' }}>Rs {salary[0]?.basic_salary}</Typography>
                     </Grid>
 
                     <Grid item xs={12} sx={{ paddingTop:'10px' ,display:'flex',justifyContent:'space-around'}}>
@@ -44,7 +44,7 @@ export default function Details({auth,salary ,data}){
                            Medical And Conveyance
                         </Typography>
 
-                        <Typography className="data">
+                        <Typography  className = "text">
                         Rs {salary[0]?.medical_and_Conveyance}
                         </Typography>
                     </Grid>
@@ -53,7 +53,7 @@ export default function Details({auth,salary ,data}){
                             Leave Travel Allowance
                         </Typography>
 
-                        <Typography className="data">
+                        <Typography  className = "text">
                         Rs {salary[0]?.leave_travel_allowance}
                         </Typography>
                     </Grid>
@@ -63,7 +63,7 @@ export default function Details({auth,salary ,data}){
                            Statutory Bonus
                         </Typography>
 
-                        <Typography className=" data">
+                        <Typography  className = "text">
                         Rs {salary[0]?.statutory_bonus}
                         </Typography>
                     </Grid>
@@ -72,7 +72,7 @@ export default function Details({auth,salary ,data}){
                           Provided Fund
                         </Typography>
 
-                        <Typography className=" data">
+                        <Typography  className = "text">
                         Rs {salary[0]?.provided_fund}
                         </Typography>
                     </Grid>
@@ -81,7 +81,7 @@ export default function Details({auth,salary ,data}){
                             House Rent
                         </Typography>
 
-                        <Typography className=" data">
+                        <Typography  className = "text">
                         Rs {salary[0]?.house_rent}
                         </Typography>
                     </Grid>
@@ -91,7 +91,7 @@ export default function Details({auth,salary ,data}){
                             Gross Salary
                         </Typography>
 
-                        <Typography className="data">
+                        <Typography  className = "text">
                         Rs {salary[0]?.gross_salary}
                         </Typography>
                     </Grid>
@@ -100,7 +100,7 @@ export default function Details({auth,salary ,data}){
                            Tax Deduction
                         </Typography>
 
-                        <Typography className=" data">
+                        <Typography className="text">
                          {salary[0]?.tax_deducted_at_source}% of Rs {salary[0]?.gross_salary} = {tax}
                         </Typography>
                     </Grid>
@@ -109,7 +109,7 @@ export default function Details({auth,salary ,data}){
                            Net Salary
                         </Typography>
 
-                        <Typography className="data">
+                        <Typography  className = "text">
                           Gross Salary - Tax Deduction =  Rs {salary[0]?.net_salary}
                         </Typography>
                     </Grid>

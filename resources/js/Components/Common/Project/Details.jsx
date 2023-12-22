@@ -75,7 +75,7 @@ export default function Details({ user, data, auth ,updated}) {
                             Prject Manager
                         </Typography>
                         <Typography className="capitalize">
-                            <Chip color="primary" label={data.project_manager} />
+                            <Chip color="success" label={data.project_manager} />
                         </Typography>
                     </Grid>
                 </Grid>
@@ -126,7 +126,7 @@ export default function Details({ user, data, auth ,updated}) {
                            return (
                             <Tooltip title={item.user_role}>
                             <Chip label={item.name} key={j} className="capitalize" sx={{ margin:"10px"}}
-                             color={item.user_role == "senior developer" ? "primary" : "success"}/>
+                             color={item.user_role == "project manager" ? "success" : "primary"}/>
                              </Tooltip>
                            );
                         })

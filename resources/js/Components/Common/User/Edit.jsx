@@ -67,8 +67,9 @@ export default function Edit({ auth, user }) {
     const handleProfile =(event) =>{
         if (event.target.files && event.target.files[0]) {
            const url= URL.createObjectURL(event.target.files[0]);
+           const urlImg =  url.replace('blob:', '');
            setImage(url);
-           setValue((prev)=>({...prev,profile:url}));
+           setValue((prev)=>({...prev,profile:event.target.files[0]}));
           }
     }
 

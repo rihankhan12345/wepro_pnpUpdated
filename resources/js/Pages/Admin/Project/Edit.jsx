@@ -179,19 +179,19 @@ export default function Edit({ data, auth, developer, manager, devId }) {
 
                         <div className="mt-4">
                         <InputLabel htmlFor="Assign to">
-                             Assign To - Project Manager <Chip label="PM" color="primary" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" color="success" style={{ fontSize:'10px' }}/> </InputLabel>
+                             Assign To - Project Manager <Chip label="PM" color="success" size="small" style={{ fontSize:'10px' }}/> &emsp; Developer <Chip label="D" size="small" style={{ fontSize:'10px',background:'gray',color:'white' }}/>
+                        </InputLabel>
 
 
                             <Grid item xs={12}>
                                 {allDeveloper.map((user, index) => (
-                                    console.log(user ,'userrr'),
                                      <Button
                                      key={index}
                                      variant={item.developer?.includes(user.id) ? "contained" : "outlined"}
                                      size="small"
                                      onClick={()=>handleDeveloper(user.id)}
                                      style={{ margin: "2px" }}
-                                     endIcon={<Chip style={{ fontSize:'10px' }} label={user.user_role =="project manager" ? "PM" : "D"} color={user.user_role =="project manager" ?"primary" : "success" } size="small"/>}
+                                     endIcon={<Chip style={{ fontSize:'10px' }} label={user.user_role =="project manager" ? "PM" : "D"} color={user.user_role =="project manager" ? "success" : "primary" } sx={user.user_role !=="project manager" && { background:'gray'  }} size="small"/>}
                                  >
                                      {user.name}
                                  </Button>
