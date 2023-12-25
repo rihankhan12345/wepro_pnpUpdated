@@ -7,4 +7,5 @@ function PhoneValidate(e,number,handleChange) {
         handleChange(e.target.name,inputValue);
     }
 }
+
 export default PhoneValidate;
